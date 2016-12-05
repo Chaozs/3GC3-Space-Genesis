@@ -31,66 +31,121 @@ Thien Trandinh / trandit / 001420634
 #include "Barrier.h"
 
 float eye[] = {5,3.5,5};        //initial camera location
-float lookAt[] {0,0,0};         //point camera is looking at
-enum ButtonType { Start, Difficulty, HowToPlay, Exit };                 //menu buttons enum
-enum GameState { Menu, InstructionMenu, Playing, Paused, GameOver };    //current game state enum
+float lookAt[] = {0,0,0};         //point camera is looking at
+enum GameState { Menu, SelectDifficulty, InstructionMenu, Playing, Paused, GameOver };    //current game state enum
+enum ButtonType { Item1, Item2, Item3, Item4 };
 GameState currentState = Menu;  //initially in start menu
 
 MainMenu mainMenu;              //create mainMenu
 
-void keyboard(unsigned char key, int x, int y)
-{
-    switch (key)
-    {
-    case 13:        //if enter key pressed, check which button is currently highlighted
-        switch(mainMenu.getCurrentButton())
+void keyboard(unsigned char key, int x, int y){
+
+
+    if(currentState == Menu){
+        switch (key)
         {
-        case Start: //if start button is currently highlighted, switch game state to playing game
-            currentState = Playing;
-            break;
-        case Difficulty:
-            //TODO
-            break;
-        case HowToPlay:
-            //TODO
-            break;
-        case Exit:  //if exit is currently highlighted, exit game
-            exit (0);
+        case 13:        //if enter key pressed, check which button is currently highlighted
+            switch(mainMenu.getCurrentButton())
+            {
+            case Item1: //if start button is currently highlighted, switch game state to playing game
+                currentState = Playing;
+                break;
+            case Item2:
+                currentState = SelectDifficulty;
+                break;
+            case Item3:
+                //TODO
+                break;
+            case Item4:  //if exit is currently highlighted, exit game
+                exit (0);
+                break;
+            }
             break;
         }
-        break;
+    }else if(currentState == SelectDifficulty){
+        switch (key)
+        {
+        case 13:        //if enter key pressed, check which button is currently highlighted
+            switch(mainMenu.getCurrentButton())
+            {
+            case Item1: //if start button is currently highlighted, switch game state to playing game
+                
+                break;
+            case Item2:
+                
+                break;
+            case Item3:
+                //TODO
+                
+                break;
+            case Item4:  //if exit is currently highlighted, exit game
+                currentState = Menu;
+                break;
+            }
+            break;
+        }
     }
+
+
+
     glutPostRedisplay();    //call display again after keyboard input
 }
 
-void special(int key, int x, int y)
-{
-    switch(key)
-    {
-    case GLUT_KEY_LEFT:
+void special(int key, int x, int y){
 
-        break;
-    case GLUT_KEY_RIGHT:
 
-        break;
-    case GLUT_KEY_UP:
-        if(currentState==Menu)      //if in main menu
-        {
+    if(currentState == Menu){
+        switch(key){
+
+        case GLUT_KEY_UP:
             mainMenu.goUp();        //scroll up menu
-        }
-        break;
-    case GLUT_KEY_DOWN:
-        if(currentState==Menu)      //if in main menu
-        {
+            break;
+        case GLUT_KEY_DOWN:
             mainMenu.goDown();      //scroll down menu
+            break;
         }
-        break;
+
+    } else if (currentState == Playing){
+        switch(key){
+        
+        case GLUT_KEY_UP:
+            cout << "Up Key is Pressed";
+            break;
+
+        case GLUT_KEY_DOWN:
+            cout << "Down Key is Pressed";
+            break;
+
+        case GLUT_KEY_LEFT:
+            cout << "Left Key is Pressed";
+            break;
+
+        case GLUT_KEY_RIGHT:
+            cout << "Right Key is Pressed";
+            break;
+
+
+        }
+    } else if (currentState == SelectDifficulty){
+        switch(key){
+
+        case GLUT_KEY_UP:
+            mainMenu.goUp();        //scroll up menu
+            break;
+        case GLUT_KEY_DOWN:
+            mainMenu.goDown();      //scroll down menu
+            break;
+        }
+
     }
+
+
+
+
     glutPostRedisplay();
 }
 
-void init(void)
-{
+void init(void){
     glClearColor(0, 0, 0, 0);       //black background
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
@@ -98,8 +153,7 @@ void init(void)
 }
 
 //display method to be recalled upon any changes
-void display(void)
-{
+void display(void){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
@@ -110,9 +164,13 @@ void display(void)
     switch(currentState)
     {
     case Menu:
-        mainMenu.draw();
+        mainMenu.drawMenu();
         break;
     case Playing:
+        break;
+
+    case SelectDifficulty:
+        mainMenu.drawDifficulty();
         break;
     }
 
@@ -120,8 +178,7 @@ void display(void)
 }
 
 //main method
-int main(int argc, char** argv)
-{
+int main(int argc, char** argv){
     glutInit(&argc, argv);              //starts up GLUT
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 

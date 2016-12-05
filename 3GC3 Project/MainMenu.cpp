@@ -9,28 +9,28 @@ Thien Trandinh / trandit / 001420634
 
 #include "MainMenu.h"
 
-enum ButtonType { Start, Difficulty, HowToPlay, Exit }; //menu button enum
-ButtonType currentHovering = Start; //button that is hovered by default
+enum ButtonType { Item1, Item2, Item3, Item4 }; //menu button enu
+ButtonType currentHovering = Item1; //button that is hovered by default
 
 //constructor
 MainMenu::MainMenu()
 {
 }
 
-void MainMenu::draw()
+void MainMenu::drawMenu()
 {
     switch(currentHovering)  //highlights the button currentHovering by redrawing box in slightly different colour
     {
-    case Start:
+    case Item1:
         drawBox("Start",0.0f, 0.4f);
         break;
-    case Difficulty:
+    case Item2:
         drawBox("Difficulty",0.9f, 0.4f);
         break;
-    case HowToPlay:
+    case Item3:
         drawBox("How To Play",1.8f, 0.4f);
         break;
-    case Exit:
+    case Item4:
         drawBox("Exit",2.7f, 0.4f);
         break;
     }
@@ -39,6 +39,37 @@ void MainMenu::draw()
     drawBox("Difficulty",0.9f, 0.0f);
     drawBox("How To Play",1.8f, 0.0f);
     drawBox("Exit",2.7f, 0.0f);
+
+    //print title text
+    glColor3f(1, 1, 1);
+    glRasterPos3f(1.5f, 2.5, 2);
+    std::string startText = {"Space Genesis"};
+    for(int i=0; i<startText.size(); i++)
+    {
+        glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, startText[i]);
+    }
+}
+
+void MainMenu::drawDifficulty(){
+    switch(currentHovering){ //highlights the button currentHovering by redrawing box in slightly different colour
+    case Item1:
+        drawBox("Easy",0.0f, 0.4f);
+        break;
+    case Item2:
+        drawBox("Medium",0.9f, 0.4f);
+        break;
+    case Item3:
+        drawBox("Hard",1.8f, 0.4f);
+        break;
+    case Item4:
+        drawBox("Return",2.7f, 0.4f);
+        break;
+    }
+
+    drawBox("Easy",0.0f, 0.0f);
+    drawBox("Medium",0.9f, 0.0f);
+    drawBox("Hard",1.8f, 0.0f);
+    drawBox("Return",2.7f, 0.0f);
 
     //print title text
     glColor3f(1, 1, 1);
@@ -81,7 +112,7 @@ void MainMenu::drawText(std::string text, float position)
     float posX=1.1f;
     float posZ=1.3f;
     float posY=1.1-position+(position/18);
-    glColor3f(1, 1, 1);
+    glColor3f(0, 0, 0);
     glRasterPos3f(posX, posY, posZ);
     std::string startText = {text};
     for(int i=0; i<startText.size(); i++)
@@ -95,17 +126,17 @@ void MainMenu::goDown()
 {
     switch(currentHovering)
     {
-    case Start:
-        currentHovering=Difficulty;
+    case Item1:
+        currentHovering=Item2;
         break;
-    case Difficulty:
-        currentHovering=HowToPlay;
+    case Item2:
+        currentHovering=Item3;
         break;
-    case HowToPlay:
-        currentHovering=Exit;
+    case Item3:
+        currentHovering=Item4;
         break;
-    case Exit:
-        currentHovering=Start;
+    case Item4:
+        currentHovering=Item1;
         break;
     }
 }
@@ -115,17 +146,17 @@ void MainMenu::goUp()
 {
     switch(currentHovering)
     {
-    case Start:
-        currentHovering=Exit;
+    case Item1:
+        currentHovering=Item4;
         break;
-    case Difficulty:
-        currentHovering=Start;
+    case Item2:
+        currentHovering=Item1;
         break;
-    case HowToPlay:
-        currentHovering=Difficulty;
+    case Item3:
+        currentHovering=Item2;
         break;
-    case Exit:
-        currentHovering=HowToPlay;
+    case Item4:
+        currentHovering=Item3;
         break;
     }
 }

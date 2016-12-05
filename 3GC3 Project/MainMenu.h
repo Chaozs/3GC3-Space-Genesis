@@ -36,8 +36,9 @@ private:
 
 public:
     MainMenu();                     //constructor
-    void draw();                    //draw all buttons and text
-    enum ButtonType { Start, Difficulty, HowToPlay, Exit }; //enum for button types
+    void drawMenu();                   //draw all buttons and text
+    void drawDifficulty();
+    enum ButtonType { Item1, Item2, Item3, Item4 }; //enum for button types
     void goDown();                  //cycle down buttons
     void goUp();                    //cycle up buttons
     ButtonType getCurrentButton();  //get current button hovered

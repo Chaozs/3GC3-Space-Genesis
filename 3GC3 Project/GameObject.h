@@ -37,7 +37,7 @@ class GameObject
         void moveZ(float);                  //moves object's Z position; positive float = increases Z position & vice versa
 
     private:
-        float position[];                   //position of object
+        float position[3];                   //position of object
 };
 
 #endif

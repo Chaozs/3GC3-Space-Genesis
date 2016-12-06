@@ -40,7 +40,7 @@ MainMenu mainMenu;              //create mainMenu
 
 void keyboard(unsigned char key, int x, int y){
 
-
+    //***********************************Main Menu Navigiation***********************************
     if(currentState == Menu){
         switch (key)
         {
@@ -68,17 +68,16 @@ void keyboard(unsigned char key, int x, int y){
         case 13:        //if enter key pressed, check which button is currently highlighted
             switch(mainMenu.getCurrentButton())
             {
-            case Item1: //if start button is currently highlighted, switch game state to playing game
-                
+            case Item1: 
+                //TODO
                 break;
             case Item2:
-                
+                //TODO
                 break;
             case Item3:
                 //TODO
-                
                 break;
-            case Item4:  //if exit is currently highlighted, exit game
+            case Item4:  //if return clicked, return to main menu
                 currentState = Menu;
                 break;
             }

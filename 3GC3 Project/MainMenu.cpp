@@ -9,8 +9,7 @@ Thien Trandinh / trandit / 001420634
 
 #include "MainMenu.h"
 
-enum ButtonType { Item1, Item2, Item3, Item4 }; //menu button enu
-ButtonType currentHovering = Item1; //button that is hovered by default
+MainMenu::ButtonType currentHovering = MainMenu::Item1; //button that is hovered by default
 
 //constructor
 MainMenu::MainMenu()
@@ -21,16 +20,16 @@ void MainMenu::drawMenu()
 {
     switch(currentHovering)  //highlights the button currentHovering by redrawing box in slightly different colour
     {
-    case Item1:
+    case MainMenu::Item1:
         drawBox("Start",0.0f, 0.4f);
         break;
-    case Item2:
+    case MainMenu::Item2:
         drawBox("Difficulty",0.9f, 0.4f);
         break;
-    case Item3:
+    case MainMenu::Item3:
         drawBox("How To Play",1.8f, 0.4f);
         break;
-    case Item4:
+    case MainMenu::Item4:
         drawBox("Exit",2.7f, 0.4f);
         break;
     }
@@ -52,16 +51,16 @@ void MainMenu::drawMenu()
 
 void MainMenu::drawDifficulty(){
     switch(currentHovering){ //highlights the button currentHovering by redrawing box in slightly different colour
-    case Item1:
+    case MainMenu::Item1:
         drawBox("Easy",0.0f, 0.4f);
         break;
-    case Item2:
+    case MainMenu::Item2:
         drawBox("Medium",0.9f, 0.4f);
         break;
-    case Item3:
+    case MainMenu::Item3:
         drawBox("Hard",1.8f, 0.4f);
         break;
-    case Item4:
+    case MainMenu::Item4:
         drawBox("Return",2.7f, 0.4f);
         break;
     }
@@ -126,16 +125,16 @@ void MainMenu::goDown()
 {
     switch(currentHovering)
     {
-    case Item1:
+    case MainMenu::Item1:
         currentHovering=Item2;
         break;
-    case Item2:
+    case MainMenu::Item2:
         currentHovering=Item3;
         break;
-    case Item3:
+    case MainMenu::Item3:
         currentHovering=Item4;
         break;
-    case Item4:
+    case MainMenu::Item4:
         currentHovering=Item1;
         break;
     }
@@ -146,16 +145,16 @@ void MainMenu::goUp()
 {
     switch(currentHovering)
     {
-    case Item1:
+    case MainMenu::Item1:
         currentHovering=Item4;
         break;
-    case Item2:
+    case MainMenu::Item2:
         currentHovering=Item1;
         break;
-    case Item3:
+    case MainMenu::Item3:
         currentHovering=Item2;
         break;
-    case Item4:
+    case MainMenu::Item4:
         currentHovering=Item3;
         break;
     }

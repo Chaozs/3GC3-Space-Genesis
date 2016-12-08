@@ -27,7 +27,7 @@ using namespace std;
 class Player : public GameObject
 {
     public:
-        Player(float, float, float);    //constructor for player; requires an initial position
+        Player(float, float, float) : GameObject::GameObject(float,float,float);    //constructor for player; requires an initial position
         int getHp();                    //returns hp of the player
         void decreaseHp(int);           //decreases the hp of the player by the specified amount
 

@@ -36,6 +36,7 @@ float unitPosition[] = {0,0,0};
 enum GameState { Menu, SelectDifficulty, InstructionMenu, Playing, Paused, GameOver };    //current game state enum
 enum ButtonType { Item1, Item2, Item3, Item4 };
 GameState currentState = Menu;  //initially in start menu
+Player player = Player(1,1,1);
 
 MainMenu mainMenu;              //create mainMenu
 

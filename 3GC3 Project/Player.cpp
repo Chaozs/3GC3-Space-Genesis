@@ -15,13 +15,13 @@ Player::Player(float positionX, float positionY, float positionZ)
     hp = 100;   //intially set hp of the player to 100
 }
 
-int getHp()
+int Player::getHp()
 {
     return hp;
 }
 
 //decreases hp of player by the specified amount
-void decreaseHp(int damage)
+void Player::decreaseHp(int damage)
 {
     hp -= damage;
 }

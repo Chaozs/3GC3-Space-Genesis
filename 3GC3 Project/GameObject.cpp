@@ -19,7 +19,7 @@ GameObject::GameObject(float positionX, float positionY, float positionZ)
 }
 
 //returns object's position in the form of a vector
-vector<float> getPosition()
+vector<float> GameObject::getPosition()
 {
     vector<float> vPosition(3);
     vPosition[0] = position[0];
@@ -29,19 +29,19 @@ vector<float> getPosition()
 }
 
 //moves object's X position by movement
-void moveX(float movement)
+void GameObject::moveX(float movement)
 {
     position[0] += movement;
 }
 
 //moves object's Y position by movement
-void moveY(float movement)
+void GameObject::moveY(float movement)
 {
     position[1] += movement;
 }
 
 //moves object's Z position by movement
-void moveZ(float movement)
+void GameObject::moveZ(float movement)
 {
     position[2] += movement;
 }

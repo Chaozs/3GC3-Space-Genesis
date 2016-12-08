@@ -31,8 +31,8 @@ using namespace std;
 class MainMenu
 {
 private:
-    void drawBox(std::string text, float position, float highLight);    //draw button box - takes string (button text), the position (for offset from other buttons), and highlight, which is added to glColor to "highlight"
-    void drawText(std::string text, float position);                    //draws the text to the button
+    void drawBox(std::string, float, float);    //draw button box - takes string (button text), the position (for offset from other buttons), and highlight, which is added to glColor to "highlight"
+    void drawText(std::string, float);                    //draws the text to the button
 
 public:
     MainMenu();                     //constructor

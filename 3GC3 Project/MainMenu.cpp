@@ -18,30 +18,31 @@ MainMenu::MainMenu()
 
 void MainMenu::drawMenu()
 {
+
     switch(currentHovering)  //highlights the button currentHovering by redrawing box in slightly different colour
     {
     case MainMenu::Item1:
-        drawBox("Start",0.0f, 0.4f);
+        drawBox("Start",-2.0f, 0.4f);
         break;
     case MainMenu::Item2:
-        drawBox("Difficulty",0.9f, 0.4f);
+        drawBox("Difficulty",2.0f, 0.4f);
         break;
     case MainMenu::Item3:
-        drawBox("How To Play",1.8f, 0.4f);
+        drawBox("How To Play",6.0f, 0.4f);
         break;
     case MainMenu::Item4:
-        drawBox("Exit",2.7f, 0.4f);
+        drawBox("Exit",10.0f, 0.4f);
         break;
     }
 
-    drawBox("Start",0.0f, 0.0f);
-    drawBox("Difficulty",0.9f, 0.0f);
-    drawBox("How To Play",1.8f, 0.0f);
-    drawBox("Exit",2.7f, 0.0f);
+    drawBox("Start",-2.0f, 0.0f);
+    drawBox("Difficulty",2.0f, 0.0f);
+    drawBox("How To Play",6.0f, 0.0f);
+    drawBox("Exit",10.0f, 0.0f);
 
     //print title text
     glColor3f(1, 1, 1);
-    glRasterPos3f(1.5f, 2.5, 2);
+    glRasterPos3f(-2.2f, 8, -25);
     std::string startText = {"Space Genesis"};
     for(int i=0; i<startText.size(); i++)
     {
@@ -50,29 +51,31 @@ void MainMenu::drawMenu()
 }
 
 void MainMenu::drawDifficulty(){
-    switch(currentHovering){ //highlights the button currentHovering by redrawing box in slightly different colour
+
+    switch(currentHovering)  //highlights the button currentHovering by redrawing box in slightly different colour
+    {
     case MainMenu::Item1:
-        drawBox("Easy",0.0f, 0.4f);
+        drawBox("Easy",-2.0f, 0.4f);
         break;
     case MainMenu::Item2:
-        drawBox("Medium",0.9f, 0.4f);
+        drawBox("Medium",2.0f, 0.4f);
         break;
     case MainMenu::Item3:
-        drawBox("Hard",1.8f, 0.4f);
+        drawBox("Hard",6.0f, 0.4f);
         break;
     case MainMenu::Item4:
-        drawBox("Return",2.7f, 0.4f);
+        drawBox("Return",10.0f, 0.4f);
         break;
     }
 
-    drawBox("Easy",0.0f, 0.0f);
-    drawBox("Medium",0.9f, 0.0f);
-    drawBox("Hard",1.8f, 0.0f);
-    drawBox("Return",2.7f, 0.0f);
+    drawBox("Easy",-2.0f, 0.0f);
+    drawBox("Medium",2.0f, 0.0f);
+    drawBox("Hard",6.0f, 0.0f);
+    drawBox("Return",10.0f, 0.0f);
 
     //print title text
     glColor3f(1, 1, 1);
-    glRasterPos3f(1.5f, 2.5, 2);
+    glRasterPos3f(-2.2f, 8, -25);
     std::string startText = {"Space Genesis"};
     for(int i=0; i<startText.size(); i++)
     {
@@ -87,18 +90,18 @@ void MainMenu::drawBox(std::string text, float position, float highlight)
 
     //top face
     glColor3f(0.8f+highlight, 0.5f+highlight, 0.0f+highlight);     // orange
-    glVertex3f( 2.0f,  1.3f-position, 0);
-    glVertex3f( 0,  1.3f-position, 2.0f);
+    glVertex3f( 6,  1.3f-position, -25);
+    glVertex3f( -6,  1.3f-position, -25);
     glColor3f(  0, 0.0f, 0.0f);     // black
-    glVertex3f( 0,  1.5f-position, 0.1f);
-    glVertex3f( 0.1f,  1.5f-position, 0);
+    glVertex3f( 0,  3-position, -26);
+    glVertex3f( 0,  3-position, -26);
 
     // Front face
     glColor3f(0.9f+highlight, 0.5f+highlight, 0.0f+highlight);     // orange
-    glVertex3f( 2.0f,  1.3f-position, 0);
-    glVertex3f( 0,  1.3f-position, 2.0f);
-    glVertex3f( 0,  0.8f-position, 2.0f);
-    glVertex3f( 2.0f, 0.8f-position, 0);
+    glVertex3f( 6,  -1.3f-position, -25);
+    glVertex3f( -6,  -1.3f-position, -25);
+    glVertex3f( -6,  1.3f-position, -25);
+    glVertex3f( 6, 1.3f-position, -25);
 
     glEnd();  // End of drawing color-cube
 
@@ -108,9 +111,9 @@ void MainMenu::drawBox(std::string text, float position, float highlight)
 //draw text
 void MainMenu::drawText(std::string text, float position)
 {
-    float posX=1.1f;
-    float posZ=1.3f;
-    float posY=1.1-position+(position/18);
+    float posX=-2.2f;
+    float posZ=-24.0f;
+    float posY= 0.0f-position;
     glColor3f(0, 0, 0);
     glRasterPos3f(posX, posY, posZ);
     std::string startText = {text};

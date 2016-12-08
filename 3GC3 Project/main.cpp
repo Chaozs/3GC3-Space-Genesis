@@ -30,8 +30,8 @@ Thien Trandinh / trandit / 001420634
 #include "Projectile.h"
 #include "Barrier.h"
 
-float eye[] = {5,3.5,5};        //initial camera location
-float lookAt[] = {0,0,0};         //point camera is looking at
+float eye[] = {0,-5,0};        //initial camera location
+float lookAt[] = {0,0,-10};         //point camera is looking at
 float unitPosition[] = {0,0,0};
 enum GameState { Menu, SelectDifficulty, InstructionMenu, Playing, Paused, GameOver };    //current game state enum
 enum ButtonType { Item1, Item2, Item3, Item4 };
@@ -117,11 +117,11 @@ void special(int key, int x, int y){
             break;
 
         case GLUT_KEY_LEFT:
-            unitPosition[2]--;
+            unitPosition[0]--;
             break;
 
         case GLUT_KEY_RIGHT:
-            unitPosition[2]++;
+            unitPosition[0]++;
             break;
 
 
@@ -144,6 +144,19 @@ void special(int key, int x, int y){
 
     glutPostRedisplay();
 }
+
+
+void reshape(int w, int h)
+{
+ //Windoresizing stuff
+ glMatrixMode(GL_PROJECTION);
+ glLoadIdentity();
+ gluPerspective(60, (float)((w + 0.0f) / h), 1, 1000);
+
+ glMatrixMode(GL_MODELVIEW);
+ glViewport(0, 0, w, h);
+}
+
 
 void init(void){
     glClearColor(0, 0, 0, 0);       //black background
@@ -168,17 +181,18 @@ void display(void){
         mainMenu.drawMenu();
         break;
     case Playing:
-        eye[0] = -2;
-        eye[1] = 3;
-        eye[2] = 3;
-        lookAt[0] = 4;
-        lookAt[1] = 3;
-        lookAt[2] = 3;
+        eye[0] = 0;
+        eye[1] = -5;
+        eye[2] = 0;
+        lookAt[0] = 0;
+        lookAt[1] = 0;
+        lookAt[2] = -10;
         gluLookAt(eye[0], eye[1], eye[2], lookAt[0], lookAt[1], lookAt[2], 0,1,0);
         glPushMatrix();
-            glTranslatef(3,2,2);
+            glTranslatef(6, 3, -25);
             glTranslatef(unitPosition[0], unitPosition[1], unitPosition[2]);
-        glutSolidCube(1);
+            //cout << unitPosition[2] << ", " << unitPosition[1] << endl;
+            glutWireTeapot(1);
         glPopMatrix();
         break;
 
@@ -189,6 +203,7 @@ void display(void){
 
     glutSwapBuffers();
 }
+
 
 //main method
 int main(int argc, char** argv){
@@ -203,6 +218,8 @@ int main(int argc, char** argv){
     glutDisplayFunc(display);           //registers "display" as the display callback function
     glutKeyboardFunc(keyboard);
     glutSpecialFunc(special);
+    glutReshapeFunc(reshape);
+
 
     glEnable(GL_DEPTH_TEST);
     init();

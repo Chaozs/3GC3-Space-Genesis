@@ -32,6 +32,7 @@ Thien Trandinh / trandit / 001420634
 
 float eye[] = {5,3.5,5};        //initial camera location
 float lookAt[] = {0,0,0};         //point camera is looking at
+float unitPosition[] = {0,0,0};
 enum GameState { Menu, SelectDifficulty, InstructionMenu, Playing, Paused, GameOver };    //current game state enum
 enum ButtonType { Item1, Item2, Item3, Item4 };
 GameState currentState = Menu;  //initially in start menu
@@ -108,19 +109,19 @@ void special(int key, int x, int y){
         switch(key){
         
         case GLUT_KEY_UP:
-            cout << "Up Key is Pressed";
+            unitPosition[1]++;
             break;
 
         case GLUT_KEY_DOWN:
-            cout << "Down Key is Pressed";
+            unitPosition[1]--;
             break;
 
         case GLUT_KEY_LEFT:
-            cout << "Left Key is Pressed";
+            unitPosition[2]--;
             break;
 
         case GLUT_KEY_RIGHT:
-            cout << "Right Key is Pressed";
+            unitPosition[2]++;
             break;
 
 
@@ -149,6 +150,8 @@ void init(void){
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     gluPerspective(45, 1, 1, 1000);
+    //set initial camera position and direction
+    gluLookAt(eye[0], eye[1], eye[2], lookAt[0], lookAt[1], lookAt[2], 0,1,0);
 }
 
 //display method to be recalled upon any changes
@@ -156,8 +159,7 @@ void display(void){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    //set initial camera position and direction
-    gluLookAt(eye[0], eye[1], eye[2], lookAt[0], lookAt[1], lookAt[2], 0,1,0);
+
 
     //displays accordingly to what game state
     switch(currentState)
@@ -166,6 +168,18 @@ void display(void){
         mainMenu.drawMenu();
         break;
     case Playing:
+        eye[0] = -2;
+        eye[1] = 3;
+        eye[2] = 3;
+        lookAt[0] = 4;
+        lookAt[1] = 3;
+        lookAt[2] = 3;
+        gluLookAt(eye[0], eye[1], eye[2], lookAt[0], lookAt[1], lookAt[2], 0,1,0);
+        glPushMatrix();
+            glTranslatef(3,2,2);
+            glTranslatef(unitPosition[0], unitPosition[1], unitPosition[2]);
+        glutSolidCube(1);
+        glPopMatrix();
         break;
 
     case SelectDifficulty:

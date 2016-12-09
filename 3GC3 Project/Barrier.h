@@ -30,6 +30,7 @@ public:
     Barrier(float, float, float);   //constructor for barrier; requires an initial position
     int getHp();                    //returns hp of the barrier
     void decreaseHp();              //decreases the barrier's hp by 1
+    void drawBarrier();
 
 private:
     int hp;

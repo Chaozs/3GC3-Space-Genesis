@@ -25,3 +25,7 @@ void Barrier::decreaseHp()
 {
     hp--;
 }
+
+void Barrier::drawBarrier(){
+	glutSolidCube(1);
+}

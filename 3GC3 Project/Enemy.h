@@ -22,6 +22,7 @@ Thien Trandinh / trandit / 001420634
 
 #include "GameObject.h"
 #include <time.h>
+#include <cstdlib>
 
 using namespace std;
 

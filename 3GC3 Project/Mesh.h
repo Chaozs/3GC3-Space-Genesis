@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 /*
 3GC3 Final Project - Space Genesis
 
@@ -22,6 +23,7 @@ Thien Trandinh / trandit / 001420634
 
 #include <vector>
 #include <stdio.h>
+#include <string.h>
 
 #include "Vector3.h"
 

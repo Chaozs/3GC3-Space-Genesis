@@ -47,7 +47,7 @@ GUI userInfo = GUI();
 MainMenu mainMenu;                  //create mainMenu
 
 /* DEMO ENEMY SHIP - TOBEREMOVED */
-Enemy enemy = Enemy(0, 10, -25, 1);
+list<Enemy*> enemyList;
 
 /* PLAYER SHIP */
 Player player = Player(0, -4, -25);
@@ -58,7 +58,8 @@ bool leftPressed = false;           //left arrow key is held down
 bool rightPressed = false;          //right arrow key is held down
 
 /* PROJECTILES */
-list<Projectile*> projectiles;      //list of all projectiles currently on screen
+list<Projectile*> projectiles;      //list of all player projectiles currently on screen
+list<Projectile*> enemyProjectiles; //list of all enemy projectiles currently on screen
 bool canShoot = true;               //indicates whether projectile can be shot or not (need time in between each projectile)
 double multipleOfSpeedBeforeCanShoot = 0;   //keeps track of time before next projectile shoot
 
@@ -68,6 +69,12 @@ float light1Pos[] = {5, 3, 0, 1};   //initial light1 positon
 
 /* ANIMATION */
 const int speed = 30;               //time between calls of display()
+
+void setEnemies()
+{
+    Enemy* enemy = new Enemy(0, 10, -25, 1);
+    enemyList.push_back(enemy);
+}
 
 
 void keyboard(unsigned char key, int x, int y)
@@ -250,12 +257,19 @@ void setMeshes()
 
     //playerMesh = newMesh;
     player.SetMesh(playerMesh);
-    enemy.SetMesh(playerMesh);
+
+        for(list<Enemy*>::iterator i=enemyList.begin(); i!=enemyList.end(); ++i)
+        {
+            Enemy* enemy = *i;
+            enemy->SetMesh(playerMesh);
+            cout << "Set enemy mesh" << endl;
+        }
 }
 
 void init(void)
 {
     setMeshes();
+    setEnemies();
 
     glClearColor(0, 0, 0, 0);       //black background
     glEnable(GL_COLOR_MATERIAL);    //enable colour material
@@ -283,7 +297,7 @@ void timer(int value)
     switch(currentState)
     {
     case Playing:
-        //update positions of projectiles on screen
+        //update positions of player projectiles on screen
         for(auto i=projectiles.begin(); i!=projectiles.end();)
         {
             Projectile* projectileP = *i;
@@ -294,6 +308,33 @@ void timer(int value)
             else
             {
                 projectileP->moveY(0.5);
+                ++i;
+            }
+        }
+
+        //generate enemy projectiles
+        for(list<Enemy*>::iterator i=enemyList.begin(); i!=enemyList.end(); ++i)
+        {
+            Enemy* enemy = *i;
+            if (enemy->shouldShoot(10))
+            {
+                cout << "Enemy shot projectile" << endl;
+                Projectile* enemyProj = new Projectile(enemy->getPosition().at(0), enemy->getPosition().at(1), enemy->getPosition().at(2));
+                enemyProjectiles.push_back(enemyProj);
+            }
+        }
+
+        //update positions of enemy projectiles on screen
+        for(auto i=enemyProjectiles.begin(); i!=enemyProjectiles.end();)
+        {
+            Projectile* projectileP = *i;
+            if (projectileP->getPosition().at(1) >= 40)
+            {
+                i = enemyProjectiles.erase(i);
+            }
+            else
+            {
+                projectileP->moveY(-0.5);
                 ++i;
             }
         }
@@ -357,15 +398,30 @@ void display(void)
         lookAt[2] = -10;
         gluLookAt(eye[0], eye[1], eye[2], lookAt[0], lookAt[1], lookAt[2], 0,1,0);
         player.drawShip();      //draw ship
-        enemy.drawShip();
         glDisable(GL_LIGHTING);
         userInfo.drawScoreAndHP(100);
         glEnable(GL_LIGHTING);
+
+        //draw enemy ships on screen
+        for(list<Enemy*>::iterator i=enemyList.begin(); i!=enemyList.end(); ++i)
+        {
+            Enemy* enemy = *i;
+            enemy->drawShip();
+        }
 
         //draw projectiles onto screen
         for(list<Projectile*>::iterator i=projectiles.begin(); i!=projectiles.end(); ++i)
         {
             Projectile* projectileP = *i;
+            glColor3f(1, 1, 1);
+            projectileP->draw();
+        }
+
+        //draw enemy projectiles onto screen
+        for(list<Projectile*>::iterator i=enemyProjectiles.begin(); i!=enemyProjectiles.end(); ++i)
+        {
+            Projectile* projectileP = *i;
+            glColor3f(1, 0, 0);
             projectileP->draw();
         }
         break;

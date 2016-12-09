@@ -21,27 +21,28 @@ Thien Trandinh / trandit / 001420634
 #endif
 
 #include "GameObject.h"
-#include <time.h>       
+#include <time.h>
 
 using namespace std;
 
 class Enemy : public GameObject
 {
-    public:
-        Enemy(float, float, float, int);    //constructor for enemy; requires an initial position
-        void setSpeed(float);
-        void setAlive(bool);
-        bool getAlive();
-        void setBottomTrue();
-        bool isBottomTrue();
-        int getRow();
-        bool shouldShoot(int);
-        void drawShip();
-    private:
-    	int row;
-    	float speed;
-    	bool isAlive;
-    	bool isBottom;
+public:
+    Enemy(float, float, float, int);    //constructor for enemy; requires an initial position
+    void setSpeed(float);
+    void setAlive(bool);
+    bool getAlive();
+    void setBottomTrue();
+    bool isBottomTrue();
+    int getRow();
+    bool shouldShoot(int);
+    void drawShip();
+
+private:
+    int row;
+    float speed;
+    bool isAlive;
+    bool isBottom;
 };
 
 #endif

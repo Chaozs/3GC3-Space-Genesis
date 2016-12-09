@@ -25,7 +25,7 @@ void GUI::incScoreBy(int increase)
 void GUI::drawScoreAndHP(int HP)
 {
     glRasterPos3f(-21, 30, -25);
-    std::string ScoreLabel = {"Score:"};
+    std::string ScoreLabel = "Score:";
     for(int i=0; i<ScoreLabel.size(); i++)
     {
         glutBitmapCharacter(GLUT_BITMAP_9_BY_15, ScoreLabel[i]);
@@ -39,7 +39,7 @@ void GUI::drawScoreAndHP(int HP)
     }
 
     glRasterPos3f(-12, 30, -25);
-    std::string HPLabel = {"HP:"};
+    std::string HPLabel = "HP:";
     for(int i=0; i<HPLabel.size(); i++)
     {
         glutBitmapCharacter(GLUT_BITMAP_9_BY_15, HPLabel[i]);

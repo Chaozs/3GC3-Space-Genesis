@@ -25,6 +25,7 @@ Thien Trandinh / trandit / 001420634
 #include <math.h>
 #include <stdio.h>
 #include <iostream>
+#include <string> 
 
 class GUI
 {

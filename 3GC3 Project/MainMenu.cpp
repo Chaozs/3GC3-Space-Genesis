@@ -41,7 +41,7 @@ void MainMenu::drawMenu()
     //print title text
     glColor3f(1, 1, 1);
     glRasterPos3f(-2.2f, 8, -25);
-    std::string startText = {"Space Genesis"};
+    std::string startText = "Space Genesis";
     for(int i=0; i<startText.size(); i++)
     {
         glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, startText[i]);
@@ -75,7 +75,7 @@ void MainMenu::drawDifficulty()
     //print title text
     glColor3f(1, 1, 1);
     glRasterPos3f(-2.2f, 8, -25);
-    std::string startText = {"Space Genesis"};
+    std::string startText = "Space Genesis";
     for(int i=0; i<startText.size(); i++)
     {
         glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, startText[i]);
@@ -115,7 +115,7 @@ void MainMenu::drawText(std::string text, float position)
     float posY= 0.0f-position;
     glColor3f(0, 0, 0);
     glRasterPos3f(posX, posY, posZ);
-    std::string startText = {text};
+    std::string startText = text;
     for(int i=0; i<startText.size(); i++)
     {
         glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, startText[i]);

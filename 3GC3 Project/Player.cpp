@@ -30,6 +30,12 @@ void Player::drawShip()
 {
 	glPushMatrix();
             glTranslatef(position[0], position[1], position[2]);
-            mesh.Draw();   
-        glPopMatrix();
+            	glPushMatrix();
+            		glScalef(0.3f, 0.3f, 0.3f);
+            		glPushMatrix();
+            			glRotatef(50,1,0,0);
+            			mesh.Draw();
+            		glPopMatrix();
+            	glPopMatrix();   
+    glPopMatrix();
 }

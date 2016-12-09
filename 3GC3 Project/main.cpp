@@ -34,8 +34,6 @@ Thien Trandinh / trandit / 001420634
 #include "GUI.h"
 #include "Mesh.h"
 #include "Vector3.h"
-#include "GameObject.h"
-
 
 /* CAMERA */
 float eye[] = {0, -5, 0};           //initial camera location
@@ -46,7 +44,7 @@ float unitPosition[] = {0, 0, 0};
 enum GameState { Menu, SelectDifficulty, InstructionMenu, Playing, Paused, GameOver };  //current game state enum
 enum ButtonType { Item1, Item2, Item3, Item4 };
 GameState currentState = Menu;      //initially in start menu
-Player player = Player(0, -5, -25);
+Player player = Player(0, -4, -25);
 GUI userInfo = GUI();
 MainMenu mainMenu;                  //create mainMenu
 list<Projectile*> projectiles;      //list of all projectiles currently on screen

@@ -27,9 +27,20 @@ using namespace std;
 class Enemy : public GameObject
 {
     public:
-        Enemy(float, float, float);    //constructor for enemy; requires an initial position
-
+        Enemy(float, float, float, int, int);    //constructor for enemy; requires an initial position
+        void setSpeed(float);
+        void setAlive(bool);
+        bool getAlive();
+        void setBottomTrue();
+        bool isBottomTrue();
+        int getRow();
+        int getColumn();
     private:
+    	int row;
+    	int column;
+    	float speed;
+    	bool isAlive;
+    	bool isBottom;
 };
 
 #endif

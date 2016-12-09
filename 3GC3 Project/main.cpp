@@ -70,12 +70,6 @@ float light1Pos[] = {5, 3, 0, 1};   //initial light1 positon
 /* ANIMATION */
 const int speed = 30;               //time between calls of display()
 
-void setEnemies()
-{
-    Enemy* enemy = new Enemy(0, 10, -25, 1);
-    enemyList.push_back(enemy);
-}
-
 
 void keyboard(unsigned char key, int x, int y)
 {
@@ -258,18 +252,24 @@ void setMeshes()
     //playerMesh = newMesh;
     player.SetMesh(playerMesh);
 
-        for(list<Enemy*>::iterator i=enemyList.begin(); i!=enemyList.end(); ++i)
-        {
-            Enemy* enemy = *i;
-            enemy->SetMesh(playerMesh);
-            cout << "Set enemy mesh" << endl;
-        }
+    for(list<Enemy*>::iterator i=enemyList.begin(); i!=enemyList.end(); ++i)
+    {
+        Enemy* enemy = *i;
+        enemy->SetMesh(playerMesh);
+        cout << "Set enemy mesh" << endl;
+    }
+}
+
+void setEnemies()
+{
+    Enemy* enemy = new Enemy(0, 10, -25, 1);
+    enemyList.push_back(enemy);
 }
 
 void init(void)
 {
-    setMeshes();
     setEnemies();
+    setMeshes();
 
     glClearColor(0, 0, 0, 0);       //black background
     glEnable(GL_COLOR_MATERIAL);    //enable colour material

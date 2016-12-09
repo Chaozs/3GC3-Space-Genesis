@@ -43,6 +43,7 @@ private:
     float speed;
     bool isAlive;
     bool isBottom;
+    bool canShoot;  //whether or not enemy can shoot projectile (time since last projectile is reset)
 };
 
 #endif

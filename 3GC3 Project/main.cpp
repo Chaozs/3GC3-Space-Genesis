@@ -50,6 +50,10 @@ MainMenu mainMenu;                  //create mainMenu
 Player player = Player(0, -4, -25);
 Mesh playerMesh;
 
+/* PLAYER CONTROLS */
+bool leftPressed = false;           //left arrow key is held down
+bool rightPressed = false;          //right arrow key is held down
+
 /* PROJECTILES */
 list<Projectile*> projectiles;      //list of all projectiles currently on screen
 bool canShoot = true;               //indicates whether projectile can be shot or not (need time in between each projectile)
@@ -119,7 +123,9 @@ void keyboard(unsigned char key, int x, int y)
             if(canShoot)
             {
                 canShoot = false;
-                Projectile* p = new Projectile(player.getPosition().at(0), player.getPosition().at(1), player.getPosition().at(2));
+                Projectile* p = new Projectile(player.getPosition().at(0),
+                                               player.getPosition().at(1),
+                                               player.getPosition().at(2));
                 projectiles.push_back(p);
             }
         }
@@ -134,7 +140,6 @@ void special(int key, int x, int y)
     {
         switch(key)
         {
-
         case GLUT_KEY_UP:
             mainMenu.goUp();        //scroll up menu
             break;
@@ -142,47 +147,23 @@ void special(int key, int x, int y)
             mainMenu.goDown();      //scroll down menu
             break;
         }
-
     }
     else if (currentState == Playing)
     {
         switch(key)
         {
-
-        case GLUT_KEY_UP:
-
-            break;
-
-        case GLUT_KEY_DOWN:
-
-            break;
-
         case GLUT_KEY_LEFT:
-        {
-            vector<float> position = player.getPosition();
-            if (position[0]>-11)
-            {
-                player.moveX(-1);
-            }
+            leftPressed = true;
             break;
-        }
-
         case GLUT_KEY_RIGHT:
-        {
-            vector<float> position2 = player.getPosition();
-            if (position2[0]<11)
-            {
-                player.moveX(1);
-            }
+            rightPressed = true;
             break;
-        }
         }
     }
     else if (currentState == SelectDifficulty)
     {
         switch(key)
         {
-
         case GLUT_KEY_UP:
             mainMenu.goUp();        //scroll up menu
             break;
@@ -190,10 +171,25 @@ void special(int key, int x, int y)
             mainMenu.goDown();      //scroll down menu
             break;
         }
-
     }
 
     glutPostRedisplay();
+}
+
+void specialUp(int key, int x, int y)
+{
+    if (currentState == Playing)
+    {
+        switch(key)
+        {
+        case GLUT_KEY_LEFT:
+            leftPressed = false;
+            break;
+        case GLUT_KEY_RIGHT:
+            rightPressed = false;
+            break;
+        }
+    }
 }
 
 
@@ -307,6 +303,22 @@ void timer(int value)
         {
             multipleOfSpeedBeforeCanShoot++;
         }
+
+        //move ship position if left/right arrow keys are pressed
+        if (leftPressed)
+        {
+            if (player.getPosition().at(0) > -11)
+            {
+                player.moveX(-0.3);
+            }
+        }
+        if (rightPressed)
+        {
+            if (player.getPosition().at(0) < 11)
+            {
+                player.moveX(0.3);
+            }
+        }
     }
 
     glutPostRedisplay();    //calls display
@@ -374,6 +386,7 @@ int main(int argc, char** argv)
     glutDisplayFunc(display);           //registers "display" as the display callback function
     glutKeyboardFunc(keyboard);
     glutSpecialFunc(special);
+    glutSpecialUpFunc(specialUp);
     glutReshapeFunc(reshape);
     glutTimerFunc(speed, timer, 0);
 

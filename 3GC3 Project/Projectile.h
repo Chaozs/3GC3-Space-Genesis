@@ -26,10 +26,11 @@ using namespace std;
 
 class Projectile : public GameObject
 {
-    public:
-        Projectile(float, float, float);    //constructor for projectile; requires an initial position
+public:
+    Projectile(float, float, float);    //constructor for projectile; requires an initial position
+    void draw();     //draws the projectile
 
-    private:
+private:
 };
 
 #endif

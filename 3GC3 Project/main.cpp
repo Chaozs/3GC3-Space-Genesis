@@ -24,6 +24,7 @@ Thien Trandinh / trandit / 001420634
 #include <string>
 #include <iostream>
 #include <vector>
+#include <list>
 
 #include "MainMenu.h"
 #include "Player.h"
@@ -33,7 +34,7 @@ Thien Trandinh / trandit / 001420634
 #include "GUI.h"
 #include "Mesh.h"
 #include "Vector3.h"
-#include "Gameobject.h"
+#include "GameObject.h"
 
 
 /* CAMERA */
@@ -48,27 +49,19 @@ GameState currentState = Menu;      //initially in start menu
 Player player = Player(0, -5, -25);
 GUI userInfo = GUI();
 MainMenu mainMenu;                  //create mainMenu
+list<Projectile*> projectiles;      //list of all projectiles currently on screen
+Mesh playerMesh;
 
 /* LIGHTING */
 float light0Pos[] = {-5, 3, 0, 1};  //initial light0 position
 float light1Pos[] = {5, 3, 0, 1};   //initial light1 positon
 
-Mesh playerMesh;
-
-void SetMeshes()
-{
-    //Mesh newMesh;
-    playerMesh.LoadOBJ("PlayerShip.obj");
-
-    //playerMesh = newMesh;
-    player.SetMesh(playerMesh);
-}
+/* ANIMATION */
+int speed = 20;                     //time between calls of display()
 
 
 void keyboard(unsigned char key, int x, int y)
 {
-
-    //***********************************Main Menu Navigiation***********************************
     if(currentState == Menu)
     {
         switch (key)
@@ -115,6 +108,15 @@ void keyboard(unsigned char key, int x, int y)
             break;
         }
     }
+    else if (currentState == Playing)
+    {
+        switch (key)
+        {
+        case 32:    //if space is pressed, create a new projectile
+            Projectile* p = new Projectile(player.getPosition().at(0), player.getPosition().at(1), player.getPosition().at(2));
+            projectiles.push_back(p);
+        }
+    }
 
     glutPostRedisplay();    //call display again after keyboard input
 }
@@ -148,25 +150,26 @@ void special(int key, int x, int y)
 
             break;
 
-        case GLUT_KEY_LEFT: {
+        case GLUT_KEY_LEFT:
+        {
             vector<float> position = player.getPosition();
             if (position[0]>-11)
             {
                 player.moveX(-1);
             }
             break;
-            }
+        }
 
-        case GLUT_KEY_RIGHT: {
+        case GLUT_KEY_RIGHT:
+        {
             vector<float> position2 = player.getPosition();
             if (position2[0]<11)
             {
                 player.moveX(1);
             }
             break;
-            }
         }
-
+        }
     }
     else if (currentState == SelectDifficulty)
     {
@@ -234,8 +237,19 @@ void addLights()
     glPopMatrix();
 }
 
+void setMeshes()
+{
+    //Mesh newMesh;
+    playerMesh.LoadOBJ("PlayerShip.obj");
+
+    //playerMesh = newMesh;
+    player.SetMesh(playerMesh);
+}
+
 void init(void)
 {
+    setMeshes();
+
     glClearColor(0, 0, 0, 0);       //black background
     glEnable(GL_COLOR_MATERIAL);    //enable colour material
 
@@ -255,6 +269,34 @@ void init(void)
 
     //set initial camera position and direction
     gluLookAt(eye[0], eye[1], eye[2], lookAt[0], lookAt[1], lookAt[2], 0,1,0);
+}
+
+void timer(int value)
+{
+    switch(currentState)
+    {
+    case Playing:
+        //update positions of projectiles on screen
+        for(auto i=projectiles.begin(); i!=projectiles.end();)
+        {
+            Projectile* projectileP = *i;
+            if (projectileP->getPosition().at(1) >= 7)
+            {
+                i = projectiles.erase(i);
+            }
+            else
+            {
+                projectileP->moveY(0.3);
+                ++i;
+            }
+        }
+    }
+
+    glutPostRedisplay();    //calls display
+
+    //wait before calling timer() again
+    glutTimerFunc(100, timer, 0);
+
 }
 
 //display method to be recalled upon any changes
@@ -281,12 +323,18 @@ void display(void)
         lookAt[1] = 0;
         lookAt[2] = -10;
         gluLookAt(eye[0], eye[1], eye[2], lookAt[0], lookAt[1], lookAt[2], 0,1,0);
-        player.drawShip();				//draw ship
+        player.drawShip();      //draw ship
         glDisable(GL_LIGHTING);
         userInfo.drawScoreAndHP(100);
         glEnable(GL_LIGHTING);
-        break;
 
+        //draw projectiles onto screen
+        for(list<Projectile*>::iterator i=projectiles.begin(); i!=projectiles.end(); ++i)
+        {
+            Projectile* projectileP = *i;
+            projectileP->draw();
+        }
+        break;
     case SelectDifficulty:
         mainMenu.drawDifficulty();
         break;
@@ -295,11 +343,9 @@ void display(void)
     glutSwapBuffers();
 }
 
-
 //main method
 int main(int argc, char** argv)
 {
-    SetMeshes();
     glutInit(&argc, argv);              //starts up GLUT
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 
@@ -312,6 +358,7 @@ int main(int argc, char** argv)
     glutKeyboardFunc(keyboard);
     glutSpecialFunc(special);
     glutReshapeFunc(reshape);
+    glutTimerFunc(speed, timer, 0);
 
     glEnable(GL_DEPTH_TEST);
     init();

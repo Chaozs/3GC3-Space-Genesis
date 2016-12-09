@@ -9,6 +9,8 @@ Thien Trandinh / trandit / 001420634
 
 #include "Projectile.h"
 
+#include <iostream>
+
 //constructor for projectile; requires an initial position
 Projectile::Projectile(float x, float y, float z) : GameObject(x, y, z)
 {
@@ -18,8 +20,8 @@ void Projectile::draw()
 {
     glPushMatrix();
     glColor3f(1, 1, 1);     //colour projectile white
-    glScalef(0.3, 1, 0.3);  //scale projectile to slim and tall
     glTranslatef(position[0], position[1], position[2]); //move projectile to its position
+    glScalef(0.1, 1, 0.3);  //scale projectile to slim and tall
     glutSolidCube(0.5);
     glPopMatrix();
 }

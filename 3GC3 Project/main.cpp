@@ -9,6 +9,11 @@ Thien Trandinh / trandit / 001420634
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
+#include <string>
+#include <iostream>
+#include <vector>
+#include <list>
 
 #ifdef __APPLE__
 #  include <OpenGL/gl.h>
@@ -19,12 +24,6 @@ Thien Trandinh / trandit / 001420634
 #  include <GL/glu.h>
 #  include <GL/freeglut.h>
 #endif
-
-#include <math.h>
-#include <string>
-#include <iostream>
-#include <vector>
-#include <list>
 
 #include "MainMenu.h"
 #include "Player.h"
@@ -44,18 +43,24 @@ float unitPosition[] = {0, 0, 0};
 enum GameState { Menu, SelectDifficulty, InstructionMenu, Playing, Paused, GameOver };  //current game state enum
 enum ButtonType { Item1, Item2, Item3, Item4 };
 GameState currentState = Menu;      //initially in start menu
-Player player = Player(0, -4, -25);
 GUI userInfo = GUI();
 MainMenu mainMenu;                  //create mainMenu
-list<Projectile*> projectiles;      //list of all projectiles currently on screen
+
+/* PLAYER SHIP */
+Player player = Player(0, -4, -25);
 Mesh playerMesh;
+
+/* PROJECTILES */
+list<Projectile*> projectiles;      //list of all projectiles currently on screen
+bool canShoot = true;               //indicates whether projectile can be shot or not (need time in between each projectile)
+double multipleOfSpeedBeforeCanShoot = 0;   //keeps track of time before next projectile shoot
 
 /* LIGHTING */
 float light0Pos[] = {-5, 3, 0, 1};  //initial light0 position
 float light1Pos[] = {5, 3, 0, 1};   //initial light1 positon
 
 /* ANIMATION */
-int speed = 20;                     //time between calls of display()
+const int speed = 30;               //time between calls of display()
 
 
 void keyboard(unsigned char key, int x, int y)
@@ -111,8 +116,12 @@ void keyboard(unsigned char key, int x, int y)
         switch (key)
         {
         case 32:    //if space is pressed, create a new projectile
-            Projectile* p = new Projectile(player.getPosition().at(0), player.getPosition().at(1), player.getPosition().at(2));
-            projectiles.push_back(p);
+            if(canShoot)
+            {
+                canShoot = false;
+                Projectile* p = new Projectile(player.getPosition().at(0), player.getPosition().at(1), player.getPosition().at(2));
+                projectiles.push_back(p);
+            }
         }
     }
 
@@ -278,22 +287,32 @@ void timer(int value)
         for(auto i=projectiles.begin(); i!=projectiles.end();)
         {
             Projectile* projectileP = *i;
-            if (projectileP->getPosition().at(1) >= 7)
+            if (projectileP->getPosition().at(1) >= 40)
             {
                 i = projectiles.erase(i);
             }
             else
             {
-                projectileP->moveY(0.3);
+                projectileP->moveY(0.5);
                 ++i;
             }
+        }
+
+        if (multipleOfSpeedBeforeCanShoot >= 20)
+        {
+            multipleOfSpeedBeforeCanShoot = 0;
+            canShoot = true;
+        }
+        else
+        {
+            multipleOfSpeedBeforeCanShoot++;
         }
     }
 
     glutPostRedisplay();    //calls display
 
     //wait before calling timer() again
-    glutTimerFunc(100, timer, 0);
+    glutTimerFunc(speed, timer, 0);
 
 }
 

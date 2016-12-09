@@ -46,6 +46,9 @@ GameState currentState = Menu;      //initially in start menu
 GUI userInfo = GUI();
 MainMenu mainMenu;                  //create mainMenu
 
+/* DEMO ENEMY SHIP - TOBEREMOVED */
+Enemy enemy = Enemy(0, 10, -25, 1);
+
 /* PLAYER SHIP */
 Player player = Player(0, -4, -25);
 Mesh playerMesh;
@@ -247,6 +250,7 @@ void setMeshes()
 
     //playerMesh = newMesh;
     player.SetMesh(playerMesh);
+    enemy.SetMesh(playerMesh);
 }
 
 void init(void)
@@ -353,6 +357,7 @@ void display(void)
         lookAt[2] = -10;
         gluLookAt(eye[0], eye[1], eye[2], lookAt[0], lookAt[1], lookAt[2], 0,1,0);
         player.drawShip();      //draw ship
+        enemy.drawShip();
         glDisable(GL_LIGHTING);
         userInfo.drawScoreAndHP(100);
         glEnable(GL_LIGHTING);

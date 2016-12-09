@@ -10,10 +10,9 @@ Thien Trandinh / trandit / 001420634
 #include "Enemy.h"
 
 //constructor for enemy; requires an initial position
-Enemy::Enemy(float x, float y, float z, int Row, int Column) : GameObject(x,y,z)
+Enemy::Enemy(float x, float y, float z, int Row) : GameObject(x,y,z)
 {
 	row = Row;
-	column = Column;
 }
 
 void Enemy::setSpeed(float Speed){
@@ -40,6 +39,25 @@ int Enemy::getRow(){
 	return row;
 }
 
-int Enemy::getColumn(){
-	return column;
+bool Enemy::shouldShoot(int range){
+  srand (time(NULL));
+  int randomInt = rand() % range + 1;
+  if(randomInt==1){
+  	return true;
+  }else{
+  	return false;
+  }
+}
+
+void Enemy::drawShip(){
+	glPushMatrix();
+            glTranslatef(position[0], position[1], position[2]);
+            	glPushMatrix();
+            		glScalef(0.15f, 0.15f, 0.15f);
+            		glPushMatrix();
+            			glRotatef(180, 0, 1, 1);
+            			mesh.Draw();
+            		glPopMatrix();
+            	glPopMatrix();   
+    glPopMatrix();
 }

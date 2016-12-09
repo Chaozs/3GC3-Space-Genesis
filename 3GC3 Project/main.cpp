@@ -33,6 +33,8 @@ Thien Trandinh / trandit / 001420634
 #include "GUI.h"
 #include "Mesh.h"
 #include "Vector3.h"
+#include "Gameobject.h"
+
 
 /* CAMERA */
 float eye[] = {0, -5, 0};           //initial camera location
@@ -50,6 +52,17 @@ MainMenu mainMenu;                  //create mainMenu
 /* LIGHTING */
 float light0Pos[] = {-5, 3, 0, 1};  //initial light0 position
 float light1Pos[] = {5, 3, 0, 1};   //initial light1 positon
+
+Mesh playerMesh;
+
+void SetMeshes()
+{
+    //Mesh newMesh;
+    playerMesh.LoadOBJ("PlayerShip.obj");
+
+    //playerMesh = newMesh;
+    player.SetMesh(playerMesh);
+}
 
 
 void keyboard(unsigned char key, int x, int y)
@@ -236,7 +249,7 @@ void init(void)
     glEnable(GL_DEPTH_TEST);    //enables z buffer
 
     //enable backface culling
-    glFrontFace(GL_CW);
+    glFrontFace(GL_CCW);
     glCullFace(GL_BACK);
     glEnable(GL_CULL_FACE);
 
@@ -256,7 +269,9 @@ void display(void)
     switch(currentState)
     {
     case Menu:
+        glFrontFace(GL_CW);
         mainMenu.drawMenu();
+        glFrontFace(GL_CCW);
         break;
     case Playing:
         eye[0] = 0;
@@ -284,6 +299,7 @@ void display(void)
 //main method
 int main(int argc, char** argv)
 {
+    SetMeshes();
     glutInit(&argc, argv);              //starts up GLUT
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 

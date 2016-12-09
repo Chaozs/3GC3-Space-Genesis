@@ -28,7 +28,7 @@ vector<float> GameObject::getPosition()
     return vPosition;
 }
 
-void GameObject::setMesh(Mesh& m)
+void GameObject::SetMesh(Mesh& m)
 {
     mesh = m;
 }

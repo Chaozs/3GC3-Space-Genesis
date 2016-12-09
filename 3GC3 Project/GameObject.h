@@ -38,7 +38,7 @@ public:
     void moveX(float);                  //moves object's X position; positive float = increases X position & vice versa
     void moveY(float);                  //moves object's Y position; positive float = increases Y position & vice versa
     void moveZ(float);                  //moves object's Z position; positive float = increases Z position & vice versa
-    void setMesh(Mesh& m);
+    void SetMesh(Mesh& m);
     Mesh getMesh();
 
 protected:

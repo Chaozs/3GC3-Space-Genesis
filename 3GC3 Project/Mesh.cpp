@@ -1,6 +1,5 @@
 /*
 3GC3 Final Project - Space Genesis
-
 David Hobson / hobsondd / 001412317
 Jack Snopek / snopekjt / 001408851
 Susan Yuen / yuens2 / 001416198
@@ -38,13 +37,13 @@ void Mesh::LoadOBJ(const char * path)
         float input3;
         if ( strcmp( lineHeader, "v" ) == 0 )
         {
-            fscanf(file, "%f %f %f\n", &input1, &input2, &input2);
+            fscanf(file, "%f %f %f\n", &input1, &input2, &input3);
             Vector3 v = Vector3(input1, input2, input3);
             vertices.push_back(v);
         }
         else if ( strcmp( lineHeader, "vn" ) == 0 )
         {
-            fscanf(file, "%f %f %f\n", &input1, &input2, &input2);
+            fscanf(file, "%f %f %f\n", &input1, &input2, &input3);
             Vector3 v = Vector3(input1, input2, input3);
             normals.push_back(v);
         }
@@ -52,7 +51,7 @@ void Mesh::LoadOBJ(const char * path)
         else if ( strcmp( lineHeader, "f" ) == 0 )
         {
             int vertexIndex[3], uvIndex[3], normalIndex[3];
-            int matches = fscanf(file, "%d/%d/%d %d/%d/%d %d/%d/%d\n", &vertexIndex[0], &uvIndex[0], &normalIndex[0], &vertexIndex[1], &uvIndex[1], &normalIndex[1], &vertexIndex[2], &uvIndex[2], &normalIndex[2] );
+            int matches = fscanf(file, "%i/%i/%i %i/%i/%i %i/%i/%i\n", &vertexIndex[0], &uvIndex[0], &normalIndex[0], &vertexIndex[1], &uvIndex[1], &normalIndex[1], &vertexIndex[2], &uvIndex[2], &normalIndex[2]);
             if (matches != 9)
             {
                 printf("\n Get rid of the N-gons, moron.\n");
@@ -71,7 +70,6 @@ void Mesh::LoadOBJ(const char * path)
     }
     /*
       printf("%i\n", vIndex.size());
-
        for(int i = 0; i < vertices.size(); i++)
       {
           //if(i%3 == 0)
@@ -80,10 +78,8 @@ void Mesh::LoadOBJ(const char * path)
           //}
           printf("%f", vertices[i].x);
       }
-
       printf("\n");
       printf("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\n");
-
       for(int i = 0; i < vIndex.size(); i++)
       {
           if(i%3 == 0)
@@ -99,29 +95,28 @@ bool fired = false;
 
 void Mesh::Draw()
 {
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    glPolygonMode(GL_FRONT, GL_FILL);
+    glBegin(GL_TRIANGLES);
     int i = 0;
-    for(i = 0; i < vIndex.size();)
-    {
-        glBegin(GL_TRIANGLES);
-        //glNormal3f(normals[nIndex[i]].x, normals[nIndex[i]].y, normals[nIndex[i]].z);
-        //if(!fired){printf("%i - ", vIndex[i]);}
+    while(i < vIndex.size())
+    {        
+        glNormal3f(normals[nIndex[i]-1].x, normals[nIndex[i]-1].y, normals[nIndex[i]-1].z);
+        glVertex3f(vertices[vIndex[i]-1].x, vertices[vIndex[i]-1].y, vertices[vIndex[i]-1].z);      
+        i++;
+        glNormal3f(normals[nIndex[i]-1].x, normals[nIndex[i]-1].y, normals[nIndex[i]-1].z);
         glVertex3f(vertices[vIndex[i]-1].x, vertices[vIndex[i]-1].y, vertices[vIndex[i]-1].z);
         i++;
-        //if(!fired){printf("%i - ", vIndex[i]);}
+        glNormal3f(normals[nIndex[i]-1].x, normals[nIndex[i]-1].y, normals[nIndex[i]-1].z);
         glVertex3f(vertices[vIndex[i]-1].x, vertices[vIndex[i]-1].y, vertices[vIndex[i]-1].z);
         i++;
-        //if(!fired){printf("%i - ", vIndex[i]);}
-        glVertex3f(vertices[vIndex[i]-1].x, vertices[vIndex[i]-1].y, vertices[vIndex[i]-1].z);
-        i++;
-        glEnd();
-        //if(!fired){printf("\n");}
+        
     }
-    glBegin(GL_POINTS);
+    glEnd();
+    /*glBegin(GL_POINTS);
     for(int i = 0; i < vertices.size(); i++)
     {
         glVertex3f(vertices[i].x, vertices[i].y, vertices[i].z);
-    }
-    glEnd();
+    }*/
+    //glEnd();
     fired = true;
 }

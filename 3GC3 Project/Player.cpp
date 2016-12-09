@@ -9,8 +9,6 @@ Thien Trandinh / trandit / 001420634
 
 #include "Player.h"
 
-
-
 //constructor for player; requires an initial position
 Player::Player(float x, float y, float z) : GameObject(x, y, z)
 {
@@ -30,12 +28,8 @@ void Player::decreaseHp(int damage)
 
 void Player::drawShip()
 {
-    glPushMatrix();
-    glTranslatef(position[0], position[1], position[2]);
-
-    //*******************INSERT SHIP MODEL HERE
-    glutWireTeapot(1);
-    //*****************************************
-
-    glPopMatrix();
+	glPushMatrix();
+            glTranslatef(position[0], position[1], position[2]);
+            mesh.Draw();   
+        glPopMatrix();
 }

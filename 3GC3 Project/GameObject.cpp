@@ -10,12 +10,12 @@ Thien Trandinh / trandit / 001420634
 #include "GameObject.h"
 
 //constructor for game object; requires an initial position
-GameObject::GameObject(float positionX, float positionY, float positionZ)
+GameObject::GameObject(float x, float y, float z)
 {
     //sets initial position
-    position[0] = positionX;
-    position[1] = positionY;
-    position[2] = positionZ;
+    position[0] = x;
+    position[1] = y;
+    position[2] = z;
 }
 
 //returns object's position in the form of a vector

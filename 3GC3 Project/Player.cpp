@@ -9,11 +9,17 @@ Thien Trandinh / trandit / 001420634
 
 #include "Player.h"
 
+
+/*
 //constructor for player; requires an initial position
-Player::Player(float positionX, float positionY, float positionZ)
+Player::Player(float x, float y, float z)
 {
+    //sets initial position
+    position[0] = x;
+    position[1] = y;
+    position[2] = z;
     hp = 100;   //intially set hp of the player to 100
-}
+}*/
 
 int Player::getHp()
 {

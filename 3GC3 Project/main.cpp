@@ -29,6 +29,7 @@ Thien Trandinh / trandit / 001420634
 #include "Enemy.h"
 #include "Projectile.h"
 #include "Barrier.h"
+#include "GUI.h"
 
 float eye[] = {0,-5,0};        //initial camera location
 float lookAt[] = {0,0,-10};         //point camera is looking at
@@ -36,7 +37,9 @@ float unitPosition[] = {0,0,0};
 enum GameState { Menu, SelectDifficulty, InstructionMenu, Playing, Paused, GameOver };    //current game state enum
 enum ButtonType { Item1, Item2, Item3, Item4 };
 GameState currentState = Menu;  //initially in start menu
-//Player player = Player(1,1,1);
+Player player = Player(6, 3, -25);
+GUI userInfo = GUI();
+
 
 MainMenu mainMenu;              //create mainMenu
 
@@ -110,23 +113,22 @@ void special(int key, int x, int y){
         switch(key){
         
         case GLUT_KEY_UP:
-            unitPosition[1]++;
+            player.moveY(1);
             break;
 
         case GLUT_KEY_DOWN:
-            unitPosition[1]--;
+            player.moveY(-1);
             break;
 
         case GLUT_KEY_LEFT:
-            unitPosition[0]--;
+            player.moveX(-1);
             break;
 
         case GLUT_KEY_RIGHT:
-            unitPosition[0]++;
+            player.moveX(1);
             break;
-
-
         }
+
     } else if (currentState == SelectDifficulty){
         switch(key){
 
@@ -189,12 +191,8 @@ void display(void){
         lookAt[1] = 0;
         lookAt[2] = -10;
         gluLookAt(eye[0], eye[1], eye[2], lookAt[0], lookAt[1], lookAt[2], 0,1,0);
-        glPushMatrix();
-            glTranslatef(6, 3, -25);
-            glTranslatef(unitPosition[0], unitPosition[1], unitPosition[2]);
-            //cout << unitPosition[2] << ", " << unitPosition[1] << endl;
-            glutWireTeapot(1);
-        glPopMatrix();
+        player.drawShip();				//draw ship
+        userInfo.drawScoreAndHP(100);
         break;
 
     case SelectDifficulty:

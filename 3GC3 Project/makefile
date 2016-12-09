@@ -26,7 +26,7 @@ PROGRAM_NAME= SpaceGenesis
 run: $(PROGRAM_NAME)
 	./$(PROGRAM_NAME)$(EXEXT)
 
-$(PROGRAM_NAME): main.cpp MainMenu.cpp Player.cpp GameObject.cpp
+$(PROGRAM_NAME): main.cpp MainMenu.cpp GUI.cpp Player.cpp GameObject.cpp
 	$(CC) -o $@ $^ $(CFLAGS) $(LDFLAGS)
 
 clean:

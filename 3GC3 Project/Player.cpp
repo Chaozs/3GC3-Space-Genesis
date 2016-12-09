@@ -31,3 +31,14 @@ void Player::decreaseHp(int damage)
 {
     hp -= damage;
 }
+
+void Player::drawShip(){
+	glPushMatrix();
+            glTranslatef(position[0], position[1], position[2]);
+
+            //*******************INSERT SHIP MODEL HERE
+            glutWireTeapot(1);
+            //*****************************************
+        
+        glPopMatrix();
+}

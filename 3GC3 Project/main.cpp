@@ -23,6 +23,7 @@ Thien Trandinh / trandit / 001420634
 #include <math.h>
 #include <string>
 #include <iostream>
+#include <vector>
 
 #include "MainMenu.h"
 #include "Player.h"
@@ -42,7 +43,7 @@ float unitPosition[] = {0, 0, 0};
 enum GameState { Menu, SelectDifficulty, InstructionMenu, Playing, Paused, GameOver };  //current game state enum
 enum ButtonType { Item1, Item2, Item3, Item4 };
 GameState currentState = Menu;      //initially in start menu
-Player player = Player(6, 3, -25);
+Player player = Player(0, -5, -25);
 GUI userInfo = GUI();
 MainMenu mainMenu;                  //create mainMenu
 
@@ -127,20 +128,30 @@ void special(int key, int x, int y)
         {
 
         case GLUT_KEY_UP:
-            player.moveY(1);
+
             break;
 
         case GLUT_KEY_DOWN:
-            player.moveY(-1);
+
             break;
 
-        case GLUT_KEY_LEFT:
-            player.moveX(-1);
+        case GLUT_KEY_LEFT: {
+            vector<float> position = player.getPosition();
+            if (position[0]>-11)
+            {
+                player.moveX(-1);
+            }
             break;
+            }
 
-        case GLUT_KEY_RIGHT:
-            player.moveX(1);
+        case GLUT_KEY_RIGHT: {
+            vector<float> position2 = player.getPosition();
+            if (position2[0]<11)
+            {
+                player.moveX(1);
+            }
             break;
+            }
         }
 
     }

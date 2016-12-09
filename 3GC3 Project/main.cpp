@@ -30,6 +30,8 @@ Thien Trandinh / trandit / 001420634
 #include "Projectile.h"
 #include "Barrier.h"
 #include "GUI.h"
+#include "Mesh.h"
+#include "Vector3.h"
 
 float eye[] = {0,-5,0};        //initial camera location
 float lookAt[] = {0,0,-10};         //point camera is looking at

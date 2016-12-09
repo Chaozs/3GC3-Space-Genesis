@@ -22,6 +22,9 @@ Thien Trandinh / trandit / 001420634
 
 #include <vector>
 
+#include "Mesh.h"
+#include "Vector3.h"
+
 using namespace std;
 
 //TODO: *hold mesh of object (+getter/setter for mesh)
@@ -36,7 +39,8 @@ class GameObject
         void moveX(float);                  //moves object's X position; positive float = increases X position & vice versa
         void moveY(float);                  //moves object's Y position; positive float = increases Y position & vice versa
         void moveZ(float);                  //moves object's Z position; positive float = increases Z position & vice versa
-
+        Mesh mesh;
+        void SetMesh(Mesh& m);
     protected:
         float position[3];                   //position of object
 };

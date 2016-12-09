@@ -10,16 +10,12 @@ Thien Trandinh / trandit / 001420634
 #include "Player.h"
 
 
-/*
+
 //constructor for player; requires an initial position
-Player::Player(float x, float y, float z)
+Player::Player(float x, float y, float z) : GameObject(x, y, z)
 {
-    //sets initial position
-    position[0] = x;
-    position[1] = y;
-    position[2] = z;
     hp = 100;   //intially set hp of the player to 100
-}*/
+}
 
 int Player::getHp()
 {
@@ -32,13 +28,14 @@ void Player::decreaseHp(int damage)
     hp -= damage;
 }
 
-void Player::drawShip(){
-	glPushMatrix();
-            glTranslatef(position[0], position[1], position[2]);
+void Player::drawShip()
+{
+    glPushMatrix();
+    glTranslatef(position[0], position[1], position[2]);
 
-            //*******************INSERT SHIP MODEL HERE
-            glutWireTeapot(1);
-            //*****************************************
-        
-        glPopMatrix();
+    //*******************INSERT SHIP MODEL HERE
+    glutWireTeapot(1);
+    //*****************************************
+
+    glPopMatrix();
 }

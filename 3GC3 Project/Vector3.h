@@ -9,7 +9,7 @@ Thien Trandinh / trandit / 001420634
 
 #ifndef __VECTOR3_H__
 #define __VECTOR3_H__
-/*
+
 #ifdef __APPLE__
 #  include <OpenGL/gl.h>
 #  include <OpenGL/glu.h>
@@ -20,22 +20,15 @@ Thien Trandinh / trandit / 001420634
 #  include <GL/freeglut.h>
 #endif
 
-#include <vector>*/
-
 using namespace std;
-
-//TODO: *hold mesh of object (+getter/setter for mesh)
-//      *detect collision
 
 class Vector3
 {
-    public:
-        float x;
-        float y;
-        float z;
-        Vector3(float, float, float);  
-    private:
-        float position[3];                   //position of object
+public:
+    float x;
+    float y;
+    float z;
+    Vector3(float, float, float);
 };
 
 #endif

@@ -33,24 +33,30 @@ Thien Trandinh / trandit / 001420634
 #include "Mesh.h"
 #include "Vector3.h"
 
-float eye[] = {0,-5,0};        //initial camera location
-float lookAt[] = {0,0,-10};         //point camera is looking at
-float unitPosition[] = {0,0,0};
-enum GameState { Menu, SelectDifficulty, InstructionMenu, Playing, Paused, GameOver };    //current game state enum
+/* CAMERA */
+float eye[] = {0, -5, 0};           //initial camera location
+float lookAt[] = {0, 0, -10};       //point camera is looking at
+
+/* GAME STATE */
+float unitPosition[] = {0, 0, 0};
+enum GameState { Menu, SelectDifficulty, InstructionMenu, Playing, Paused, GameOver };  //current game state enum
 enum ButtonType { Item1, Item2, Item3, Item4 };
-GameState currentState = Menu;  //initially in start menu
+GameState currentState = Menu;      //initially in start menu
 Player player = Player(6, 3, -25);
 GUI userInfo = GUI();
+MainMenu mainMenu;                  //create mainMenu
+
 /* LIGHTING */
-float light0Pos[] = {-5, 3, 0, 1};      //initial light0 position
-float light1Pos[] = {5, 3, 0, 1};       //initial light1 positon
+float light0Pos[] = {-5, 3, 0, 1};  //initial light0 position
+float light1Pos[] = {5, 3, 0, 1};   //initial light1 positon
 
-MainMenu mainMenu;              //create mainMenu
 
-void keyboard(unsigned char key, int x, int y){
+void keyboard(unsigned char key, int x, int y)
+{
 
     //***********************************Main Menu Navigiation***********************************
-    if(currentState == Menu){
+    if(currentState == Menu)
+    {
         switch (key)
         {
         case 13:        //if enter key pressed, check which button is currently highlighted
@@ -65,19 +71,21 @@ void keyboard(unsigned char key, int x, int y){
             case Item3:
                 //TODO
                 break;
-            case Item4:  //if exit is currently highlighted, exit game
+            case Item4: //if exit is currently highlighted, exit game
                 exit (0);
                 break;
             }
             break;
         }
-    }else if(currentState == SelectDifficulty){
+    }
+    else if(currentState == SelectDifficulty)
+    {
         switch (key)
         {
         case 13:        //if enter key pressed, check which button is currently highlighted
             switch(mainMenu.getCurrentButton())
             {
-            case Item1: 
+            case Item1:
                 //TODO
                 break;
             case Item2:
@@ -86,7 +94,7 @@ void keyboard(unsigned char key, int x, int y){
             case Item3:
                 //TODO
                 break;
-            case Item4:  //if return clicked, return to main menu
+            case Item4: //if return clicked, return to main menu
                 currentState = Menu;
                 break;
             }
@@ -94,16 +102,15 @@ void keyboard(unsigned char key, int x, int y){
         }
     }
 
-
-
     glutPostRedisplay();    //call display again after keyboard input
 }
 
-void special(int key, int x, int y){
-
-
-    if(currentState == Menu){
-        switch(key){
+void special(int key, int x, int y)
+{
+    if(currentState == Menu)
+    {
+        switch(key)
+        {
 
         case GLUT_KEY_UP:
             mainMenu.goUp();        //scroll up menu
@@ -113,9 +120,12 @@ void special(int key, int x, int y){
             break;
         }
 
-    } else if (currentState == Playing){
-        switch(key){
-        
+    }
+    else if (currentState == Playing)
+    {
+        switch(key)
+        {
+
         case GLUT_KEY_UP:
             player.moveY(1);
             break;
@@ -133,8 +143,11 @@ void special(int key, int x, int y){
             break;
         }
 
-    } else if (currentState == SelectDifficulty){
-        switch(key){
+    }
+    else if (currentState == SelectDifficulty)
+    {
+        switch(key)
+        {
 
         case GLUT_KEY_UP:
             mainMenu.goUp();        //scroll up menu
@@ -146,22 +159,19 @@ void special(int key, int x, int y){
 
     }
 
-
-
-
     glutPostRedisplay();
 }
 
 
 void reshape(int w, int h)
 {
- //Windoresizing stuff
- glMatrixMode(GL_PROJECTION);
- glLoadIdentity();
- gluPerspective(60, (float)((w + 0.0f) / h), 1, 1000);
+    //Windoresizing stuff
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    gluPerspective(60, (float)((w + 0.0f) / h), 1, 1000);
 
- glMatrixMode(GL_MODELVIEW);
- glViewport(0, 0, w, h);
+    glMatrixMode(GL_MODELVIEW);
+    glViewport(0, 0, w, h);
 }
 
 /* Adds lights to the scene */
@@ -200,11 +210,11 @@ void addLights()
     glPopMatrix();
 }
 
-
-
-void init(void){
+void init(void)
+{
     glClearColor(0, 0, 0, 0);       //black background
     glEnable(GL_COLOR_MATERIAL);    //enable colour material
+
     //enable lighting
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
@@ -213,6 +223,7 @@ void init(void){
     glLoadIdentity();
     gluPerspective(45, 1, 1, 1000);
     glEnable(GL_DEPTH_TEST);    //enables z buffer
+
     //enable backface culling
     glFrontFace(GL_CW);
     glCullFace(GL_BACK);
@@ -223,11 +234,12 @@ void init(void){
 }
 
 //display method to be recalled upon any changes
-void display(void){
+void display(void)
+{
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    addLights();            //add lights
+    addLights();        //add lights
 
     //displays accordingly to what game state
     switch(currentState)
@@ -257,7 +269,8 @@ void display(void){
 
 
 //main method
-int main(int argc, char** argv){
+int main(int argc, char** argv)
+{
     glutInit(&argc, argv);              //starts up GLUT
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 

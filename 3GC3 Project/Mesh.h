@@ -28,24 +28,20 @@ Thien Trandinh / trandit / 001420634
 
 using namespace std;
 
-//TODO: *hold mesh of object (+getter/setter for mesh)
-//      *detect collision
-
-
-
 class Mesh
 {
-    public:
-        //Vertices
-        std::vector<Vector3> vertices;
-        std::vector<int> vIndex;
-        std::vector<Vector3> normals;
-        std::vector<int> nIndex;
-        std::vector<Vector3> uvs;
-        //Faces
-        void LoadOBJ(const char * path);
-        void Draw();
-        Mesh();
+public:
+    //Vertices
+    std::vector<Vector3> vertices;
+    std::vector<int> vIndex;
+    std::vector<Vector3> normals;
+    std::vector<int> nIndex;
+    std::vector<Vector3> uvs;
+
+    //Faces
+    void LoadOBJ(const char * path);
+    void Draw();
+    Mesh();
 };
 
 #endif

@@ -26,13 +26,14 @@ using namespace std;
 
 class Player : public GameObject
 {
-    public:
-        Player(float x, float y, float z) : GameObject(x, y, z){hp = 100;}    //constructor for player; requires an initial position
-        int getHp();                    //returns hp of the player
-        void decreaseHp(int);           //decreases the hp of the player by the specified amount
-        void drawShip();				//draw the player ship
-    private:
-        int hp;                         //hp of the player
+public:
+    Player(float, float, float);    //constructor for player; requires an initial position
+    int getHp();                    //returns hp of the player
+    void decreaseHp(int);           //decreases the hp of the player by the specified amount
+    void drawShip();				//draw the player ship
+
+private:
+    int hp;                         //hp of the player
 };
 
 #endif

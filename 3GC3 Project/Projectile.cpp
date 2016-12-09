@@ -10,6 +10,6 @@ Thien Trandinh / trandit / 001420634
 #include "Projectile.h"
 
 //constructor for projectile; requires an initial position
-Projectile::Projectile(float positionX, float positionY, float positionZ)
+Projectile::Projectile(float positionX, float positionY, float positionZ) : GameObject(positionX, positionY, positionZ)
 {
 }

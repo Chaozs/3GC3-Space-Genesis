@@ -32,17 +32,18 @@ using namespace std;
 
 class GameObject
 {
-    public:
-        GameObject(float, float, float);   //constructor for game object; requires an initial position
-        //GameObject();
-        vector<float> getPosition();        //returns object's position
-        void moveX(float);                  //moves object's X position; positive float = increases X position & vice versa
-        void moveY(float);                  //moves object's Y position; positive float = increases Y position & vice versa
-        void moveZ(float);                  //moves object's Z position; positive float = increases Z position & vice versa
-        Mesh mesh;
-        void SetMesh(Mesh& m);
-    protected:
-        float position[3];                   //position of object
+public:
+    GameObject(float, float, float);    //constructor for game object; requires an initial position
+    vector<float> getPosition();        //returns object's position
+    void moveX(float);                  //moves object's X position; positive float = increases X position & vice versa
+    void moveY(float);                  //moves object's Y position; positive float = increases Y position & vice versa
+    void moveZ(float);                  //moves object's Z position; positive float = increases Z position & vice versa
+    void setMesh(Mesh& m);
+    Mesh getMesh();
+
+protected:
+    float position[3];                  //position of object
+    Mesh mesh;
 };
 
 #endif

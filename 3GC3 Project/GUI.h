@@ -25,15 +25,16 @@ Thien Trandinh / trandit / 001420634
 #include <math.h>
 #include <stdio.h>
 #include <iostream>
+
 class GUI
 {
 private:
-	int score;
+    int score;
 
 public:
-	GUI();
-	void incScoreBy(int);		//increase current score by input
-	void drawScoreAndHP(int);	//draws the score and HP given by input
+    GUI();
+    void incScoreBy(int);		//increase current score by input
+    void drawScoreAndHP(int);	//draws the score and HP given by input
 };
 
 #endif

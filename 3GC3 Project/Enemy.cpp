@@ -10,6 +10,6 @@ Thien Trandinh / trandit / 001420634
 #include "Enemy.h"
 
 //constructor for enemy; requires an initial position
-Enemy::Enemy(float positionX, float positionY, float positionZ)
+Enemy::Enemy(float positionX, float positionY, float positionZ) : GameObject(positionX, positionY, positionZ)
 {
 }

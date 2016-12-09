@@ -9,8 +9,6 @@ Thien Trandinh / trandit / 001420634
 
 #include "MainMenu.h"
 
-MainMenu::ButtonType currentHovering = MainMenu::Item1; //button that is hovered by default
-
 //constructor
 MainMenu::MainMenu()
 {
@@ -50,7 +48,8 @@ void MainMenu::drawMenu()
     }
 }
 
-void MainMenu::drawDifficulty(){
+void MainMenu::drawDifficulty()
+{
 
     switch(currentHovering)  //highlights the button currentHovering by redrawing box in slightly different colour
     {

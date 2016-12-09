@@ -28,9 +28,14 @@ vector<float> GameObject::getPosition()
     return vPosition;
 }
 
-void GameObject::SetMesh(Mesh& m)
+void GameObject::setMesh(Mesh& m)
 {
     mesh = m;
+}
+
+Mesh GameObject::getMesh()
+{
+    return mesh;
 }
 
 //moves object's X position by movement

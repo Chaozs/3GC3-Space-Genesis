@@ -26,13 +26,13 @@ using namespace std;
 
 class Barrier : public GameObject
 {
-    public:
-        Barrier(float, float, float);   //constructor for barrier; requires an initial position
-        int getHp();                    //returns hp of the barrier
-        void decreaseHp();              //decreases the barrier's hp by 1
+public:
+    Barrier(float, float, float);   //constructor for barrier; requires an initial position
+    int getHp();                    //returns hp of the barrier
+    void decreaseHp();              //decreases the barrier's hp by 1
 
-    private:
-        int hp;
+private:
+    int hp;
 };
 
 #endif

@@ -256,7 +256,9 @@ void display(void)
         lookAt[2] = -10;
         gluLookAt(eye[0], eye[1], eye[2], lookAt[0], lookAt[1], lookAt[2], 0,1,0);
         player.drawShip();				//draw ship
+        glDisable(GL_LIGHTING);
         userInfo.drawScoreAndHP(100);
+        glEnable(GL_LIGHTING);
         break;
 
     case SelectDifficulty:
@@ -283,7 +285,6 @@ int main(int argc, char** argv)
     glutKeyboardFunc(keyboard);
     glutSpecialFunc(special);
     glutReshapeFunc(reshape);
-
 
     glEnable(GL_DEPTH_TEST);
     init();

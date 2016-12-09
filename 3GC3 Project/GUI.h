@@ -28,13 +28,13 @@ Thien Trandinh / trandit / 001420634
 
 class GUI
 {
-private:
-    int score;
-
 public:
     GUI();
     void incScoreBy(int);		//increase current score by input
     void drawScoreAndHP(int);	//draws the score and HP given by input
+
+private:
+    int score;
 };
 
 #endif

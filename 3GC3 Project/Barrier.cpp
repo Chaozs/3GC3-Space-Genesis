@@ -27,5 +27,8 @@ void Barrier::decreaseHp()
 }
 
 void Barrier::drawBarrier(){
-	glutSolidCube(1);
+	glPushMatrix();
+		glTranslatef(position[0], position[1], position[2]);
+		glutSolidCube(2);
+	glPopMatrix();
 }

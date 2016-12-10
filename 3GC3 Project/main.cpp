@@ -57,6 +57,11 @@ Mesh playerMesh;
 bool leftPressed = false;           //left arrow key is held down
 bool rightPressed = false;          //right arrow key is held down
 
+/* BARRIERS */
+Barrier barrier1 = Barrier(-10, 0, -25);
+Barrier barrier2 = Barrier(0, 0, -25);
+Barrier barrier3 = Barrier(10, 0, -25);
+
 /* PROJECTILES */
 list<Projectile*> projectiles;      //list of all player projectiles currently on screen
 list<Projectile*> enemyProjectiles; //list of all enemy projectiles currently on screen
@@ -398,6 +403,9 @@ void display(void)
         lookAt[2] = -10;
         gluLookAt(eye[0], eye[1], eye[2], lookAt[0], lookAt[1], lookAt[2], 0,1,0);
         player.drawShip();      //draw ship
+        barrier1.drawBarrier();
+        barrier2.drawBarrier();
+        barrier3.drawBarrier();
         glDisable(GL_LIGHTING);
         userInfo.drawScoreAndHP(100);
         glEnable(GL_LIGHTING);

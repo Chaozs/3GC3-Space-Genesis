@@ -24,17 +24,18 @@ Thien Trandinh / trandit / 001420634
 
 using namespace std;
 
+//barrier class
 class Barrier : public GameObject
 {
 public:
     Barrier(float, float, float);   //constructor for barrier; requires an initial position
     int getHp();                    //returns hp of the barrier
     void decreaseHp();              //decreases the barrier's hp by 1
-    void drawBarrier();
+    void drawBarrier();				//draws barrier
     bool isHit(float, float, float);    //whether or not the given coordinates is within barrier's hit box
 
 private:
-    int hp;
+    int hp;							//the current hp of barrier
     bool isDead;                    //whether or not barrier is inactive
 };
 

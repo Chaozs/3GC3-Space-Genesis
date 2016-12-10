@@ -33,7 +33,7 @@ class MainMenu
 public:
     MainMenu();                     //constructor
     void drawMenu();                //draw all buttons and text
-    void drawDifficulty();
+    void drawDifficulty();          //draws the difficulty menu
     enum ButtonType { Item1, Item2, Item3, Item4 }; //enum for button types
     void goDown();                  //cycle down buttons
     void goUp();                    //cycle up buttons

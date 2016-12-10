@@ -13,40 +13,34 @@ Thien Trandinh / trandit / 001420634
 //constructor for enemy; requires an initial position
 Enemy::Enemy(float x, float y, float z, int Row) : GameObject(x,y,z)
 {
-    row = Row;
     setAlive(true);
 }
 
-void Enemy::setSpeed(float Speed)
-{
-    speed = Speed;
-}
-
+//set whether enemy is currently alive
 void Enemy::setAlive(bool IsAlive)
 {
     isAlive = IsAlive;
 }
-
+    
+//get whether enemy is currently alive
 bool Enemy::getAlive()
 {
     return isAlive;
 }
 
+//set unit to be bottom (only bottom enemy unit can shoot)
 void Enemy::setBottomTrue()
 {
     isBottom=true;
 }
 
+//gets if unit is bottom
 bool Enemy::isBottomTrue()
 {
     return isBottom;
 }
 
-int Enemy::getRow()
-{
-    return row;
-}
-
+//method that uses random to determine if unit should shoot
 bool Enemy::shouldShoot(int range)
 {
     if(!isAlive){
@@ -66,6 +60,7 @@ bool Enemy::shouldShoot(int range)
     }
 }
 
+//draws ship
 void Enemy::drawShip()
 {
     if(isAlive){
@@ -82,36 +77,31 @@ void Enemy::drawShip()
     }
 }
 
+//get counter for tracking if enemy can shoot again
 int Enemy::getMultipleOfSpeedBeforeCanShoot()
 {
     return multipleOfSpeedBeforeCanShoot;
 }
 
+//set counter for tracking if enemy can shoot again
 void Enemy::setMultipleOfSpeedBeforeCanShoot(int multiple)
 {
     multipleOfSpeedBeforeCanShoot = multiple;
 }
 
+//hit detection for if enemy was hit by projectile
 bool Enemy::isHit(float x, float y, float z)
 {
     if(!isAlive){
         return false;
     }
-
     if (position[0] < x-0.5 || position[0] > x+0.5)
     {
         return false;
     }
-
     if (position[1] < y-1 || position[1] > y+1)
     {
         return false;
     }
-
-//    if (position[2] < z-1 || position[0] > z+1)
-//    {
-//        return false;
-//    }
-
     return true;
 }

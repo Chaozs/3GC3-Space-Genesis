@@ -26,6 +26,7 @@ void Player::decreaseHp(int damage)
     hp -= damage;
 }
 
+//draw player ship
 void Player::drawShip()
 {
 	glPushMatrix();
@@ -40,6 +41,7 @@ void Player::drawShip()
     glPopMatrix();
 }
 
+//checks if player is hit
 bool Player::isHit(float x, float y, float z)
 {
     if (position[0] < x-0.8 || position[0] > x+0.8)
@@ -51,6 +53,5 @@ bool Player::isHit(float x, float y, float z)
     {
         return false;
     }
-
     return true;
 }

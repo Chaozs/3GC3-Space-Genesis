@@ -27,6 +27,7 @@ Thien Trandinh / trandit / 001420634
 #include <iostream>
 #include <string> 
 
+//this class prints out the player score and HP
 class GUI
 {
 public:
@@ -35,7 +36,7 @@ public:
     void drawScoreAndHP(int);	//draws the score and HP given by input
 
 private:
-    int score;
+    int score;					//the current score
 };
 
 #endif

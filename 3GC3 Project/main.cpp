@@ -53,9 +53,9 @@ vector<Enemy*> enemyRow3;
 vector<Enemy*> enemyRow4;
 vector<Enemy*> enemyRow5;
 
-float enemyMovement =0.06f;
-float enemyDifficulty = -0.0015;
-int indexCounter=0;
+float enemyMovement =0.06f; //enemy x movement speed
+float enemyDifficulty = -0.0015; //enemy downwards movement speed
+int indexCounter=0; 
 
 /* PLAYER SHIP */
 Player player = Player(0, -4, -25);
@@ -115,13 +115,13 @@ void keyboard(unsigned char key, int x, int y)
         case 13:        //if enter key pressed, check which button is currently highlighted
             switch(mainMenu.getCurrentButton())
             {
-            case Item1:
+            case Item1: //easy difficulty
                 enemyDifficulty = -0.001;
                 break;
-            case Item2:
+            case Item2: //medium difficulty
                 enemyDifficulty = -0.0015;
                 break;
-            case Item3:
+            case Item3: //hard difficulty
                 enemyDifficulty = -0.002;
                 break;
             case Item4: //if return clicked, return to main menu
@@ -208,6 +208,7 @@ void specialUp(int key, int x, int y)
     }
 }
 
+//reshape for accounting for window size
 void reshape(int w, int h)
 {
     //Windoresizing stuff
@@ -255,6 +256,7 @@ void addLights()
     glPopMatrix();
 }
 
+//store meshes into each object
 void setMeshes()
 {
     //Mesh newMesh;
@@ -292,6 +294,7 @@ void setMeshes()
 
 }
 
+//initialize enemies
 void setEnemies()
 {
     float xIncrement = 1.4f;
@@ -327,6 +330,7 @@ void setEnemies()
     }
 }
 
+//initialize barriers
 void setBarriers()
 {
     //Big barrier 1
@@ -431,6 +435,7 @@ void setBarriers()
     barriers.push_back(barrier);
 }
 
+//initialize
 void init(void)
 {
     setEnemies();
@@ -458,6 +463,7 @@ void init(void)
     gluLookAt(eye[0], eye[1], eye[2], lookAt[0], lookAt[1], lookAt[2], 0,1,0);
 }
 
+//for updating which enemy unit is bottom for row 2
 void updateRow2(int i){
 	if((enemyRow5.at(i) -> getAlive()==false) &&
 		(enemyRow4.at(i) -> getAlive() == false) &&
@@ -466,6 +472,7 @@ void updateRow2(int i){
 	}
 }
 
+//for updating which enemy unit is bottom for row 3
 void updateRow3(int i){
 	if((enemyRow5.at(i) -> getAlive()==false) &&
 		(enemyRow4.at(i) -> getAlive() == false)){
@@ -477,6 +484,7 @@ void updateRow3(int i){
 	}
 }
 
+//for updating which enemy unit is bottom for row 4
 void updateRow4(int i){
 	if(enemyRow5.at(i) -> getAlive()==false){
 		if(enemyRow3.at(i)->getAlive()){
@@ -489,6 +497,7 @@ void updateRow4(int i){
 	}
 }
 
+//for updating which enemy unit is bottom for row 5
 void updateRow5(int i){
 	if(enemyRow4.at(i)->getAlive()){
 		enemyRow4.at(indexCounter)->setBottomTrue(); 
@@ -501,9 +510,7 @@ void updateRow5(int i){
 	} 
 }
 
-
-
-
+//timer for gameloop
 void timer(int value)
 {
     switch(currentState)

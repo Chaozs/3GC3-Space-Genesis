@@ -30,23 +30,19 @@ class Enemy : public GameObject
 {
 public:
     Enemy(float, float, float, int);    //constructor for enemy; requires an initial position
-    void setSpeed(float);
-    void setAlive(bool);
-    bool getAlive();
-    void setBottomTrue();
-    bool isBottomTrue();
-    int getRow();
-    bool shouldShoot(int);
-    void drawShip();
-    int getMultipleOfSpeedBeforeCanShoot();
-    void setMultipleOfSpeedBeforeCanShoot(int);
+    void setAlive(bool);                //set enemy to alive or dead
+    bool getAlive();                    //gets if enemy is alive or dead
+    void setBottomTrue();               //sets enemy to being bottom unit
+    bool isBottomTrue();                //gets if enemy is bottom unit
+    bool shouldShoot(int);              //uses random to check if enemy should shoot
+    void drawShip();                    //draws ship
+    int getMultipleOfSpeedBeforeCanShoot();     //gets tracker for if enemy can shoot again
+    void setMultipleOfSpeedBeforeCanShoot(int); //sets tracker for if enemy can shoot again
     bool isHit(float, float, float);    //whether or not the given coordinates is within enemy's hit box
 
 private:
-    int row;
-    float speed;
-    bool isAlive;
-    bool isBottom = false;
+    bool isAlive;                       //whether the enemy unit is alive
+    bool isBottom = false;              //whether or not unit is the bottom one
     int multipleOfSpeedBeforeCanShoot = 0;  //when reaches 5, enemy can shoot projectile again; increases by 1 upon every timer() call
 };
 

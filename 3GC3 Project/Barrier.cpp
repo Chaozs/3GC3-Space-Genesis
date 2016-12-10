@@ -12,10 +12,11 @@ Thien Trandinh / trandit / 001420634
 //constructor for barrier; requires an initial position
 Barrier::Barrier(float positionX, float positionY, float positionZ) : GameObject(positionX, positionY, positionZ)
 {
-    hp = 2;     //intially set hp of barrier to max hp (which is 4)
+    hp = 2;     //intially set hp of barrier to max hp (which is 2)
     isDead = false;
 }
 
+//return current barrier HP
 int Barrier::getHp()
 {
     return hp;
@@ -32,6 +33,7 @@ void Barrier::decreaseHp()
     }
 }
 
+//draw barrier
 void Barrier::drawBarrier()
 {
     if (!isDead)
@@ -46,6 +48,7 @@ void Barrier::drawBarrier()
     }
 }
 
+//check if barrier was hit
 bool Barrier::isHit(float x, float y, float z)
 {
     if (isDead)
@@ -62,6 +65,5 @@ bool Barrier::isHit(float x, float y, float z)
     {
         return false;
     }
-
     return true;
 }

@@ -9,11 +9,12 @@ Thien Trandinh / trandit / 001420634
 
 #include "MainMenu.h"
 
-//constructor
+//empty constructor
 MainMenu::MainMenu()
 {
 }
 
+//draws the main menu
 void MainMenu::drawMenu()
 {
 
@@ -48,6 +49,7 @@ void MainMenu::drawMenu()
     }
 }
 
+//draws the difficulty menu
 void MainMenu::drawDifficulty()
 {
 

@@ -16,6 +16,7 @@ Projectile::Projectile(float x, float y, float z) : GameObject(x, y, z)
 {
 }
 
+//draw projectile
 void Projectile::draw()
 {
     glPushMatrix();

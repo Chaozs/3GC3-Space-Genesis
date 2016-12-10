@@ -28,11 +28,13 @@ vector<float> GameObject::getPosition()
     return vPosition;
 }
 
+//load mesh into gameObject
 void GameObject::SetMesh(Mesh& m)
 {
     mesh = m;
 }
 
+//get mesh from gameObject
 Mesh GameObject::getMesh()
 {
     return mesh;
@@ -56,6 +58,7 @@ void GameObject::moveZ(float movement)
     position[2] += movement;
 }
 
+//get x position of object
 float GameObject::getX(){
     return position[0];
 }

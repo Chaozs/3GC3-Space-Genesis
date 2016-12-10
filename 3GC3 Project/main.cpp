@@ -560,7 +560,6 @@ void bindTextures()
 
 void resetGame()
 {
-    bindTextures();
     player = Player(0, -4, -25);
     enemyRow1.clear();
     enemyRow2.clear();
@@ -577,7 +576,6 @@ void resetGame()
     multipleOfSpeedBeforeCanShoot = 0;
     setEnemies();
     setBarriers();
-    glBindTexture(GL_TEXTURE_2D, 0);
     userInfo = GUI();
     glutPostRedisplay();
 }
@@ -1028,15 +1026,19 @@ void display(void)
         glFrontFace(GL_CCW);
         break;
     case Playing:
-    	//enable lighting
-	    glEnable(GL_LIGHTING);
-	    glEnable(GL_LIGHT0);
-	    glEnable(GL_LIGHT1);
+        //enable lighting
+        glEnable(GL_LIGHTING);
+        glEnable(GL_LIGHT0);
+        glEnable(GL_LIGHT1);
 
-	    if(gamePaused){
+        if(gamePaused)
+        {
+            glDisable(GL_LIGHTING);
             glBindTexture(GL_TEXTURE_2D, 0);
-	    	userInfo.drawPause();
-	    }
+            userInfo.drawPause();
+            glEnable(GL_LIGHTING);
+            glBindTexture(GL_TEXTURE_2D, myTex[0]);
+        }
         eye[0] = 0;
         eye[1] = -5;
         eye[2] = 0;
@@ -1046,12 +1048,13 @@ void display(void)
 
         gluLookAt(eye[0], eye[1], eye[2], lookAt[0], lookAt[1], lookAt[2], 0,1,0);
 
-        glBindTexture(GL_TEXTURE_2D, myTex[0]);
         player.drawShip(playerMesh);      //draw ship
         glDisable(GL_LIGHTING);
+        glBindTexture(GL_TEXTURE_2D, 0);
         userInfo.drawScoreAndHP(player.getHp());
         userInfo.drawDifficulty(difficultyString);
         glEnable(GL_LIGHTING);
+        glBindTexture(GL_TEXTURE_2D, myTex[0]);
 
         for(list<Barrier*>::iterator i=barriers.begin(); i!=barriers.end(); ++i)
         {
@@ -1106,7 +1109,6 @@ void display(void)
         for(list<Projectile*>::iterator i=enemyProjectiles.begin(); i!=enemyProjectiles.end(); ++i)
         {
             Projectile* projectileP = *i;
-            /// glColor3f(0.7, 0.7, 0.7);
             projectileP->draw();
         }
         break;
@@ -1136,13 +1138,13 @@ void display(void)
         break;
     }
     case GameOver:
-    	glDisable(GL_LIGHTING);
+        glDisable(GL_LIGHTING);
         glFrontFace(GL_CW);
         mainMenu.drawGameOver();
         glFrontFace(GL_CCW);
         break;
     case Win:
-    	glDisable(GL_LIGHTING);
+        glDisable(GL_LIGHTING);
         glFrontFace(GL_CW);
         mainMenu.drawWin();
         glFrontFace(GL_CCW);

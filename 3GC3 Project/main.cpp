@@ -46,13 +46,7 @@ GameState currentState = Menu;      //initially in start menu
 GUI userInfo = GUI();
 MainMenu mainMenu;                  //create mainMenu
 
-/* DEMO ENEMY SHIP - TOBEREMOVED */
-// list<Enemy*> enemyRow1;
-// list<Enemy*> enemyRow2;
-// list<Enemy*> enemyRow3;
-// list<Enemy*> enemyRow4;
-// list<Enemy*> enemyRow5;
-
+/* ENEMY SHIP */
 vector<Enemy*> enemyRow1;
 vector<Enemy*> enemyRow2;
 vector<Enemy*> enemyRow3;
@@ -393,6 +387,52 @@ void init(void)
     gluLookAt(eye[0], eye[1], eye[2], lookAt[0], lookAt[1], lookAt[2], 0,1,0);
 }
 
+void updateRow2(int i){
+	if((enemyRow5.at(i) -> getAlive()==false) &&
+		(enemyRow4.at(i) -> getAlive() == false) &&
+		(enemyRow3.at(i) -> getAlive() == false)){
+		enemyRow1.at(i)->setBottomTrue(); 
+	}
+}
+
+void updateRow3(int i){
+	if((enemyRow5.at(i) -> getAlive()==false) &&
+		(enemyRow4.at(i) -> getAlive() == false)){
+		if(enemyRow2.at(i)->getAlive()){
+			enemyRow2.at(indexCounter)->setBottomTrue(); 
+		}else if(enemyRow1.at(i)->getAlive()){
+			enemyRow1.at(indexCounter)->setBottomTrue();
+		} 
+	}
+}
+
+void updateRow4(int i){
+	if(enemyRow5.at(i) -> getAlive()==false){
+		if(enemyRow3.at(i)->getAlive()){
+			enemyRow3.at(indexCounter)->setBottomTrue(); 
+		}else if(enemyRow2.at(i)->getAlive()){
+			enemyRow2.at(indexCounter)->setBottomTrue(); 
+		}else if(enemyRow1.at(i)->getAlive()){
+			enemyRow1.at(indexCounter)->setBottomTrue();
+		} 
+	}
+}
+
+void updateRow5(int i){
+	if(enemyRow4.at(i)->getAlive()){
+		enemyRow4.at(indexCounter)->setBottomTrue(); 
+	}else if(enemyRow3.at(i)->getAlive()){
+		enemyRow3.at(indexCounter)->setBottomTrue(); 
+	}else if(enemyRow2.at(i)->getAlive()){
+		enemyRow2.at(indexCounter)->setBottomTrue(); 
+	}else if(enemyRow1.at(i)->getAlive()){
+		enemyRow1.at(indexCounter)->setBottomTrue();
+	} 
+}
+
+
+
+
 void timer(int value)
 {
     switch(currentState)
@@ -452,7 +492,7 @@ void timer(int value)
                     {
                         i = projectiles.erase(i);
                         enemy->setAlive(false);
-                        enemyRow1.at(indexCounter)->setBottomTrue(); 
+                        updateRow2(indexCounter);
                         indexCounter++;
                         ++j;
                         userInfo.incScoreBy(150);
@@ -475,7 +515,7 @@ void timer(int value)
                     {
                         i = projectiles.erase(i);
                         enemy->setAlive(false);
-                        enemyRow2.at(indexCounter)->setBottomTrue(); 
+                        updateRow3(indexCounter);
                         indexCounter++;
                         ++j;
                         userInfo.incScoreBy(150);
@@ -498,7 +538,7 @@ void timer(int value)
                     {
                         i = projectiles.erase(i);
                         enemy->setAlive(false);
-                        enemyRow3.at(indexCounter)->setBottomTrue(); 
+                        updateRow4(indexCounter);
                         indexCounter++;
                         ++j;
                         userInfo.incScoreBy(150);
@@ -521,7 +561,7 @@ void timer(int value)
                     {
                         i = projectiles.erase(i);
                         enemy->setAlive(false);
-                        enemyRow4.at(indexCounter)->setBottomTrue(); 
+                        updateRow5(indexCounter);
                         indexCounter++;
                         ++j;
                         userInfo.incScoreBy(150);

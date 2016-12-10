@@ -291,31 +291,36 @@ void setMeshes()
 
 void setEnemies()
 {
-	float xIncrement = 1.4f;
-	for(int i=0; i<11; i++){
-		Enemy* enemy = new Enemy(-7+xIncrement*i, 23, -25, 1);
-    	enemyRow1.push_back(enemy);
-	}
+    float xIncrement = 1.4f;
+    for(int i=0; i<11; i++)
+    {
+        Enemy* enemy = new Enemy(-7+xIncrement*i, 23, -25, 1);
+        enemyRow1.push_back(enemy);
+    }
 
-	for(int i=0; i<11; i++){
-		Enemy* enemy = new Enemy(-7+xIncrement*i, 20, -25, 1);
-    	enemyRow2.push_back(enemy);
-	}
+    for(int i=0; i<11; i++)
+    {
+        Enemy* enemy = new Enemy(-7+xIncrement*i, 20, -25, 1);
+        enemyRow2.push_back(enemy);
+    }
 
-	for(int i=0; i<11; i++){
-		Enemy* enemy = new Enemy(-7+xIncrement*i, 17, -25, 1);
-    	enemyRow3.push_back(enemy);
-	}
+    for(int i=0; i<11; i++)
+    {
+        Enemy* enemy = new Enemy(-7+xIncrement*i, 17, -25, 1);
+        enemyRow3.push_back(enemy);
+    }
 
-	for(int i=0; i<11; i++){
-		Enemy* enemy = new Enemy(-7+xIncrement*i, 14, -25, 1);
-    	enemyRow4.push_back(enemy);
-	}
+    for(int i=0; i<11; i++)
+    {
+        Enemy* enemy = new Enemy(-7+xIncrement*i, 14, -25, 1);
+        enemyRow4.push_back(enemy);
+    }
 
-	for(int i=0; i<11; i++){
-		Enemy* enemy = new Enemy(-7+xIncrement*i, 11, -25, 1);
-    	enemyRow5.push_back(enemy);
-	}
+    for(int i=0; i<11; i++)
+    {
+        Enemy* enemy = new Enemy(-7+xIncrement*i, 11, -25, 1);
+        enemyRow5.push_back(enemy);
+    }
 
 }
 

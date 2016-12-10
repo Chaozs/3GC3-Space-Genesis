@@ -46,6 +46,7 @@ GameState currentState = Menu;      //initially in start menu
 GUI userInfo = GUI();
 MainMenu mainMenu;                  //create mainMenu
 bool gamePaused = false;            //indicates whether or not game is currently paused
+std::string difficultyString = "Medium";
 
 /* ENEMY SHIP */
 vector<Enemy*> enemyRow1;
@@ -182,12 +183,18 @@ void keyboard(unsigned char key, int x, int y)
             {
             case Item1: //easy difficulty
                 enemyDifficulty = -0.001;
+                difficultyString = "Easy";
+                currentState = Menu;
                 break;
             case Item2: //medium difficulty
                 enemyDifficulty = -0.0015;
+                difficultyString = "Medium";
+                currentState = Menu;
                 break;
             case Item3: //hard difficulty
                 enemyDifficulty = -0.002;
+                difficultyString = "Hard";
+                currentState = Menu;
                 break;
             case Item4: //if return clicked, return to main menu
                 currentState = Menu;
@@ -1080,6 +1087,7 @@ void display(void)
         player.drawShip();      //draw ship
         glDisable(GL_LIGHTING);
         userInfo.drawScoreAndHP(player.getHp());
+        userInfo.drawDifficulty(difficultyString);
         glEnable(GL_LIGHTING);
 
         for(list<Barrier*>::iterator i=barriers.begin(); i!=barriers.end(); ++i)

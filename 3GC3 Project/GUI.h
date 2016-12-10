@@ -35,6 +35,7 @@ public:
     void incScoreBy(int);		//increase current score by input
     void drawScoreAndHP(int);	//draws the score and HP given by input
     void drawPause();
+    void drawDifficulty(std::string);
 
 private:
     int score;					//the current score

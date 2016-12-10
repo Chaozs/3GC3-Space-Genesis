@@ -53,6 +53,15 @@ void GUI::drawScoreAndHP(int HP)
     }
 }
 
+void GUI::drawDifficulty(std::string difficulty)
+{
+	glRasterPos3f(10, 30, -25);
+    for(int i=0; i<difficulty.size(); i++)
+    {
+        glutBitmapCharacter(GLUT_BITMAP_9_BY_15, difficulty[i]);
+    }
+}
+
 void GUI::drawPause()
 {
 	glRasterPos3f(-1, 10, -20);

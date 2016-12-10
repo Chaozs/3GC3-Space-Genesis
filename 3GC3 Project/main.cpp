@@ -39,12 +39,8 @@ float eye[] = {0, -5, 0};           //initial camera location
 float lookAt[] = {0, 0, -10};       //point camera is looking at
 
 /* GAME STATE */
-<<<<<<< Updated upstream
-enum GameState { Menu, SelectDifficulty, InstructionMenu, Playing, GameOver };  //current game state enum
-=======
 float unitPosition[] = {0, 0, 0};
 enum GameState { Menu, SelectDifficulty, InstructionMenu, Playing, Paused, GameOver, Win };  //current game state enum
->>>>>>> Stashed changes
 enum ButtonType { Item1, Item2, Item3, Item4 };
 GameState currentState = Menu;      //initially in start menu
 GUI userInfo = GUI();
@@ -324,6 +320,7 @@ void special(int key, int x, int y)
         case GLUT_KEY_DOWN:
             mainMenu.goDown();      //scroll down menu
             break;
+        }
            
     }
 
@@ -1012,11 +1009,12 @@ void timer(int value)
 
         if(player.getHp() == 0){
             currentState = GameOver;
-            player.setHp(100);
+            resetGame();
         }
 
         if(enemyCounter == 0 || barrierCounter == 0){
             currentState = Win;
+            resetGame();
         }
     }
     //wait before calling timer() again

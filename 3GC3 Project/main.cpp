@@ -111,25 +111,20 @@ GLubyte* LoadPPM(char* file, int* width, int* height, int* max)
     fscanf(fd,"%[^\n] ",b);
     if(b[0]!='P'|| b[1] != '3')
     {
-        printf("%s is not a PPM file!\n",file);
         exit(0);
     }
-    printf("%s is a PPM file\n", file);
     fscanf(fd, "%c",&c);
 
     /* next, skip past the comments - any line starting with #*/
     while(c == '#')
     {
         fscanf(fd, "%[^\n] ", b);
-        printf("%s\n",b);
         fscanf(fd, "%c",&c);
     }
     ungetc(c,fd);
 
     /* now get the dimensions and max colour value from the image */
     fscanf(fd, "%d %d %d", &n, &m, &k);
-
-    printf("%d rows  %d columns  max value= %d\n",n,m,k);
 
     /* calculate number of pixels and allocate storage for this */
     nm = n*m;
@@ -149,7 +144,6 @@ GLubyte* LoadPPM(char* file, int* width, int* height, int* max)
     *width = n;
     *height = m;
     *max = k;
-
 
     return img;
 }
@@ -263,7 +257,7 @@ void keyboard(unsigned char key, int x, int y)
     {
         switch (key)
         {
-        case 'b':
+        case 32:
             currentState = Menu;
             break;
 
@@ -1138,7 +1132,6 @@ void display(void)
         break;
     case InstructionMenu:
     {
-        cout << currentState << endl;
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
         gluOrtho2D(0, 800, 0, 800);
@@ -1149,7 +1142,7 @@ void display(void)
         glDrawPixels(width,height,GL_RGB, GL_UNSIGNED_BYTE, img_data);
 
         glRasterPos2i(205,150);
-        std::string ScoreLabel = "Select B to go back and resume your mission";
+        std::string ScoreLabel = "Press SPACE to go back and resume your mission.";
         for(int i=0; i<ScoreLabel.size(); i++)
         {
             glutBitmapCharacter(GLUT_BITMAP_9_BY_15, ScoreLabel[i]);

@@ -14,6 +14,7 @@ Thien Trandinh / trandit / 001420634
 Enemy::Enemy(float x, float y, float z, int Row) : GameObject(x,y,z)
 {
     row = Row;
+    setAlive(true);
 }
 
 void Enemy::setSpeed(float Speed)
@@ -48,6 +49,9 @@ int Enemy::getRow()
 
 bool Enemy::shouldShoot(int range)
 {
+    if(!isAlive){
+        return false;
+    }
     #define uniform() (rand()/(RAND_MAX + 1.0))
     int randomInt = (int) (uniform() * (range+1));
 
@@ -64,6 +68,7 @@ bool Enemy::shouldShoot(int range)
 
 void Enemy::drawShip()
 {
+    if(isAlive){
     glPushMatrix();
     glTranslatef(position[0], position[1], position[2]);
     glPushMatrix();
@@ -74,6 +79,7 @@ void Enemy::drawShip()
     glPopMatrix();
     glPopMatrix();
     glPopMatrix();
+    }
 }
 
 int Enemy::getMultipleOfSpeedBeforeCanShoot()
@@ -88,6 +94,10 @@ void Enemy::setMultipleOfSpeedBeforeCanShoot(int multiple)
 
 bool Enemy::isHit(float x, float y, float z)
 {
+    if(!isAlive){
+        return false;
+    }
+
     if (position[0] < x-0.5 || position[0] > x+0.5)
     {
         return false;

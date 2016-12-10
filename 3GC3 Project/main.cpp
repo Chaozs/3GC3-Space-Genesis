@@ -47,16 +47,25 @@ GUI userInfo = GUI();
 MainMenu mainMenu;                  //create mainMenu
 
 /* DEMO ENEMY SHIP - TOBEREMOVED */
-list<Enemy*> enemyRow1;
-list<Enemy*> enemyRow2;
-list<Enemy*> enemyRow3;
-list<Enemy*> enemyRow4;
-list<Enemy*> enemyRow5;
+// list<Enemy*> enemyRow1;
+// list<Enemy*> enemyRow2;
+// list<Enemy*> enemyRow3;
+// list<Enemy*> enemyRow4;
+// list<Enemy*> enemyRow5;
+
+vector<Enemy*> enemyRow1;
+vector<Enemy*> enemyRow2;
+vector<Enemy*> enemyRow3;
+vector<Enemy*> enemyRow4;
+vector<Enemy*> enemyRow5;
+
 float enemyMovement =0.06f;
 float enemyDifficulty = -0.0015;
+int indexCounter=0;
 
 /* PLAYER SHIP */
 Player player = Player(0, -4, -25);
+int score = 0;
 Mesh playerMesh;
 
 /* PLAYER CONTROLS */
@@ -263,27 +272,27 @@ void setMeshes()
     //playerMesh = newMesh;
     player.SetMesh(playerMesh);
 
-    for(list<Enemy*>::iterator i=enemyRow1.begin(); i!=enemyRow1.end(); ++i)
+    for(std::vector<Enemy*>::iterator i = enemyRow1.begin(); i != enemyRow1.end(); ++i) 
     {
         Enemy* enemy = *i;
         enemy->SetMesh(playerMesh);
     }
-    for(list<Enemy*>::iterator i=enemyRow2.begin(); i!=enemyRow2.end(); ++i)
+    for(std::vector<Enemy*>::iterator i = enemyRow2.begin(); i != enemyRow2.end(); ++i)
     {
         Enemy* enemy = *i;
         enemy->SetMesh(playerMesh);
     }
-    for(list<Enemy*>::iterator i=enemyRow3.begin(); i!=enemyRow3.end(); ++i)
+    for(std::vector<Enemy*>::iterator i = enemyRow3.begin(); i != enemyRow3.end(); ++i)
     {
         Enemy* enemy = *i;
         enemy->SetMesh(playerMesh);
     }
-    for(list<Enemy*>::iterator i=enemyRow4.begin(); i!=enemyRow4.end(); ++i)
+    for(std::vector<Enemy*>::iterator i = enemyRow4.begin(); i != enemyRow4.end(); ++i)
     {
         Enemy* enemy = *i;
         enemy->SetMesh(playerMesh);
     }
-    for(list<Enemy*>::iterator i=enemyRow5.begin(); i!=enemyRow5.end(); ++i)
+    for(std::vector<Enemy*>::iterator i = enemyRow5.begin(); i != enemyRow5.end(); ++i)
     {
         Enemy* enemy = *i;
         enemy->SetMesh(playerMesh);
@@ -408,8 +417,10 @@ void timer(int value)
                                      projectileP->getPosition().at(1),
                                      projectileP->getPosition().at(2)))
                     {
-                        j = enemyRow1.erase(j);
                         i = projectiles.erase(i);
+                        enemy->setAlive(false); 
+                        ++j;
+                        score = score + 150;
                     }
                     else
                     {
@@ -418,6 +429,7 @@ void timer(int value)
                 }
 
                 //check if projectile hits an enemy
+                indexCounter=0;
                 for(auto j=enemyRow2.begin(); j!=enemyRow2.end();)
                 {
                     Enemy* enemy = *j;
@@ -425,16 +437,22 @@ void timer(int value)
                                      projectileP->getPosition().at(1),
                                      projectileP->getPosition().at(2)))
                     {
-                        j = enemyRow2.erase(j);
                         i = projectiles.erase(i);
+                        enemy->setAlive(false);
+                        enemyRow1.at(indexCounter)->setBottomTrue(); 
+                        indexCounter++;
+                        ++j;
+                        score = score + 150;
                     }
                     else
                     {
+                    	indexCounter++;
                         ++j;
                     }
                 }
 
                 //check if projectile hits an enemy
+                indexCounter=0;
                 for(auto j=enemyRow3.begin(); j!=enemyRow3.end();)
                 {
                     Enemy* enemy = *j;
@@ -442,16 +460,22 @@ void timer(int value)
                                      projectileP->getPosition().at(1),
                                      projectileP->getPosition().at(2)))
                     {
-                        j = enemyRow3.erase(j);
                         i = projectiles.erase(i);
+                        enemy->setAlive(false);
+                        enemyRow2.at(indexCounter)->setBottomTrue(); 
+                        indexCounter++;
+                        ++j;
+                        score = score + 150;
                     }
                     else
                     {
+                    	indexCounter++;
                         ++j;
                     }
                 }
 
                 //check if projectile hits an enemy
+                indexCounter=0;
                 for(auto j=enemyRow4.begin(); j!=enemyRow4.end();)
                 {
                     Enemy* enemy = *j;
@@ -459,16 +483,22 @@ void timer(int value)
                                      projectileP->getPosition().at(1),
                                      projectileP->getPosition().at(2)))
                     {
-                        j = enemyRow4.erase(j);
                         i = projectiles.erase(i);
+                        enemy->setAlive(false);
+                        enemyRow3.at(indexCounter)->setBottomTrue(); 
+                        indexCounter++;
+                        ++j;
+                        score = score + 150;
                     }
                     else
                     {
+                    	indexCounter++;
                         ++j;
                     }
                 }
 
                 //check if projectile hits an enemy
+                indexCounter=0;
                 for(auto j=enemyRow5.begin(); j!=enemyRow5.end();)
                 {
                     Enemy* enemy = *j;
@@ -476,11 +506,16 @@ void timer(int value)
                                      projectileP->getPosition().at(1),
                                      projectileP->getPosition().at(2)))
                     {
-                        j = enemyRow5.erase(j);
                         i = projectiles.erase(i);
+                        enemy->setAlive(false);
+                        enemyRow4.at(indexCounter)->setBottomTrue(); 
+                        indexCounter++;
+                        ++j;
+                        score = score + 150;
                     }
                     else
                     {
+                    	indexCounter++;
                         ++j;
                     }
                 }
@@ -492,7 +527,7 @@ void timer(int value)
         }
 
         //generate enemy projectiles
-        for(list<Enemy*>::iterator i=enemyRow1.begin(); i!=enemyRow1.end(); ++i)
+        for(std::vector<Enemy*>::iterator i = enemyRow1.begin(); i != enemyRow1.end(); ++i) 
         {
             Enemy* enemy = *i;
             if (enemy->shouldShoot(200) && enemy->isBottomTrue() && enemy->getMultipleOfSpeedBeforeCanShoot() >= 10)
@@ -508,7 +543,7 @@ void timer(int value)
         }
 
         //generate enemy projectiles
-        for(list<Enemy*>::iterator i=enemyRow2.begin(); i!=enemyRow2.end(); ++i)
+        for(std::vector<Enemy*>::iterator i = enemyRow2.begin(); i != enemyRow2.end(); ++i) 
         {
             Enemy* enemy = *i;
             if (enemy->shouldShoot(200) && enemy->isBottomTrue() && enemy->getMultipleOfSpeedBeforeCanShoot() >= 10)
@@ -524,7 +559,7 @@ void timer(int value)
         }
 
         //generate enemy projectiles
-        for(list<Enemy*>::iterator i=enemyRow3.begin(); i!=enemyRow3.end(); ++i)
+        for(std::vector<Enemy*>::iterator i = enemyRow3.begin(); i != enemyRow3.end(); ++i) 
         {
             Enemy* enemy = *i;
             if (enemy->shouldShoot(200) && enemy->isBottomTrue() && enemy->getMultipleOfSpeedBeforeCanShoot() >= 10)
@@ -540,7 +575,7 @@ void timer(int value)
         }
 
         //generate enemy projectiles
-        for(list<Enemy*>::iterator i=enemyRow4.begin(); i!=enemyRow4.end(); ++i)
+        for(std::vector<Enemy*>::iterator i = enemyRow4.begin(); i != enemyRow4.end(); ++i) 
         {
             Enemy* enemy = *i;
             if (enemy->shouldShoot(200) && enemy->isBottomTrue() && enemy->getMultipleOfSpeedBeforeCanShoot() >= 10)
@@ -556,7 +591,7 @@ void timer(int value)
         }
 
         //generate enemy projectiles
-        for(list<Enemy*>::iterator i=enemyRow5.begin(); i!=enemyRow5.end(); ++i)
+        for(std::vector<Enemy*>::iterator i = enemyRow5.begin(); i != enemyRow5.end(); ++i) 
         {
             Enemy* enemy = *i;
             if (enemy->shouldShoot(200) && enemy->isBottomTrue() && enemy->getMultipleOfSpeedBeforeCanShoot() >= 10)
@@ -689,7 +724,7 @@ void display(void)
         barrier2.drawBarrier();
         barrier3.drawBarrier();
         glDisable(GL_LIGHTING);
-        userInfo.drawScoreAndHP(100);
+        userInfo.drawScoreAndHP(score);
         glEnable(GL_LIGHTING);
 
         //cout << enemyRow1.back()->getX() << endl;
@@ -702,44 +737,44 @@ void display(void)
             enemyMovement = 0.06f;
         }
 
-//        //draw enemy ships on screen
-//        for(list<Enemy*>::iterator i=enemyRow1.begin(); i!=enemyRow1.end(); ++i)
-//        {
-//            Enemy* enemy = *i;
-//            enemy->moveX(enemyMovement);
-//            enemy->moveY(enemyDifficulty);
-//            enemy->drawShip();
-//        }
-//
-//        //draw enemy ships on screen
-//        for(list<Enemy*>::iterator i=enemyRow2.begin(); i!=enemyRow2.end(); ++i)
-//        {
-//            Enemy* enemy = *i;
-//            enemy->moveX(enemyMovement);
-//            enemy->moveY(enemyDifficulty);
-//            enemy->drawShip();
-//        }
-//
-//        //draw enemy ships on screen
-//        for(list<Enemy*>::iterator i=enemyRow3.begin(); i!=enemyRow3.end(); ++i)
-//        {
-//            Enemy* enemy = *i;
-//            enemy->moveX(enemyMovement);
-//            enemy->moveY(enemyDifficulty);
-//            enemy->drawShip();
-//        }
-//
-//        //draw enemy ships on screen
-//        for(list<Enemy*>::iterator i=enemyRow4.begin(); i!=enemyRow4.end(); ++i)
-//        {
-//            Enemy* enemy = *i;
-//            enemy->moveX(enemyMovement);
-//            enemy->moveY(enemyDifficulty);
-//            enemy->drawShip();
-//        }
+       //draw enemy ships on screen
+       for(std::vector<Enemy*>::iterator i = enemyRow1.begin(); i != enemyRow1.end(); ++i) 
+       {
+           Enemy* enemy = *i;
+           enemy->moveX(enemyMovement);
+           enemy->moveY(enemyDifficulty);
+           enemy->drawShip();
+       }
+
+       //draw enemy ships on screen
+       for(std::vector<Enemy*>::iterator i = enemyRow2.begin(); i != enemyRow2.end(); ++i) 
+       {
+           Enemy* enemy = *i;
+           enemy->moveX(enemyMovement);
+           enemy->moveY(enemyDifficulty);
+           enemy->drawShip();
+       }
+
+       //draw enemy ships on screen
+       for(std::vector<Enemy*>::iterator i = enemyRow3.begin(); i != enemyRow3.end(); ++i) 
+       {
+           Enemy* enemy = *i;
+           enemy->moveX(enemyMovement);
+           enemy->moveY(enemyDifficulty);
+           enemy->drawShip();
+       }
+
+       //draw enemy ships on screen
+       for(std::vector<Enemy*>::iterator i = enemyRow4.begin(); i != enemyRow4.end(); ++i) 
+       {
+           Enemy* enemy = *i;
+           enemy->moveX(enemyMovement);
+           enemy->moveY(enemyDifficulty);
+           enemy->drawShip();
+       }
 
         //draw enemy ships on screen
-        for(list<Enemy*>::iterator i=enemyRow5.begin(); i!=enemyRow5.end(); ++i)
+        for(std::vector<Enemy*>::iterator i = enemyRow5.begin(); i != enemyRow5.end(); ++i) 
         {
             Enemy* enemy = *i;
             enemy->moveX(enemyMovement);

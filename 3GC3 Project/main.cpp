@@ -52,6 +52,8 @@ list<Enemy*> enemyRow2;
 list<Enemy*> enemyRow3;
 list<Enemy*> enemyRow4;
 list<Enemy*> enemyRow5;
+float enemyMovement =0.06f;
+float enemyDifficulty = -0.0015;
 
 /* PLAYER SHIP */
 Player player = Player(0, -4, -25);
@@ -113,13 +115,13 @@ void keyboard(unsigned char key, int x, int y)
             switch(mainMenu.getCurrentButton())
             {
             case Item1:
-                //TODO
+                enemyDifficulty = -0.001;
                 break;
             case Item2:
-                //TODO
+                enemyDifficulty = -0.0015;
                 break;
             case Item3:
-                //TODO
+                enemyDifficulty = -0.002;
                 break;
             case Item4: //if return clicked, return to main menu
                 currentState = Menu;
@@ -467,10 +469,19 @@ void display(void)
         userInfo.drawScoreAndHP(100);
         glEnable(GL_LIGHTING);
 
+        //cout << enemyRow1.back()->getX() << endl;
+        if(enemyRow1.back()->getX()>=11){
+        	enemyMovement = -0.06f;
+        }else if(enemyRow1.front()->getX()<=-11){
+        	enemyMovement = 0.06f;
+        }
+
         //draw enemy ships on screen
         for(list<Enemy*>::iterator i=enemyRow1.begin(); i!=enemyRow1.end(); ++i)
         {
             Enemy* enemy = *i;
+            enemy->moveX(enemyMovement);
+            enemy->moveY(enemyDifficulty);
             enemy->drawShip();
         }
 
@@ -478,6 +489,7 @@ void display(void)
         for(list<Enemy*>::iterator i=enemyRow2.begin(); i!=enemyRow2.end(); ++i)
         {
             Enemy* enemy = *i;
+            enemy->moveX(enemyMovement);
             enemy->drawShip();
         }
 
@@ -485,6 +497,7 @@ void display(void)
         for(list<Enemy*>::iterator i=enemyRow3.begin(); i!=enemyRow3.end(); ++i)
         {
             Enemy* enemy = *i;
+            enemy->moveX(enemyMovement);
             enemy->drawShip();
         }
 
@@ -492,6 +505,7 @@ void display(void)
         for(list<Enemy*>::iterator i=enemyRow4.begin(); i!=enemyRow4.end(); ++i)
         {
             Enemy* enemy = *i;
+            enemy->moveX(enemyMovement);
             enemy->drawShip();
         }
 
@@ -499,6 +513,7 @@ void display(void)
         for(list<Enemy*>::iterator i=enemyRow5.begin(); i!=enemyRow5.end(); ++i)
         {
             Enemy* enemy = *i;
+            enemy->moveX(enemyMovement);
             enemy->drawShip();
         }
 

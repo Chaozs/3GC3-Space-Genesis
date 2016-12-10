@@ -86,7 +86,7 @@ const int speed = 30;               //time between calls of display()
 GLubyte* img_data; 					//how to play image
 int height = 0;
 int width =0;
-int max =0; 
+int max =0;
 
 GLubyte* LoadPPM(char* file, int* width, int* height, int* max)
 {
@@ -99,26 +99,26 @@ GLubyte* LoadPPM(char* file, int* width, int* height, int* max)
 	char b[100];
 	float s;
 	int red, green, blue;
-	
+
 	/* first open file and check if it's an ASCII PPM (indicated by P3 at the start) */
 	fd = fopen(file, "r");
 	fscanf(fd,"%[^\n] ",b);
 	if(b[0]!='P'|| b[1] != '3')
 	{
-		printf("%s is not a PPM file!\n",file); 
+		printf("%s is not a PPM file!\n",file);
 		exit(0);
 	}
 	printf("%s is a PPM file\n", file);
 	fscanf(fd, "%c",&c);
 
 	/* next, skip past the comments - any line starting with #*/
-	while(c == '#') 
+	while(c == '#')
 	{
 		fscanf(fd, "%[^\n] ", b);
 		printf("%s\n",b);
 		fscanf(fd, "%c",&c);
 	}
-	ungetc(c,fd); 
+	ungetc(c,fd);
 
 	/* now get the dimensions and max colour value from the image */
 	fscanf(fd, "%d %d %d", &n, &m, &k);
@@ -131,7 +131,7 @@ GLubyte* LoadPPM(char* file, int* width, int* height, int* max)
 	s=255.0/k;
 
 	/* for every pixel, grab the read green and blue values, storing them in the image data array */
-	for(i=0;i<nm;i++) 
+	for(i=0;i<nm;i++)
 	{
 		fscanf(fd,"%d %d %d",&red, &green, &blue );
 		img[3*nm-3*i-3]=red*s;
@@ -1017,14 +1017,14 @@ void display(void)
         glFrontFace(GL_CCW);
         break;
     case InstructionMenu:
-    	glMatrixMode(GL_PROJECTION); 
-		glLoadIdentity(); 
-		gluOrtho2D(0, 800, 0, 800); 
-		glMatrixMode(GL_MODELVIEW); 
-		glLoadIdentity(); 
-		glRasterPos2i(width,0); 
-		glPixelZoom(-1, 1); 
-		glDrawPixels(width,height,GL_RGB, GL_UNSIGNED_BYTE, img_data); 
+    	glMatrixMode(GL_PROJECTION);
+		glLoadIdentity();
+		gluOrtho2D(0, 800, 0, 800);
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+		glRasterPos2i(width,0);
+		glPixelZoom(-1, 1);
+		glDrawPixels(width,height,GL_RGB, GL_UNSIGNED_BYTE, img_data);
 		glFlush();
 		break;
     }
@@ -1038,7 +1038,7 @@ int main(int argc, char** argv)
     glutInit(&argc, argv);              //starts up GLUT
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
     int k;
-    img_data = LoadPPM("interface.ppm", &width, &height, &k);
+    img_data = LoadPPM("instructions.ppm", &width, &height, &k);
     glutInitWindowSize(800, 800);
     glutInitWindowPosition(100, 100);
 

@@ -254,6 +254,16 @@ void keyboard(unsigned char key, int x, int y)
             break;
         }
     }
+    else if(currentState == InstructionMenu)
+    {
+        switch (key)
+        {
+            case 'b':
+                currentState = Menu;
+                break;
+
+        }
+    }
 
     glutPostRedisplay();    //call display again after keyboard input
 }
@@ -1114,16 +1124,26 @@ void display(void)
         glFrontFace(GL_CCW);
         break;
     case InstructionMenu:
+    {
+        cout << currentState << endl;
     	glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
 		gluOrtho2D(0, 800, 0, 800);
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
-		glRasterPos2i(width,0);
+		glRasterPos2i(600,250);
 		glPixelZoom(-1, 1);
 		glDrawPixels(width,height,GL_RGB, GL_UNSIGNED_BYTE, img_data);
+        
+        glRasterPos2i(205,150);
+        std::string ScoreLabel = "Select B to go back and resume your mission";
+        for(int i=0; i<ScoreLabel.size(); i++)
+        {
+            glutBitmapCharacter(GLUT_BITMAP_9_BY_15, ScoreLabel[i]);
+        }
 		glFlush();
 		break;
+	}
     case GameOver:
         glFrontFace(GL_CW);
         mainMenu.drawGameOver();

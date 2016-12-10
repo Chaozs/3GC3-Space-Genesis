@@ -258,10 +258,6 @@ void keyboard(unsigned char key, int x, int y)
             break;
         }
     }
-//<<<<<<< HEAD
-
-//=======
-//>>>>>>> 6422487bfcba5afce09fe515c4eb0eb298e7db57
     else if(currentState == InstructionMenu)
     {
         switch (key)
@@ -272,10 +268,6 @@ void keyboard(unsigned char key, int x, int y)
 
         }
     }
-//<<<<<<< HEAD
-//>>>>>>> 6422487bfcba5afce09fe515c4eb0eb298e7db57
-//=======
-//>>>>>>> 6422487bfcba5afce09fe515c4eb0eb298e7db57
 
     glutPostRedisplay();    //call display again after keyboard input
 }
@@ -1047,6 +1039,7 @@ void timer(int value)
 void display(void)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    reshape(800,800);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     addLights();        //add lights

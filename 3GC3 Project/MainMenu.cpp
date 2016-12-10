@@ -84,6 +84,30 @@ void MainMenu::drawDifficulty()
     }
 }
 
+void MainMenu::drawGameOver(){
+    switch(currentHovering)  //highlights the button currentHovering by redrawing box in slightly different colour
+    {
+    case MainMenu::Item1:
+        drawBox("Main Menu",6.0f, 0.4f);
+        break;
+    case MainMenu::Item2:
+        drawBox("Restart",10.0f, 0.4f);
+        break;
+    }
+
+    drawBox("Main Menu",-2.0f, 0.0f);
+    drawBox("Restart",2.0f, 0.0f);
+
+    //print title text
+    glColor3f(1, 1, 1);
+    glRasterPos3f(-2.2f, 8, -25);
+    std::string startText = "GAME OVER!";
+    for(int i=0; i<startText.size(); i++)
+    {
+        glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, startText[i]);
+    }
+}
+
 //draw button box
 void MainMenu::drawBox(std::string text, float position, float highlight)
 {

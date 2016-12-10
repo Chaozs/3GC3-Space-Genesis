@@ -20,6 +20,10 @@ int Player::getHp()
     return hp;
 }
 
+void Player::setHp(int h){
+    hp = h;
+}
+
 //decreases hp of player by the specified amount
 void Player::decreaseHp(int damage)
 {

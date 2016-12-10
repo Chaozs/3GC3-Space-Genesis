@@ -72,3 +72,13 @@ void Enemy::drawShip()
     glPopMatrix();
     glPopMatrix();
 }
+
+int Enemy::getMultipleOfSpeedBeforeCanShoot()
+{
+    return multipleOfSpeedBeforeCanShoot;
+}
+
+void Enemy::setMultipleOfSpeedBeforeCanShoot(int multiple)
+{
+    multipleOfSpeedBeforeCanShoot = multiple;
+}

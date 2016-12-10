@@ -256,7 +256,6 @@ void setMeshes()
     {
         Enemy* enemy = *i;
         enemy->SetMesh(playerMesh);
-        cout << "Set enemy mesh" << endl;
     }
 }
 
@@ -316,11 +315,15 @@ void timer(int value)
         for(list<Enemy*>::iterator i=enemyList.begin(); i!=enemyList.end(); ++i)
         {
             Enemy* enemy = *i;
-            if (enemy->shouldShoot(10))
+            if (enemy->shouldShoot(2) && enemy->getMultipleOfSpeedBeforeCanShoot() == 10)
             {
-                cout << "Enemy shot projectile" << endl;
+                enemy->setMultipleOfSpeedBeforeCanShoot(0);
                 Projectile* enemyProj = new Projectile(enemy->getPosition().at(0), enemy->getPosition().at(1), enemy->getPosition().at(2));
                 enemyProjectiles.push_back(enemyProj);
+            }
+            else
+            {
+                enemy->setMultipleOfSpeedBeforeCanShoot(enemy->getMultipleOfSpeedBeforeCanShoot()+1);
             }
         }
 
@@ -328,7 +331,7 @@ void timer(int value)
         for(auto i=enemyProjectiles.begin(); i!=enemyProjectiles.end();)
         {
             Projectile* projectileP = *i;
-            if (projectileP->getPosition().at(1) >= 40)
+            if (projectileP->getPosition().at(1) <= -7)
             {
                 i = enemyProjectiles.erase(i);
             }

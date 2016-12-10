@@ -47,7 +47,11 @@ GUI userInfo = GUI();
 MainMenu mainMenu;                  //create mainMenu
 
 /* DEMO ENEMY SHIP - TOBEREMOVED */
-list<Enemy*> enemyList;
+list<Enemy*> enemyRow1;
+list<Enemy*> enemyRow2;
+list<Enemy*> enemyRow3;
+list<Enemy*> enemyRow4;
+list<Enemy*> enemyRow5;
 
 /* PLAYER SHIP */
 Player player = Player(0, -4, -25);
@@ -257,18 +261,62 @@ void setMeshes()
     //playerMesh = newMesh;
     player.SetMesh(playerMesh);
 
-    for(list<Enemy*>::iterator i=enemyList.begin(); i!=enemyList.end(); ++i)
+    for(list<Enemy*>::iterator i=enemyRow1.begin(); i!=enemyRow1.end(); ++i)
     {
         Enemy* enemy = *i;
         enemy->SetMesh(playerMesh);
-        cout << "Set enemy mesh" << endl;
     }
+    for(list<Enemy*>::iterator i=enemyRow2.begin(); i!=enemyRow2.end(); ++i)
+    {
+        Enemy* enemy = *i;
+        enemy->SetMesh(playerMesh);
+    }
+    for(list<Enemy*>::iterator i=enemyRow3.begin(); i!=enemyRow3.end(); ++i)
+    {
+        Enemy* enemy = *i;
+        enemy->SetMesh(playerMesh);
+    }
+    for(list<Enemy*>::iterator i=enemyRow4.begin(); i!=enemyRow4.end(); ++i)
+    {
+        Enemy* enemy = *i;
+        enemy->SetMesh(playerMesh);
+    }
+    for(list<Enemy*>::iterator i=enemyRow5.begin(); i!=enemyRow5.end(); ++i)
+    {
+        Enemy* enemy = *i;
+        enemy->SetMesh(playerMesh);
+    }
+
 }
 
 void setEnemies()
 {
-    Enemy* enemy = new Enemy(0, 10, -25, 1);
-    enemyList.push_back(enemy);
+	float xIncrement = 1.4f;
+	for(int i=0; i<11; i++){
+		Enemy* enemy = new Enemy(-7+xIncrement*i, 23, -25, 1);
+    	enemyRow1.push_back(enemy);
+	}
+
+	for(int i=0; i<11; i++){
+		Enemy* enemy = new Enemy(-7+xIncrement*i, 20, -25, 1);
+    	enemyRow2.push_back(enemy);
+	}
+
+	for(int i=0; i<11; i++){
+		Enemy* enemy = new Enemy(-7+xIncrement*i, 17, -25, 1);
+    	enemyRow3.push_back(enemy);
+	}
+
+	for(int i=0; i<11; i++){
+		Enemy* enemy = new Enemy(-7+xIncrement*i, 14, -25, 1);
+    	enemyRow4.push_back(enemy);
+	}
+
+	for(int i=0; i<11; i++){
+		Enemy* enemy = new Enemy(-7+xIncrement*i, 11, -25, 1);
+    	enemyRow5.push_back(enemy);
+	}
+
 }
 
 void init(void)
@@ -318,14 +366,18 @@ void timer(int value)
         }
 
         //generate enemy projectiles
-        for(list<Enemy*>::iterator i=enemyList.begin(); i!=enemyList.end(); ++i)
+        for(list<Enemy*>::iterator i=enemyRow1.begin(); i!=enemyRow1.end(); ++i)
         {
             Enemy* enemy = *i;
-            if (enemy->shouldShoot(10))
+            if (enemy->shouldShoot(2) && enemy->getMultipleOfSpeedBeforeCanShoot() == 10)
             {
-                cout << "Enemy shot projectile" << endl;
+                enemy->setMultipleOfSpeedBeforeCanShoot(0);
                 Projectile* enemyProj = new Projectile(enemy->getPosition().at(0), enemy->getPosition().at(1), enemy->getPosition().at(2));
                 enemyProjectiles.push_back(enemyProj);
+            }
+            else
+            {
+                enemy->setMultipleOfSpeedBeforeCanShoot(enemy->getMultipleOfSpeedBeforeCanShoot()+1);
             }
         }
 
@@ -333,7 +385,7 @@ void timer(int value)
         for(auto i=enemyProjectiles.begin(); i!=enemyProjectiles.end();)
         {
             Projectile* projectileP = *i;
-            if (projectileP->getPosition().at(1) >= 40)
+            if (projectileP->getPosition().at(1) <= -7)
             {
                 i = enemyProjectiles.erase(i);
             }
@@ -411,7 +463,35 @@ void display(void)
         glEnable(GL_LIGHTING);
 
         //draw enemy ships on screen
-        for(list<Enemy*>::iterator i=enemyList.begin(); i!=enemyList.end(); ++i)
+        for(list<Enemy*>::iterator i=enemyRow1.begin(); i!=enemyRow1.end(); ++i)
+        {
+            Enemy* enemy = *i;
+            enemy->drawShip();
+        }
+
+        //draw enemy ships on screen
+        for(list<Enemy*>::iterator i=enemyRow2.begin(); i!=enemyRow2.end(); ++i)
+        {
+            Enemy* enemy = *i;
+            enemy->drawShip();
+        }
+
+        //draw enemy ships on screen
+        for(list<Enemy*>::iterator i=enemyRow3.begin(); i!=enemyRow3.end(); ++i)
+        {
+            Enemy* enemy = *i;
+            enemy->drawShip();
+        }
+
+        //draw enemy ships on screen
+        for(list<Enemy*>::iterator i=enemyRow4.begin(); i!=enemyRow4.end(); ++i)
+        {
+            Enemy* enemy = *i;
+            enemy->drawShip();
+        }
+
+        //draw enemy ships on screen
+        for(list<Enemy*>::iterator i=enemyRow5.begin(); i!=enemyRow5.end(); ++i)
         {
             Enemy* enemy = *i;
             enemy->drawShip();

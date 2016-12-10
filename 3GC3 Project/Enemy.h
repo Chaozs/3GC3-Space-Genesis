@@ -38,13 +38,15 @@ public:
     int getRow();
     bool shouldShoot(int);
     void drawShip();
+    int getMultipleOfSpeedBeforeCanShoot();
+    void setMultipleOfSpeedBeforeCanShoot(int);
 
 private:
     int row;
     float speed;
     bool isAlive;
     bool isBottom;
-    bool canShoot;  //whether or not enemy can shoot projectile (time since last projectile is reset)
+    int multipleOfSpeedBeforeCanShoot = 0;  //when reaches 5, enemy can shoot projectile again; increases by 1 upon every timer() call
 };
 
 #endif

@@ -20,7 +20,7 @@ void Projectile::draw()
 {
     glPushMatrix();
     glTranslatef(position[0], position[1], position[2]); //move projectile to its position
-    glScalef(0.1, 1, 0.3);  //scale projectile to slim and tall
+    glScalef(0.33, 1, 0.3);  //scale projectile to slim and tall
     glutSolidCube(0.5);
     glPopMatrix();
 }

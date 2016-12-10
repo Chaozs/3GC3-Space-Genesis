@@ -40,6 +40,7 @@ public:
     void moveZ(float);                  //moves object's Z position; positive float = increases Z position & vice versa
     void SetMesh(Mesh& m);
     Mesh getMesh();
+    float getX();
 
 protected:
     float position[3];                  //position of object

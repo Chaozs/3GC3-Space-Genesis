@@ -52,3 +52,13 @@ void GUI::drawScoreAndHP(int HP)
         glutBitmapCharacter(GLUT_BITMAP_9_BY_15, HPText[i]);
     }
 }
+
+void GUI::drawPause()
+{
+	glRasterPos3f(-1, 10, -20);
+    std::string ScoreLabel = "Pause";
+    for(int i=0; i<ScoreLabel.size(); i++)
+    {
+        glutBitmapCharacter(GLUT_BITMAP_9_BY_15, ScoreLabel[i]);
+    }
+}

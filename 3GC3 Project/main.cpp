@@ -1053,6 +1053,9 @@ void display(void)
         glFrontFace(GL_CCW);
         break;
     case Playing:
+	    if(gamePaused){
+	    	userInfo.drawPause();
+	    }
         eye[0] = 0;
         eye[1] = -5;
         eye[2] = 0;

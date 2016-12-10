@@ -34,6 +34,7 @@ public:
     GUI();
     void incScoreBy(int);		//increase current score by input
     void drawScoreAndHP(int);	//draws the score and HP given by input
+    void drawPause();
 
 private:
     int score;					//the current score

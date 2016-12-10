@@ -80,8 +80,8 @@ bool canShoot = true;               //indicates whether projectile can be shot o
 double multipleOfSpeedBeforeCanShoot = 0;   //keeps track of time before next projectile shoot
 
 /* LIGHTING */
-float light0Pos[] = {-5, 3, 0, 1};  //initial light0 position
-float light1Pos[] = {5, 3, 0, 1};   //initial light1 positon
+float light0Pos[] = {-5, 3, -25, 1};  //initial light0 position
+float light1Pos[] = {5, 3, -25, 1};   //initial light1 positon
 
 /* ANIMATION */
 const int speed = 30;               //time between calls of display()
@@ -374,36 +374,23 @@ void reshape(int w, int h)
 void addLights()
 {
     //set light colours
-    float diff0[4] = {0, 0.2, 1, 1};            //blue light (light0)
-    float diff1[4] = {1, 0.6, 0, 1};            //amber light (light1)
+    float diff0[4] = {1, 1, 1, 1};            
+    float diff1[4] = {1, 1, 1, 1};            
     float amb0[4] = {0.2f, 0.2f, 0.2f, 1};
     float amb1[4] = {0.2f, 0.2f, 0.2f, 1};
     float spec0[4] = {0.2f, 0.2f, 0.2f, 1};
     float spec1[4] = {0.2f, 0.2f, 0.2f, 1};
 
     //set light position and properties
-    glLightfv(GL_LIGHT0, GL_DIFFUSE, diff0);
-    glLightfv(GL_LIGHT1, GL_DIFFUSE, diff1);
-    glLightfv(GL_LIGHT0, GL_AMBIENT, amb0);
-    glLightfv(GL_LIGHT1, GL_AMBIENT, amb1);
-    glLightfv(GL_LIGHT0, GL_SPECULAR, spec0);
-    glLightfv(GL_LIGHT1, GL_SPECULAR, spec1);
+    // glLightfv(GL_LIGHT0, GL_DIFFUSE, diff0);
+    // glLightfv(GL_LIGHT1, GL_DIFFUSE, diff1);
+    // glLightfv(GL_LIGHT0, GL_AMBIENT, amb0);
+    // glLightfv(GL_LIGHT1, GL_AMBIENT, amb1);
+    // glLightfv(GL_LIGHT0, GL_SPECULAR, spec0);
+    // glLightfv(GL_LIGHT1, GL_SPECULAR, spec1);
     glLightfv(GL_LIGHT0, GL_POSITION, light0Pos);
     glLightfv(GL_LIGHT1, GL_POSITION, light1Pos);
 
-    //draw sphere for light0
-    //glColor3f(0.7, 0.7, 0.7);
-    glPushMatrix();
-    glTranslatef(light0Pos[0], light0Pos[1], light0Pos[2]);
-    glutWireSphere(0.1, 16, 16);
-    glPopMatrix();
-
-    //draw sphere for light1
-    // glColor3f(0.7, 0.7, 0.7);
-    glPushMatrix();
-    glTranslatef(light1Pos[0], light1Pos[1], light1Pos[2]);
-    glutWireSphere(0.1, 16, 16);
-    glPopMatrix();
 }
 
 //store meshes into each object
@@ -616,10 +603,6 @@ void init(void)
     glClearColor(0.1, 0.1, 0.1, 0);       //black background
     glEnable(GL_COLOR_MATERIAL);    //enable colour material
 
-    //enable lighting
-    glEnable(GL_LIGHTING);
-    glEnable(GL_LIGHT0);
-    glEnable(GL_LIGHT1);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     gluPerspective(45, 1, 1, 1000);
@@ -1053,6 +1036,11 @@ void display(void)
         glFrontFace(GL_CCW);
         break;
     case Playing:
+        //enable lighting
+	    glEnable(GL_LIGHTING);
+	    glEnable(GL_LIGHT0);
+	    glEnable(GL_LIGHT1);
+	    
 	    if(gamePaused){
 	    	userInfo.drawPause();
 	    }

@@ -12,7 +12,7 @@ Thien Trandinh / trandit / 001420634
 //constructor for barrier; requires an initial position
 Barrier::Barrier(float positionX, float positionY, float positionZ) : GameObject(positionX, positionY, positionZ)
 {
-    hp = 4;     //intially set hp of barrier to max hp (which is 4)
+    hp = 2;     //intially set hp of barrier to max hp (which is 4)
     isDead = false;
 }
 
@@ -38,7 +38,10 @@ void Barrier::drawBarrier()
     {
         glPushMatrix();
         glTranslatef(position[0], position[1], position[2]);
-        glutSolidCube(1);
+        glPushMatrix();
+            glScalef(0.5f, 0.5f, 0.5f);
+            glutSolidCube(1);
+        glPopMatrix();
         glPopMatrix();
     }
 }
@@ -50,12 +53,12 @@ bool Barrier::isHit(float x, float y, float z)
         return false;
     }
 
-    if (position[0] < x-0.5 || position[0] > x+0.5)
+    if (position[0] < x-0.25 || position[0] > x+0.25)
     {
         return false;
     }
 
-    if (position[1] < y-0.5 || position[1] > y+0.5)
+    if (position[1] < y-0.25 || position[1] > y+0.25)
     {
         return false;
     }

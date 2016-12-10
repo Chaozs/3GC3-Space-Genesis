@@ -330,33 +330,104 @@ void setEnemies()
 void setBarriers()
 {
     //Big barrier 1
-    Barrier* barrier = new Barrier(-11, 0, -25);
-    barriers.push_back(barrier);
-    barrier = new Barrier(-10, 0, -25);
-    barriers.push_back(barrier);
-    barrier = new Barrier(-9, 0, -25);
+    //bottom layer
+    Barrier* barrier = new Barrier(-9.5f, 0, -25);
     barriers.push_back(barrier);
     barrier = new Barrier(-8, 0, -25);
     barriers.push_back(barrier);
+    //middle layer
+    barrier = new Barrier(-9.5f, 0.5f, -25);
+    barriers.push_back(barrier);
+    barrier = new Barrier(-9, 0.5f, -25);
+    barriers.push_back(barrier);
+    barrier = new Barrier(-8.5f, 0.5f, -25);
+    barriers.push_back(barrier);
+    barrier = new Barrier(-8, 0.5f, -25);
+    barriers.push_back(barrier);
+    //top layer
+    barrier = new Barrier(-9.5f, 1, -25);
+    barriers.push_back(barrier);
+    barrier = new Barrier(-9, 1, -25);
+    barriers.push_back(barrier);
+    barrier = new Barrier(-8.5f, 1, -25);
+    barriers.push_back(barrier);
+    barrier = new Barrier(-8, 1, -25);
+    barriers.push_back(barrier);
+
 
     //Big barrier 2
-    barrier = new Barrier(-2, 0, -25);
+    //bottom layer
+    barrier = new Barrier(-3.833f, 0, -25);
     barriers.push_back(barrier);
-    barrier = new Barrier(-1, 0, -25);
+    barrier = new Barrier(-2.333f, 0, -25);
     barriers.push_back(barrier);
-    barrier = new Barrier(0, 0, -25);
+    //Middle layer
+    barrier = new Barrier(-3.833f, 0.5f, -25);
     barriers.push_back(barrier);
-    barrier = new Barrier(1, 0, -25);
+    barrier = new Barrier(-3.333f, 0.5f, -25);
+    barriers.push_back(barrier);
+    barrier = new Barrier(-2.833f, 0.5f, -25);
+    barriers.push_back(barrier);
+    barrier = new Barrier(-2.333f, 0.5f, -25);
+    barriers.push_back(barrier);
+    //Top layer
+    barrier = new Barrier(-3.833f, 1, -25);
+    barriers.push_back(barrier);
+    barrier = new Barrier(-3.333f, 1, -25);
+    barriers.push_back(barrier);
+    barrier = new Barrier(-2.833f, 1, -25);
+    barriers.push_back(barrier);
+    barrier = new Barrier(-2.333f, 1, -25);
     barriers.push_back(barrier);
 
     //Big barrier 3
+    //bottom layer
+    barrier = new Barrier(2.334f, 0, -25);
+    barriers.push_back(barrier);
+    barrier = new Barrier(3.834f, 0, -25);
+    barriers.push_back(barrier);
+    //Middle layer
+    barrier = new Barrier(2.334f, 0.5f, -25);
+    barriers.push_back(barrier);
+    barrier = new Barrier(2.834f, 0.5f, -25);
+    barriers.push_back(barrier);
+    barrier = new Barrier(3.334f, 0.5f, -25);
+    barriers.push_back(barrier);
+    barrier = new Barrier(3.834f, 0.5f, -25);
+    barriers.push_back(barrier);
+    //Top layer
+    barrier = new Barrier(2.334f, 1, -25);
+    barriers.push_back(barrier);
+    barrier = new Barrier(2.834f, 1, -25);
+    barriers.push_back(barrier);
+    barrier = new Barrier(3.334f, 1, -25);
+    barriers.push_back(barrier);
+    barrier = new Barrier(3.834f, 1, -25);
+    barriers.push_back(barrier);
+
+    //Big barrier 3
+    //bottom layer
     barrier = new Barrier(8, 0, -25);
     barriers.push_back(barrier);
-    barrier = new Barrier(9, 0, -25);
+    barrier = new Barrier(9.5f, 0, -25);
     barriers.push_back(barrier);
-    barrier = new Barrier(10, 0, -25);
+    //Middle layer
+    barrier = new Barrier(8, 0.5f, -25);
     barriers.push_back(barrier);
-    barrier = new Barrier(11, 0, -25);
+    barrier = new Barrier(8.5f, 0.5f, -25);
+    barriers.push_back(barrier);
+    barrier = new Barrier(9, 0.5f, -25);
+    barriers.push_back(barrier);
+    barrier = new Barrier(9.5f, 0.5f, -25);
+    barriers.push_back(barrier);
+    //Bottom layer
+    barrier = new Barrier(8, 1, -25);
+    barriers.push_back(barrier);
+    barrier = new Barrier(8.5f, 1, -25);
+    barriers.push_back(barrier);
+    barrier = new Barrier(9, 1, -25);
+    barriers.push_back(barrier);
+    barrier = new Barrier(9.5f, 1, -25);
     barriers.push_back(barrier);
 }
 

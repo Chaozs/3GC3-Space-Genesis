@@ -40,7 +40,7 @@ float lookAt[] = {0, 0, -10};       //point camera is looking at
 
 /* GAME STATE */
 float unitPosition[] = {0, 0, 0};
-enum GameState { Menu, SelectDifficulty, InstructionMenu, Playing, Paused, GameOver };  //current game state enum
+enum GameState { Menu, SelectDifficulty, InstructionMenu, Playing, Paused, GameOver, Win };  //current game state enum
 enum ButtonType { Item1, Item2, Item3, Item4 };
 GameState currentState = Menu;      //initially in start menu
 GUI userInfo = GUI();
@@ -53,8 +53,10 @@ vector<Enemy*> enemyRow2;
 vector<Enemy*> enemyRow3;
 vector<Enemy*> enemyRow4;
 vector<Enemy*> enemyRow5;
+int enemyCounter = 55;
+//int enemyCounter = enemyRow1.size() + enemyRow2.size() + enemyRow3.size() + enemyRow4.size() + enemyRow5.size();
 
-float enemyMovement =0.06f; //enemy x movement speed
+float enemyMovement = 0.06f; //enemy x movement speed
 float enemyDifficulty = -0.0015; //enemy downwards movement speed
 int indexCounter=0;
 
@@ -69,6 +71,7 @@ bool rightPressed = false;          //right arrow key is held down
 
 /* BARRIERS */
 list<Barrier*> barriers;
+int barrierCounter = 10;
 
 /* PROJECTILES */
 list<Projectile*> projectiles;      //list of all player projectiles currently on screen
@@ -83,6 +86,7 @@ float light1Pos[] = {5, 3, 0, 1};   //initial light1 positon
 /* ANIMATION */
 const int speed = 30;               //time between calls of display()
 
+<<<<<<< HEAD
 
 
 GLubyte* img_data; 					//how to play image
@@ -92,6 +96,13 @@ GLubyte* image;
 int widthA, heightA, maxA;
 int width = 0, height = 0, max = 0;
 GLuint myTex[1];
+=======
+/* LOAD IMAGE */
+GLubyte* img_data; 					//how to play image
+int height = 0;
+int width = 0;
+int max = 0;
+>>>>>>> c8207cdd0814b1da450adcd58cd20cb9c0a13aa3
 
 GLubyte* LoadPPM(char* file, int* width, int* height, int* max)
 {
@@ -240,6 +251,22 @@ void keyboard(unsigned char key, int x, int y)
             break;
         }
     }
+    else if (currentState == Win){
+        switch (key)
+        {
+        case 13:        //if enter key pressed, check which button is currently highlighted
+            switch(mainMenu.getCurrentButton())
+            {
+            case Item1: //if start button is currently highlighted, switch game state to playing game
+                currentState = Menu;
+                break;
+            case Item2:
+                currentState = Playing;
+                break;
+            }
+            break;
+        }
+    }
 
     glutPostRedisplay();    //call display again after keyboard input
 }
@@ -296,6 +323,18 @@ void special(int key, int x, int y)
             mainMenu.goDown();      //scroll down menu
             break;
         }
+    }
+    else if (currentState == Win){
+        switch(key)
+        {
+        case GLUT_KEY_UP:
+            mainMenu.goUp();        //scroll up menu
+            break;
+        case GLUT_KEY_DOWN:
+            mainMenu.goDown();      //scroll down menu
+            break;
+        }
+           
     }
 
     glutPostRedisplay();
@@ -546,6 +585,29 @@ void setBarriers()
     barriers.push_back(barrier);
 }
 
+void resetGame()
+{
+    player = Player(0, -4, -25);
+    enemyRow1.clear();
+    enemyRow2.clear();
+    enemyRow3.clear();
+    enemyRow4.clear();
+    enemyRow5.clear();
+    barriers.clear();
+    projectiles.clear();
+    enemyProjectiles.clear();
+    userInfo = GUI();
+    gamePaused = false;
+    leftPressed = false;
+    rightPressed = false;
+    canShoot = true;
+    multipleOfSpeedBeforeCanShoot = 0;
+    setEnemies();
+    setBarriers();
+    setMeshes();
+    glutPostRedisplay();
+}
+
 //initialize
 void init(void)
 {
@@ -686,6 +748,7 @@ void timer(int value)
                             enemy->setAlive(false);
                             ++j;
                             userInfo.incScoreBy(150);
+                            enemyCounter--;
                         }
                         else
                         {
@@ -708,6 +771,7 @@ void timer(int value)
                             indexCounter++;
                             ++j;
                             userInfo.incScoreBy(150);
+                            enemyCounter--;
                         }
                         else
                         {
@@ -731,6 +795,7 @@ void timer(int value)
                             indexCounter++;
                             ++j;
                             userInfo.incScoreBy(150);
+                            enemyCounter--;
                         }
                         else
                         {
@@ -754,6 +819,7 @@ void timer(int value)
                             indexCounter++;
                             ++j;
                             userInfo.incScoreBy(150);
+                            enemyCounter--;
                         }
                         else
                         {
@@ -777,6 +843,7 @@ void timer(int value)
                             indexCounter++;
                             ++j;
                             userInfo.incScoreBy(150);
+                            enemyCounter--;
                         }
                         else
                         {
@@ -955,7 +1022,12 @@ void timer(int value)
 
         if(player.getHp() == 0){
             currentState = GameOver;
-            player.setHp(100);
+            resetGame();
+        }
+
+        if(enemyCounter == 0 || barrierCounter == 0){
+            currentState = Win;
+            resetGame();
         }
     }
     //wait before calling timer() again
@@ -1071,6 +1143,11 @@ void display(void)
     case GameOver:
         glFrontFace(GL_CW);
         mainMenu.drawGameOver();
+        glFrontFace(GL_CCW);
+        break;
+    case Win:
+        glFrontFace(GL_CW);
+        mainMenu.drawWin();
         glFrontFace(GL_CCW);
         break;
     }

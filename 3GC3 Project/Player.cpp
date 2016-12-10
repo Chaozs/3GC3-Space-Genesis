@@ -20,7 +20,8 @@ int Player::getHp()
     return hp;
 }
 
-void Player::setHp(int h){
+void Player::setHp(int h)
+{
     hp = h;
 }
 
@@ -33,15 +34,15 @@ void Player::decreaseHp(int damage)
 //draw player ship
 void Player::drawShip()
 {
-	glPushMatrix();
-            glTranslatef(position[0], position[1], position[2]);
-            	glPushMatrix();
-            		glScalef(0.3f, 0.3f, 0.3f);
-            		glPushMatrix();
-            			glRotatef(50,1,0,0);
-            			mesh.Draw();
-            		glPopMatrix();
-            	glPopMatrix();
+    glPushMatrix();
+    glTranslatef(position[0], position[1], position[2]);
+    glPushMatrix();
+    glScalef(0.3f, 0.3f, 0.3f);
+    glPushMatrix();
+    glRotatef(50,1,0,0);
+    mesh.Draw();
+    glPopMatrix();
+    glPopMatrix();
     glPopMatrix();
 }
 

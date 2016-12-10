@@ -39,7 +39,12 @@ float eye[] = {0, -5, 0};           //initial camera location
 float lookAt[] = {0, 0, -10};       //point camera is looking at
 
 /* GAME STATE */
+<<<<<<< Updated upstream
 enum GameState { Menu, SelectDifficulty, InstructionMenu, Playing, GameOver };  //current game state enum
+=======
+float unitPosition[] = {0, 0, 0};
+enum GameState { Menu, SelectDifficulty, InstructionMenu, Playing, Paused, GameOver, Win };  //current game state enum
+>>>>>>> Stashed changes
 enum ButtonType { Item1, Item2, Item3, Item4 };
 GameState currentState = Menu;      //initially in start menu
 GUI userInfo = GUI();
@@ -52,6 +57,8 @@ vector<Enemy*> enemyRow2;
 vector<Enemy*> enemyRow3;
 vector<Enemy*> enemyRow4;
 vector<Enemy*> enemyRow5;
+int enemyCounter = 55;
+//int enemyCounter = enemyRow1.size() + enemyRow2.size() + enemyRow3.size() + enemyRow4.size() + enemyRow5.size();
 
 float enemyMovement = 0.06f; //enemy x movement speed
 float enemyDifficulty = -0.0015; //enemy downwards movement speed
@@ -68,6 +75,7 @@ bool rightPressed = false;          //right arrow key is held down
 
 /* BARRIERS */
 list<Barrier*> barriers;
+int barrierCounter = 10;
 
 /* PROJECTILES */
 list<Projectile*> projectiles;      //list of all player projectiles currently on screen
@@ -234,6 +242,22 @@ void keyboard(unsigned char key, int x, int y)
             break;
         }
     }
+    else if (currentState == Win){
+        switch (key)
+        {
+        case 13:        //if enter key pressed, check which button is currently highlighted
+            switch(mainMenu.getCurrentButton())
+            {
+            case Item1: //if start button is currently highlighted, switch game state to playing game
+                currentState = Menu;
+                break;
+            case Item2:
+                currentState = Playing;
+                break;
+            }
+            break;
+        }
+    }
 
     glutPostRedisplay();    //call display again after keyboard input
 }
@@ -290,6 +314,17 @@ void special(int key, int x, int y)
             mainMenu.goDown();      //scroll down menu
             break;
         }
+    }
+    else if (currentState == Win){
+        switch(key)
+        {
+        case GLUT_KEY_UP:
+            mainMenu.goUp();        //scroll up menu
+            break;
+        case GLUT_KEY_DOWN:
+            mainMenu.goDown();      //scroll down menu
+            break;
+           
     }
 
     glutPostRedisplay();
@@ -703,6 +738,7 @@ void timer(int value)
                             enemy->setAlive(false);
                             ++j;
                             userInfo.incScoreBy(150);
+                            enemyCounter--;
                         }
                         else
                         {
@@ -725,6 +761,7 @@ void timer(int value)
                             indexCounter++;
                             ++j;
                             userInfo.incScoreBy(150);
+                            enemyCounter--;
                         }
                         else
                         {
@@ -748,6 +785,7 @@ void timer(int value)
                             indexCounter++;
                             ++j;
                             userInfo.incScoreBy(150);
+                            enemyCounter--;
                         }
                         else
                         {
@@ -771,6 +809,7 @@ void timer(int value)
                             indexCounter++;
                             ++j;
                             userInfo.incScoreBy(150);
+                            enemyCounter--;
                         }
                         else
                         {
@@ -794,6 +833,7 @@ void timer(int value)
                             indexCounter++;
                             ++j;
                             userInfo.incScoreBy(150);
+                            enemyCounter--;
                         }
                         else
                         {
@@ -974,6 +1014,10 @@ void timer(int value)
             currentState = GameOver;
             player.setHp(100);
         }
+
+        if(enemyCounter == 0 || barrierCounter == 0){
+            currentState = Win;
+        }
     }
     //wait before calling timer() again
     glutTimerFunc(speed, timer, 0);
@@ -1085,6 +1129,11 @@ void display(void)
     case GameOver:
         glFrontFace(GL_CW);
         mainMenu.drawGameOver();
+        glFrontFace(GL_CCW);
+        break;
+    case Win:
+        glFrontFace(GL_CW);
+        mainMenu.drawWin();
         glFrontFace(GL_CCW);
         break;
     }

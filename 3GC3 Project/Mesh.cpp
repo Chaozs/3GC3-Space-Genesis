@@ -47,6 +47,12 @@ void Mesh::LoadOBJ(const char * path)
             Vector3 v = Vector3(input1, input2, input3);
             normals.push_back(v);
         }
+        else if ( strcmp( lineHeader, "vt" ) == 0 )
+        {
+            fscanf(file, "%f %f \n", &input1, &input2);
+            Vector3 v = Vector3(input1, input2, 0);
+            uvs.push_back(v);
+        }
 
         else if ( strcmp( lineHeader, "f" ) == 0 )
         {
@@ -62,22 +68,19 @@ void Mesh::LoadOBJ(const char * path)
                 vIndex.push_back(vertexIndex[0]);
                 vIndex.push_back(vertexIndex[1]);
                 vIndex.push_back(vertexIndex[2]);
+
+                uIndex.push_back(uvIndex[0]);
+                uIndex.push_back(uvIndex[1]);
+                uIndex.push_back(uvIndex[2]);
+
                 nIndex.push_back(normalIndex[0]);
                 nIndex.push_back(normalIndex[1]);
                 nIndex.push_back(normalIndex[2]);
             }
         }
     }
-    /*
-      printf("%i\n", vIndex.size());
-       for(int i = 0; i < vertices.size(); i++)
-      {
-          //if(i%3 == 0)
-          //{
-               printf("\n");
-          //}
-          printf("%f", vertices[i].x);
-      }
+    
+      /*
       printf("\n");
       printf("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\n");
       for(int i = 0; i < vIndex.size(); i++)
@@ -93,20 +96,28 @@ void Mesh::LoadOBJ(const char * path)
 
 bool fired = false;
 
+
+
 void Mesh::Draw()
 {
     glPolygonMode(GL_FRONT, GL_FILL);
+    glColorMaterial(GL_FRONT, GL_DIFFUSE);
+    glEnable(GL_COLOR_MATERIAL);
     glBegin(GL_TRIANGLES);
     int i = 0;
     while(i < vIndex.size())
     {        
         glNormal3f(normals[nIndex[i]-1].x, normals[nIndex[i]-1].y, normals[nIndex[i]-1].z);
-        glVertex3f(vertices[vIndex[i]-1].x, vertices[vIndex[i]-1].y, vertices[vIndex[i]-1].z);      
+        glTexCoord2f(uvs[uIndex[i]-1].x, uvs[uIndex[i]-1].y);
+        glVertex3f(vertices[vIndex[i]-1].x, vertices[vIndex[i]-1].y, vertices[vIndex[i]-1].z); 
+
         i++;
         glNormal3f(normals[nIndex[i]-1].x, normals[nIndex[i]-1].y, normals[nIndex[i]-1].z);
+        glTexCoord2f(uvs[uIndex[i]-1].x, uvs[uIndex[i]-1].y);
         glVertex3f(vertices[vIndex[i]-1].x, vertices[vIndex[i]-1].y, vertices[vIndex[i]-1].z);
         i++;
         glNormal3f(normals[nIndex[i]-1].x, normals[nIndex[i]-1].y, normals[nIndex[i]-1].z);
+        glTexCoord2f(uvs[uIndex[i]-1].x, uvs[uIndex[i]-1].y);
         glVertex3f(vertices[vIndex[i]-1].x, vertices[vIndex[i]-1].y, vertices[vIndex[i]-1].z);
         i++;
         

@@ -83,68 +83,74 @@ float light1Pos[] = {5, 3, 0, 1};   //initial light1 positon
 /* ANIMATION */
 const int speed = 30;               //time between calls of display()
 
+
+
 GLubyte* img_data; 					//how to play image
-int height = 0;
-int width =0;
-int max =0;
+/* TEXTURE */
+GLubyte* image;
+//GLubyte* image2;
+int widthA, heightA, maxA;
+int width = 0, height = 0, max = 0;
+GLuint myTex[1];
 
 GLubyte* LoadPPM(char* file, int* width, int* height, int* max)
 {
-	GLubyte* img;
-	FILE *fd;
-	int n, m;
-	int  k, nm;
-	char c;
-	int i;
-	char b[100];
-	float s;
-	int red, green, blue;
-
-	/* first open file and check if it's an ASCII PPM (indicated by P3 at the start) */
-	fd = fopen(file, "r");
-	fscanf(fd,"%[^\n] ",b);
-	if(b[0]!='P'|| b[1] != '3')
-	{
-		printf("%s is not a PPM file!\n",file);
-		exit(0);
-	}
-	printf("%s is a PPM file\n", file);
-	fscanf(fd, "%c",&c);
-
-	/* next, skip past the comments - any line starting with #*/
-	while(c == '#')
-	{
-		fscanf(fd, "%[^\n] ", b);
-		printf("%s\n",b);
-		fscanf(fd, "%c",&c);
-	}
-	ungetc(c,fd);
-
-	/* now get the dimensions and max colour value from the image */
-	fscanf(fd, "%d %d %d", &n, &m, &k);
-
-	printf("%d rows  %d columns  max value= %d\n",n,m,k);
-
-	/* calculate number of pixels and allocate storage for this */
-	nm = n*m;
-	img = (GLubyte*)malloc(3*sizeof(GLuint)*nm);
-	s=255.0/k;
-
-	/* for every pixel, grab the read green and blue values, storing them in the image data array */
-	for(i=0;i<nm;i++)
-	{
-		fscanf(fd,"%d %d %d",&red, &green, &blue );
-		img[3*nm-3*i-3]=red*s;
-		img[3*nm-3*i-2]=green*s;
-		img[3*nm-3*i-1]=blue*s;
-	}
-
-	/* finally, set the "return parameters" (width, height, max) and return the image array */
-	*width = n;
-	*height = m;
-	*max = k;
-
-	return img;
+    GLubyte* img;
+    FILE *fd;
+    int n, m;
+    int  k, nm;
+    char c;
+    int i;
+    char b[100];
+    float s;
+    int red, green, blue;
+    
+    /* first open file and check if it's an ASCII PPM (indicated by P3 at the start) */
+    fd = fopen(file, "r");
+    fscanf(fd,"%[^\n] ",b);
+    if(b[0]!='P'|| b[1] != '3')
+    {
+        printf("%s is not a PPM file!\n",file);
+        exit(0);
+    }
+    printf("%s is a PPM file\n", file);
+    fscanf(fd, "%c",&c);
+    
+    /* next, skip past the comments - any line starting with #*/
+    while(c == '#')
+    {
+        fscanf(fd, "%[^\n] ", b);
+        printf("%s\n",b);
+        fscanf(fd, "%c",&c);
+    }
+    ungetc(c,fd);
+    
+    /* now get the dimensions and max colour value from the image */
+    fscanf(fd, "%d %d %d", &n, &m, &k);
+    
+    printf("%d rows  %d columns  max value= %d\n",n,m,k);
+    
+    /* calculate number of pixels and allocate storage for this */
+    nm = n*m;
+    img = (GLubyte*)malloc(3*sizeof(GLuint)*nm);
+    s=255.0/k;
+    
+    /* for every pixel, grab the read green and blue values, storing them in the image data array */
+    for(i=0;i<nm;i++)
+    {
+        fscanf(fd,"%d %d %d",&red, &green, &blue );
+        img[3*nm-3*i-3]=red*s;
+        img[3*nm-3*i-2]=green*s;
+        img[3*nm-3*i-1]=blue*s;
+    }
+    
+    /* finally, set the "return parameters" (width, height, max) and return the image array */
+    *width = n;
+    *height = m;
+    *max = k;
+    
+    
+    return img;
 }
 
 void keyboard(unsigned char key, int x, int y)
@@ -349,14 +355,14 @@ void addLights()
     glLightfv(GL_LIGHT1, GL_POSITION, light1Pos);
 
     //draw sphere for light0
-    glColor3f(0, 0.2, 1);
+    //glColor3f(0.7, 0.7, 0.7);
     glPushMatrix();
     glTranslatef(light0Pos[0], light0Pos[1], light0Pos[2]);
     glutWireSphere(0.1, 16, 16);
     glPopMatrix();
 
     //draw sphere for light1
-    glColor3f(1, 0.6, 0);
+    // glColor3f(0.7, 0.7, 0.7);
     glPushMatrix();
     glTranslatef(light1Pos[0], light1Pos[1], light1Pos[2]);
     glutWireSphere(0.1, 16, 16);
@@ -368,7 +374,7 @@ void setMeshes()
 {
     //Mesh newMesh;
     playerMesh.LoadOBJ("PlayerShip.obj");
-    cubeMesh.LoadOBJ("Cube.obj");
+    cubeMesh.LoadOBJ("PlayerShip.obj");
 
     //playerMesh = newMesh;
     player.SetMesh(playerMesh);
@@ -547,7 +553,7 @@ void init(void)
     setMeshes();
     setBarriers();
 
-    glClearColor(0, 0, 0, 0);       //black background
+    glClearColor(0.1, 0.1, 0.1, 0);       //black background
     glEnable(GL_COLOR_MATERIAL);    //enable colour material
 
     //enable lighting
@@ -980,7 +986,10 @@ void display(void)
         lookAt[0] = 0;
         lookAt[1] = 0;
         lookAt[2] = -10;
+
         gluLookAt(eye[0], eye[1], eye[2], lookAt[0], lookAt[1], lookAt[2], 0,1,0);
+
+        glBindTexture(GL_TEXTURE_2D, myTex[0]);
         player.drawShip();      //draw ship
         glDisable(GL_LIGHTING);
         userInfo.drawScoreAndHP(player.getHp());
@@ -1031,7 +1040,7 @@ void display(void)
         for(list<Projectile*>::iterator i=projectiles.begin(); i!=projectiles.end(); ++i)
         {
             Projectile* projectileP = *i;
-            glColor3f(1, 1, 1);
+             //glColor3f(0.7, 0.7, 0.7);
             projectileP->draw();
         }
 
@@ -1039,7 +1048,7 @@ void display(void)
         for(list<Projectile*>::iterator i=enemyProjectiles.begin(); i!=enemyProjectiles.end(); ++i)
         {
             Projectile* projectileP = *i;
-            glColor3f(1, 0, 0);
+            /// glColor3f(0.7, 0.7, 0.7);
             projectileP->draw();
         }
         break;
@@ -1069,6 +1078,25 @@ void display(void)
     glutSwapBuffers();
 }
 
+void TextureInit()
+{
+    glEnable(GL_TEXTURE_2D);
+    glGenTextures(1, myTex);
+
+    glBindTexture(GL_TEXTURE_2D, myTex[0]);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    
+    
+    /*Get and save image*/
+    image = LoadPPM("Col_MAP.ppm",&widthA, &heightA, &maxA);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, widthA, heightA, 0, GL_RGB,
+                 GL_UNSIGNED_BYTE, image);
+    
+    glMatrixMode(GL_TEXTURE);
+}
+
 //main method
 int main(int argc, char** argv)
 {
@@ -1087,6 +1115,8 @@ int main(int argc, char** argv)
     glutSpecialUpFunc(specialUp);
     glutReshapeFunc(reshape);
     glutTimerFunc(speed, timer, 0);
+
+    TextureInit();
 
     glEnable(GL_DEPTH_TEST);
     init();

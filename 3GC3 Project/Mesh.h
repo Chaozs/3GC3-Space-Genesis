@@ -20,8 +20,10 @@ Thien Trandinh / trandit / 001420634
 #  include <GL/freeglut.h>
 #endif
 
+
 #include <vector>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 #include "Vector3.h"
@@ -37,7 +39,7 @@ public:
     std::vector<Vector3> normals;
     std::vector<int> nIndex;
     std::vector<Vector3> uvs;
-
+    std::vector<int> uIndex;
     //Faces
     void LoadOBJ(const char * path);
     void Draw();

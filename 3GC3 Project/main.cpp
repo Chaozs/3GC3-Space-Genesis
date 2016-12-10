@@ -86,10 +86,6 @@ float light1Pos[] = {5, 3, 0, 1};   //initial light1 positon
 /* ANIMATION */
 const int speed = 30;               //time between calls of display()
 
-//<<<<<<< HEAD
-//<<<<<<< HEAD
-
-
 GLubyte* img_data; 					//how to play image
 /* TEXTURE */
 GLubyte* image;
@@ -263,7 +259,9 @@ void keyboard(unsigned char key, int x, int y)
         }
     }
 //<<<<<<< HEAD
+
 //=======
+//>>>>>>> 6422487bfcba5afce09fe515c4eb0eb298e7db57
     else if(currentState == InstructionMenu)
     {
         switch (key)
@@ -274,6 +272,9 @@ void keyboard(unsigned char key, int x, int y)
 
         }
     }
+//<<<<<<< HEAD
+//>>>>>>> 6422487bfcba5afce09fe515c4eb0eb298e7db57
+//=======
 //>>>>>>> 6422487bfcba5afce09fe515c4eb0eb298e7db57
 
     glutPostRedisplay();    //call display again after keyboard input

@@ -35,7 +35,7 @@ public:
     void setBottomTrue();               //sets enemy to being bottom unit
     bool isBottomTrue();                //gets if enemy is bottom unit
     bool shouldShoot(int);              //uses random to check if enemy should shoot
-    void drawShip();                    //draws ship
+    void drawShip(Mesh&);               //draws ship
     int getMultipleOfSpeedBeforeCanShoot();     //gets tracker for if enemy can shoot again
     void setMultipleOfSpeedBeforeCanShoot(int); //sets tracker for if enemy can shoot again
     bool isHit(float, float, float);    //whether or not the given coordinates is within enemy's hit box

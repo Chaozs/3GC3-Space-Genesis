@@ -400,43 +400,6 @@ void addLights()
 
 }
 
-//store meshes into each object
-void setMeshes()
-{
-    //Mesh newMesh;
-    playerMesh.LoadOBJ("PlayerShip.obj");
-    cubeMesh.LoadOBJ("PlayerShip.obj");
-
-    //playerMesh = newMesh;
-    player.SetMesh(playerMesh);
-
-    for(std::vector<Enemy*>::iterator i = enemyRow1.begin(); i != enemyRow1.end(); ++i)
-    {
-        Enemy* enemy = *i;
-        enemy->SetMesh(cubeMesh);
-    }
-    for(std::vector<Enemy*>::iterator i = enemyRow2.begin(); i != enemyRow2.end(); ++i)
-    {
-        Enemy* enemy = *i;
-        enemy->SetMesh(cubeMesh);
-    }
-    for(std::vector<Enemy*>::iterator i = enemyRow3.begin(); i != enemyRow3.end(); ++i)
-    {
-        Enemy* enemy = *i;
-        enemy->SetMesh(cubeMesh);
-    }
-    for(std::vector<Enemy*>::iterator i = enemyRow4.begin(); i != enemyRow4.end(); ++i)
-    {
-        Enemy* enemy = *i;
-        enemy->SetMesh(cubeMesh);
-    }
-    for(std::vector<Enemy*>::iterator i = enemyRow5.begin(); i != enemyRow5.end(); ++i)
-    {
-        Enemy* enemy = *i;
-        enemy->SetMesh(cubeMesh);
-    }
-}
-
 //initialize enemies
 void setEnemies()
 {
@@ -614,7 +577,6 @@ void resetGame()
     multipleOfSpeedBeforeCanShoot = 0;
     setEnemies();
     setBarriers();
-    setMeshes();
     glBindTexture(GL_TEXTURE_2D, 0);
     userInfo = GUI();
     glutPostRedisplay();
@@ -624,8 +586,9 @@ void resetGame()
 void init(void)
 {
     bindTextures();
+    playerMesh.LoadOBJ("PlayerShip.obj");
+    cubeMesh.LoadOBJ("PlayerShip.obj");
     setEnemies();
-    setMeshes();
     setBarriers();
     glBindTexture(GL_TEXTURE_2D, 0);
 
@@ -1084,7 +1047,7 @@ void display(void)
         gluLookAt(eye[0], eye[1], eye[2], lookAt[0], lookAt[1], lookAt[2], 0,1,0);
 
         glBindTexture(GL_TEXTURE_2D, myTex[0]);
-        player.drawShip();      //draw ship
+        player.drawShip(playerMesh);      //draw ship
         glDisable(GL_LIGHTING);
         userInfo.drawScoreAndHP(player.getHp());
         userInfo.drawDifficulty(difficultyString);
@@ -1100,35 +1063,35 @@ void display(void)
         for(std::vector<Enemy*>::iterator i = enemyRow1.begin(); i != enemyRow1.end(); ++i)
         {
             Enemy* enemy = *i;
-            enemy->drawShip();
+            enemy->drawShip(cubeMesh);
         }
 
         //draw enemy ships on screen
         for(std::vector<Enemy*>::iterator i = enemyRow2.begin(); i != enemyRow2.end(); ++i)
         {
             Enemy* enemy = *i;
-            enemy->drawShip();
+            enemy->drawShip(cubeMesh);
         }
 
         //draw enemy ships on screen
         for(std::vector<Enemy*>::iterator i = enemyRow3.begin(); i != enemyRow3.end(); ++i)
         {
             Enemy* enemy = *i;
-            enemy->drawShip();
+            enemy->drawShip(cubeMesh);
         }
 
         //draw enemy ships on screen
         for(std::vector<Enemy*>::iterator i = enemyRow4.begin(); i != enemyRow4.end(); ++i)
         {
             Enemy* enemy = *i;
-            enemy->drawShip();
+            enemy->drawShip(cubeMesh);
         }
 
         //draw enemy ships on screen
         for(std::vector<Enemy*>::iterator i = enemyRow5.begin(); i != enemyRow5.end(); ++i)
         {
             Enemy* enemy = *i;
-            enemy->drawShip();
+            enemy->drawShip(cubeMesh);
         }
 
         //draw projectiles onto screen

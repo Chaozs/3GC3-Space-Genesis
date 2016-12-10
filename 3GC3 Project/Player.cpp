@@ -32,7 +32,7 @@ void Player::decreaseHp(int damage)
 }
 
 //draw player ship
-void Player::drawShip()
+void Player::drawShip(Mesh& mesh)
 {
     glPushMatrix();
     glTranslatef(position[0], position[1], position[2]);

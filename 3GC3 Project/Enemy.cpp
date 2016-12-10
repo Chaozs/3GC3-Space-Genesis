@@ -61,7 +61,7 @@ bool Enemy::shouldShoot(int range)
 }
 
 //draws ship
-void Enemy::drawShip()
+void Enemy::drawShip(Mesh& mesh)
 {
     if(isAlive){
     glPushMatrix();

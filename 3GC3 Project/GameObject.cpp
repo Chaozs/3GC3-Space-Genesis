@@ -28,18 +28,6 @@ vector<float> GameObject::getPosition()
     return vPosition;
 }
 
-//load mesh into gameObject
-void GameObject::SetMesh(Mesh& m)
-{
-    mesh = m;
-}
-
-//get mesh from gameObject
-Mesh GameObject::getMesh()
-{
-    return mesh;
-}
-
 //moves object's X position by movement
 void GameObject::moveX(float movement)
 {

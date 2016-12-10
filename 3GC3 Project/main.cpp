@@ -94,7 +94,6 @@ int widthA, heightA, maxA;
 int width = 0, height = 0, max = 0;
 GLuint myTex[1];
 
-
 GLubyte* LoadPPM(char* file, int* width, int* height, int* max)
 {
     GLubyte* img;
@@ -106,7 +105,7 @@ GLubyte* LoadPPM(char* file, int* width, int* height, int* max)
     char b[100];
     float s;
     int red, green, blue;
-    
+
     /* first open file and check if it's an ASCII PPM (indicated by P3 at the start) */
     fd = fopen(file, "r");
     fscanf(fd,"%[^\n] ",b);
@@ -117,7 +116,7 @@ GLubyte* LoadPPM(char* file, int* width, int* height, int* max)
     }
     printf("%s is a PPM file\n", file);
     fscanf(fd, "%c",&c);
-    
+
     /* next, skip past the comments - any line starting with #*/
     while(c == '#')
     {
@@ -126,32 +125,32 @@ GLubyte* LoadPPM(char* file, int* width, int* height, int* max)
         fscanf(fd, "%c",&c);
     }
     ungetc(c,fd);
-    
+
     /* now get the dimensions and max colour value from the image */
     fscanf(fd, "%d %d %d", &n, &m, &k);
-    
+
     printf("%d rows  %d columns  max value= %d\n",n,m,k);
-    
+
     /* calculate number of pixels and allocate storage for this */
     nm = n*m;
     img = (GLubyte*)malloc(3*sizeof(GLuint)*nm);
     s=255.0/k;
-    
+
     /* for every pixel, grab the read green and blue values, storing them in the image data array */
-    for(i=0;i<nm;i++)
+    for(i=0; i<nm; i++)
     {
         fscanf(fd,"%d %d %d",&red, &green, &blue );
         img[3*nm-3*i-3]=red*s;
         img[3*nm-3*i-2]=green*s;
         img[3*nm-3*i-1]=blue*s;
     }
-    
+
     /* finally, set the "return parameters" (width, height, max) and return the image array */
     *width = n;
     *height = m;
     *max = k;
-    
-    
+
+
     return img;
 }
 
@@ -161,7 +160,7 @@ void keyboard(unsigned char key, int x, int y)
     {
         switch (key)
         {
-        case 13:        //if enter key pressed, check which button is currently highlighted
+        case 32:        //if space key pressed, check which button is currently highlighted
             switch(mainMenu.getCurrentButton())
             {
             case Item1: //if start button is currently highlighted, switch game state to playing game
@@ -184,7 +183,7 @@ void keyboard(unsigned char key, int x, int y)
     {
         switch (key)
         {
-        case 13:        //if enter key pressed, check which button is currently highlighted
+        case 32:        //if space key pressed, check which button is currently highlighted
             switch(mainMenu.getCurrentButton())
             {
             case Item1: //easy difficulty
@@ -226,10 +225,11 @@ void keyboard(unsigned char key, int x, int y)
             break;
         }
     }
-    else if (currentState == GameOver){
+    else if (currentState == GameOver)
+    {
         switch (key)
         {
-        case 13:        //if enter key pressed, check which button is currently highlighted
+        case 32:
             switch(mainMenu.getCurrentButton())
             {
             case Item1: //if start button is currently highlighted, switch game state to playing game
@@ -242,10 +242,11 @@ void keyboard(unsigned char key, int x, int y)
             break;
         }
     }
-    else if (currentState == Win){
+    else if (currentState == Win)
+    {
         switch (key)
         {
-        case 13:        //if enter key pressed, check which button is currently highlighted
+        case 32:
             switch(mainMenu.getCurrentButton())
             {
             case Item1: //if start button is currently highlighted, switch game state to playing game
@@ -262,9 +263,9 @@ void keyboard(unsigned char key, int x, int y)
     {
         switch (key)
         {
-            case 'b':
-                currentState = Menu;
-                break;
+        case 'b':
+            currentState = Menu;
+            break;
 
         }
     }
@@ -314,7 +315,8 @@ void special(int key, int x, int y)
             break;
         }
     }
-    else if (currentState == GameOver){
+    else if (currentState == GameOver)
+    {
         switch(key)
         {
         case GLUT_KEY_UP:
@@ -325,7 +327,8 @@ void special(int key, int x, int y)
             break;
         }
     }
-    else if (currentState == Win){
+    else if (currentState == Win)
+    {
         switch(key)
         {
         case GLUT_KEY_UP:
@@ -335,7 +338,7 @@ void special(int key, int x, int y)
             mainMenu.goDown();      //scroll down menu
             break;
         }
-           
+
     }
 
     glutPostRedisplay();
@@ -1021,12 +1024,14 @@ void timer(int value)
             glutPostRedisplay();    //calls display
         }
 
-        if(player.getHp() == 0){
+        if(player.getHp() == 0)
+        {
             currentState = GameOver;
             resetGame();
         }
 
-        if(enemyCounter == 0 || barrierCounter == 0){
+        if(enemyCounter == 0 || barrierCounter == 0)
+        {
             currentState = Win;
             resetGame();
         }
@@ -1114,7 +1119,7 @@ void display(void)
         for(list<Projectile*>::iterator i=projectiles.begin(); i!=projectiles.end(); ++i)
         {
             Projectile* projectileP = *i;
-             //glColor3f(0.7, 0.7, 0.7);
+            //glColor3f(0.7, 0.7, 0.7);
             projectileP->draw();
         }
 
@@ -1134,24 +1139,24 @@ void display(void)
     case InstructionMenu:
     {
         cout << currentState << endl;
-    	glMatrixMode(GL_PROJECTION);
-		glLoadIdentity();
-		gluOrtho2D(0, 800, 0, 800);
-		glMatrixMode(GL_MODELVIEW);
-		glLoadIdentity();
-		glRasterPos2i(600,250);
-		glPixelZoom(-1, 1);
-		glDrawPixels(width,height,GL_RGB, GL_UNSIGNED_BYTE, img_data);
-        
+        glMatrixMode(GL_PROJECTION);
+        glLoadIdentity();
+        gluOrtho2D(0, 800, 0, 800);
+        glMatrixMode(GL_MODELVIEW);
+        glLoadIdentity();
+        glRasterPos2i(600,250);
+        glPixelZoom(-1, 1);
+        glDrawPixels(width,height,GL_RGB, GL_UNSIGNED_BYTE, img_data);
+
         glRasterPos2i(205,150);
         std::string ScoreLabel = "Select B to go back and resume your mission";
         for(int i=0; i<ScoreLabel.size(); i++)
         {
             glutBitmapCharacter(GLUT_BITMAP_9_BY_15, ScoreLabel[i]);
         }
-		glFlush();
-		break;
-	}
+        glFlush();
+        break;
+    }
     case GameOver:
         glFrontFace(GL_CW);
         mainMenu.drawGameOver();
@@ -1176,13 +1181,13 @@ void TextureInit()
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    
-    
+
+
     /*Get and save image*/
     image = LoadPPM("Col_MAP.ppm",&widthA, &heightA, &maxA);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, widthA, heightA, 0, GL_RGB,
                  GL_UNSIGNED_BYTE, image);
-    
+
     glMatrixMode(GL_TEXTURE);
 }
 

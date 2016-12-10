@@ -799,7 +799,9 @@ void display(void)
         }
         break;
     case SelectDifficulty:
+    	glFrontFace(GL_CW);
         mainMenu.drawDifficulty();
+        glFrontFace(GL_CCW);
         break;
     }
 

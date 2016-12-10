@@ -95,8 +95,8 @@ void MainMenu::drawGameOver(){
         break;
     }
 
-    drawBox("Main Menu",-2.0f, 0.0f);
-    drawBox("Restart",2.0f, 0.0f);
+    drawBox("Main Menu",6.0f, 0.0f);
+    drawBox("Restart",10.0f, 0.0f);
 
     //print title text
     glColor3f(1, 1, 1);

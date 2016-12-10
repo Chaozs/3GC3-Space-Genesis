@@ -218,6 +218,22 @@ void keyboard(unsigned char key, int x, int y)
             break;
         }
     }
+    else if (currentState == GameOver){
+        switch (key)
+        {
+        case 13:        //if enter key pressed, check which button is currently highlighted
+            switch(mainMenu.getCurrentButton())
+            {
+            case Item1: //if start button is currently highlighted, switch game state to playing game
+                currentState = Menu;
+                break;
+            case Item2:
+                currentState = Playing;
+                break;
+            }
+            break;
+        }
+    }
 
     glutPostRedisplay();    //call display again after keyboard input
 }
@@ -254,6 +270,17 @@ void special(int key, int x, int y)
     }
     else if (currentState == SelectDifficulty)
     {
+        switch(key)
+        {
+        case GLUT_KEY_UP:
+            mainMenu.goUp();        //scroll up menu
+            break;
+        case GLUT_KEY_DOWN:
+            mainMenu.goDown();      //scroll down menu
+            break;
+        }
+    }
+    else if (currentState == GameOver){
         switch(key)
         {
         case GLUT_KEY_UP:
@@ -891,7 +918,7 @@ void timer(int value)
                 //check if enemy projectile hits player
                 else if (player.isHit(projectileP->getPosition().at(0), projectileP->getPosition().at(1), projectileP->getPosition().at(2)))
                 {
-                    player.decreaseHp(5);
+                    player.decreaseHp(50);
                     i = enemyProjectiles.erase(i);
                 }
                 else
@@ -941,6 +968,11 @@ void timer(int value)
             }
 
             glutPostRedisplay();    //calls display
+        }
+
+        if(player.getHp() == 0){
+            currentState = GameOver;
+            player.setHp(100);
         }
     }
     //wait before calling timer() again
@@ -1050,6 +1082,11 @@ void display(void)
 		glDrawPixels(width,height,GL_RGB, GL_UNSIGNED_BYTE, img_data);
 		glFlush();
 		break;
+    case GameOver:
+        glFrontFace(GL_CW);
+        mainMenu.drawGameOver();
+        glFrontFace(GL_CCW);
+        break;
     }
 
     glutSwapBuffers();

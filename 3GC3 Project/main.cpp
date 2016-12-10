@@ -366,17 +366,40 @@ void timer(int value)
             {
                 i = projectiles.erase(i);
             }
+            //check if barrier1 is hit
+            else if (barrier1.isHit(projectileP->getPosition().at(0),
+                                    projectileP->getPosition().at(1),
+                                    projectileP->getPosition().at(2)))
+            {
+                //TODO
+                i = projectiles.erase(i);
+                barrier1.decreaseHp();
+                cout << "barrier 1 is hit" << endl;
+            }
+
+            //check if barrier2 is hit
+            else if (barrier2.isHit(projectileP->getPosition().at(0),
+                                    projectileP->getPosition().at(1),
+                                    projectileP->getPosition().at(2)))
+            {
+                //TODO
+                i = projectiles.erase(i);
+                barrier2.decreaseHp();
+                cout << "barrier 2 is hit" << endl;
+            }
+
+            //check if barrier3 is hit
+            else if (barrier3.isHit(projectileP->getPosition().at(0),
+                                    projectileP->getPosition().at(1),
+                                    projectileP->getPosition().at(2)))
+            {
+                //TODO
+                i = projectiles.erase(i);
+                barrier3.decreaseHp();
+                cout << "barrier 3 is hit" << endl;
+            }
             else
             {
-                //check if barrer1 is hit
-                if (barrier1.isHit(projectileP->getPosition().at(0),
-                                   projectileP->getPosition().at(1),
-                                   projectileP->getPosition().at(2)))
-                {
-                    //TODO
-                    cout << "barrier 1 is hit" << endl;
-                }
-
                 //check if projectile hits an enemy
                 for(auto j=enemyRow1.begin(); j!=enemyRow1.end();)
                 {
@@ -556,6 +579,38 @@ void timer(int value)
         if (projectileP->getPosition().at(1) <= -7)
         {
             i = enemyProjectiles.erase(i);
+        }
+        //check if barrier1 is hit
+        else if (barrier1.isHit(projectileP->getPosition().at(0),
+                                projectileP->getPosition().at(1),
+                                projectileP->getPosition().at(2)))
+        {
+            //TODO
+            i = enemyProjectiles.erase(i);
+            barrier1.decreaseHp();
+            cout << "barrier 1 is hit" << endl;
+        }
+
+        //check if barrier2 is hit
+        else if (barrier2.isHit(projectileP->getPosition().at(0),
+                                projectileP->getPosition().at(1),
+                                projectileP->getPosition().at(2)))
+        {
+            //TODO
+            i = enemyProjectiles.erase(i);
+            barrier2.decreaseHp();
+            cout << "barrier 2 is hit" << endl;
+        }
+
+        //check if barrier3 is hit
+        else if (barrier3.isHit(projectileP->getPosition().at(0),
+                                projectileP->getPosition().at(1),
+                                projectileP->getPosition().at(2)))
+        {
+            //TODO
+            i = enemyProjectiles.erase(i);
+            barrier3.decreaseHp();
+            cout << "barrier 3 is hit" << endl;
         }
         //check if enemy projectile hits player
         else if (player.isHit(projectileP->getPosition().at(0), projectileP->getPosition().at(1), projectileP->getPosition().at(2)))

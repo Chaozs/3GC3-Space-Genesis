@@ -36,12 +36,12 @@ void Barrier::drawBarrier()
 
 bool Barrier::isHit(float x, float y, float z)
 {
-    if (position[0] < x-2 || position[0] > x+2)
+    if (position[0] < x-1 || position[0] > x+1)
     {
         return false;
     }
 
-    if (position[1] < y-2 || position[1] > y+2)
+    if (position[1] < y-1.5 || position[1] > y+1.5)
     {
         return false;
     }

@@ -321,6 +321,7 @@ void setEnemies()
     for(int i=0; i<11; i++)
     {
         Enemy* enemy = new Enemy(-7+xIncrement*i, 11, -25, 1);
+        enemy -> setBottomTrue();
         enemyRow5.push_back(enemy);
     }
 
@@ -376,7 +377,71 @@ void timer(int value)
         for(list<Enemy*>::iterator i=enemyRow1.begin(); i!=enemyRow1.end(); ++i)
         {
             Enemy* enemy = *i;
-            if (enemy->shouldShoot(2) && enemy->getMultipleOfSpeedBeforeCanShoot() == 10)
+            if (enemy->shouldShoot(200) && enemy->isBottomTrue() && enemy->getMultipleOfSpeedBeforeCanShoot() >= 10)
+            {
+                enemy->setMultipleOfSpeedBeforeCanShoot(0);
+                Projectile* enemyProj = new Projectile(enemy->getPosition().at(0), enemy->getPosition().at(1), enemy->getPosition().at(2));
+                enemyProjectiles.push_back(enemyProj);
+            }
+            else
+            {
+                enemy->setMultipleOfSpeedBeforeCanShoot(enemy->getMultipleOfSpeedBeforeCanShoot()+1);
+            }
+        }
+
+        //generate enemy projectiles
+        for(list<Enemy*>::iterator i=enemyRow2.begin(); i!=enemyRow5.end(); ++i)
+        {
+            Enemy* enemy = *i;
+            if (enemy->shouldShoot(200) && enemy->isBottomTrue() && enemy->getMultipleOfSpeedBeforeCanShoot() >= 10)
+            {
+                enemy->setMultipleOfSpeedBeforeCanShoot(0);
+                Projectile* enemyProj = new Projectile(enemy->getPosition().at(0), enemy->getPosition().at(1), enemy->getPosition().at(2));
+                enemyProjectiles.push_back(enemyProj);
+            }
+            else
+            {
+                enemy->setMultipleOfSpeedBeforeCanShoot(enemy->getMultipleOfSpeedBeforeCanShoot()+1);
+            }
+        }
+
+        //generate enemy projectiles
+        for(list<Enemy*>::iterator i=enemyRow3.begin(); i!=enemyRow5.end(); ++i)
+        {
+            Enemy* enemy = *i;
+            if (enemy->shouldShoot(200) && enemy->isBottomTrue() && enemy->getMultipleOfSpeedBeforeCanShoot() >= 10)
+            {
+                enemy->setMultipleOfSpeedBeforeCanShoot(0);
+                Projectile* enemyProj = new Projectile(enemy->getPosition().at(0), enemy->getPosition().at(1), enemy->getPosition().at(2));
+                enemyProjectiles.push_back(enemyProj);
+            }
+            else
+            {
+                enemy->setMultipleOfSpeedBeforeCanShoot(enemy->getMultipleOfSpeedBeforeCanShoot()+1);
+            }
+        }
+
+        //generate enemy projectiles
+        for(list<Enemy*>::iterator i=enemyRow4.begin(); i!=enemyRow5.end(); ++i)
+        {
+            Enemy* enemy = *i;
+            if (enemy->shouldShoot(200) && enemy->isBottomTrue() && enemy->getMultipleOfSpeedBeforeCanShoot() >= 10)
+            {
+                enemy->setMultipleOfSpeedBeforeCanShoot(0);
+                Projectile* enemyProj = new Projectile(enemy->getPosition().at(0), enemy->getPosition().at(1), enemy->getPosition().at(2));
+                enemyProjectiles.push_back(enemyProj);
+            }
+            else
+            {
+                enemy->setMultipleOfSpeedBeforeCanShoot(enemy->getMultipleOfSpeedBeforeCanShoot()+1);
+            }
+        }
+
+        //generate enemy projectiles
+        for(list<Enemy*>::iterator i=enemyRow5.begin(); i!=enemyRow5.end(); ++i)
+        {
+            Enemy* enemy = *i;
+            if (enemy->shouldShoot(200) && enemy->isBottomTrue() && enemy->getMultipleOfSpeedBeforeCanShoot() >= 10)
             {
                 enemy->setMultipleOfSpeedBeforeCanShoot(0);
                 Projectile* enemyProj = new Projectile(enemy->getPosition().at(0), enemy->getPosition().at(1), enemy->getPosition().at(2));
@@ -490,6 +555,7 @@ void display(void)
         {
             Enemy* enemy = *i;
             enemy->moveX(enemyMovement);
+            enemy->moveY(enemyDifficulty);
             enemy->drawShip();
         }
 
@@ -498,6 +564,7 @@ void display(void)
         {
             Enemy* enemy = *i;
             enemy->moveX(enemyMovement);
+            enemy->moveY(enemyDifficulty);
             enemy->drawShip();
         }
 
@@ -506,6 +573,7 @@ void display(void)
         {
             Enemy* enemy = *i;
             enemy->moveX(enemyMovement);
+            enemy->moveY(enemyDifficulty);
             enemy->drawShip();
         }
 
@@ -514,6 +582,7 @@ void display(void)
         {
             Enemy* enemy = *i;
             enemy->moveX(enemyMovement);
+            enemy->moveY(enemyDifficulty);
             enemy->drawShip();
         }
 

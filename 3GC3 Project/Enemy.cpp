@@ -8,6 +8,7 @@ Thien Trandinh / trandit / 001420634
 */
 
 #include "Enemy.h"
+#include <iostream>
 
 //constructor for enemy; requires an initial position
 Enemy::Enemy(float x, float y, float z, int Row) : GameObject(x,y,z)
@@ -47,8 +48,10 @@ int Enemy::getRow()
 
 bool Enemy::shouldShoot(int range)
 {
-    srand (time(NULL));
-    int randomInt = rand() % range + 1;
+    #define uniform() (rand()/(RAND_MAX + 1.0))
+    int randomInt = (int) (uniform() * (range+1));
+
+    cout << randomInt << endl;
     if(randomInt==1)
     {
         return true;

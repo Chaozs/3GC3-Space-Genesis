@@ -45,7 +45,7 @@ private:
     int row;
     float speed;
     bool isAlive;
-    bool isBottom;
+    bool isBottom = false;
     int multipleOfSpeedBeforeCanShoot = 0;  //when reaches 5, enemy can shoot projectile again; increases by 1 upon every timer() call
 };
 

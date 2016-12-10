@@ -374,8 +374,8 @@ void reshape(int w, int h)
 void addLights()
 {
     //set light colours
-    float diff0[4] = {1, 1, 1, 1};            
-    float diff1[4] = {1, 1, 1, 1};            
+    float diff0[4] = {1, 1, 1, 1};
+    float diff1[4] = {1, 1, 1, 1};
     float amb0[4] = {0.2f, 0.2f, 0.2f, 1};
     float amb1[4] = {0.2f, 0.2f, 0.2f, 1};
     float spec0[4] = {0.2f, 0.2f, 0.2f, 1};
@@ -570,8 +570,27 @@ void setBarriers()
     barriers.push_back(barrier);
 }
 
+void bindTextures()
+{
+    glEnable(GL_TEXTURE_2D);
+    glGenTextures(1, myTex);
+
+    glBindTexture(GL_TEXTURE_2D, myTex[0]);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+    /*Get and save image*/
+    image = LoadPPM("Col_MAP.ppm",&widthA, &heightA, &maxA);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, widthA, heightA, 0, GL_RGB,
+                 GL_UNSIGNED_BYTE, image);
+
+    glMatrixMode(GL_TEXTURE);
+}
+
 void resetGame()
 {
+    bindTextures();
     player = Player(0, -4, -25);
     enemyRow1.clear();
     enemyRow2.clear();
@@ -581,7 +600,6 @@ void resetGame()
     barriers.clear();
     projectiles.clear();
     enemyProjectiles.clear();
-    userInfo = GUI();
     gamePaused = false;
     leftPressed = false;
     rightPressed = false;
@@ -590,15 +608,19 @@ void resetGame()
     setEnemies();
     setBarriers();
     setMeshes();
+    glBindTexture(GL_TEXTURE_2D, 0);
+    userInfo = GUI();
     glutPostRedisplay();
 }
 
 //initialize
 void init(void)
 {
+    bindTextures();
     setEnemies();
     setMeshes();
     setBarriers();
+    glBindTexture(GL_TEXTURE_2D, 0);
 
     glClearColor(0.1, 0.1, 0.1, 0);       //black background
     glEnable(GL_COLOR_MATERIAL);    //enable colour material
@@ -1040,8 +1062,9 @@ void display(void)
 	    glEnable(GL_LIGHTING);
 	    glEnable(GL_LIGHT0);
 	    glEnable(GL_LIGHT1);
-	    
+
 	    if(gamePaused){
+            glBindTexture(GL_TEXTURE_2D, 0);
 	    	userInfo.drawPause();
 	    }
         eye[0] = 0;
@@ -1156,25 +1179,6 @@ void display(void)
     glutSwapBuffers();
 }
 
-void TextureInit()
-{
-    glEnable(GL_TEXTURE_2D);
-    glGenTextures(1, myTex);
-
-    glBindTexture(GL_TEXTURE_2D, myTex[0]);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-
-    /*Get and save image*/
-    image = LoadPPM("Col_MAP.ppm",&widthA, &heightA, &maxA);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, widthA, heightA, 0, GL_RGB,
-                 GL_UNSIGNED_BYTE, image);
-
-    glMatrixMode(GL_TEXTURE);
-}
-
 //main method
 int main(int argc, char** argv)
 {
@@ -1193,8 +1197,6 @@ int main(int argc, char** argv)
     glutSpecialUpFunc(specialUp);
     glutReshapeFunc(reshape);
     glutTimerFunc(speed, timer, 0);
-
-    TextureInit();
 
     glEnable(GL_DEPTH_TEST);
     init();

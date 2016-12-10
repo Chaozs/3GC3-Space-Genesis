@@ -86,7 +86,8 @@ float light1Pos[] = {5, 3, 0, 1};   //initial light1 positon
 /* ANIMATION */
 const int speed = 30;               //time between calls of display()
 
-<<<<<<< HEAD
+//<<<<<<< HEAD
+//<<<<<<< HEAD
 
 
 GLubyte* img_data; 					//how to play image
@@ -96,13 +97,7 @@ GLubyte* image;
 int widthA, heightA, maxA;
 int width = 0, height = 0, max = 0;
 GLuint myTex[1];
-=======
-/* LOAD IMAGE */
-GLubyte* img_data; 					//how to play image
-int height = 0;
-int width = 0;
-int max = 0;
->>>>>>> c8207cdd0814b1da450adcd58cd20cb9c0a13aa3
+
 
 GLubyte* LoadPPM(char* file, int* width, int* height, int* max)
 {
@@ -267,6 +262,19 @@ void keyboard(unsigned char key, int x, int y)
             break;
         }
     }
+//<<<<<<< HEAD
+//=======
+    else if(currentState == InstructionMenu)
+    {
+        switch (key)
+        {
+            case 'b':
+                currentState = Menu;
+                break;
+
+        }
+    }
+//>>>>>>> 6422487bfcba5afce09fe515c4eb0eb298e7db57
 
     glutPostRedisplay();    //call display again after keyboard input
 }
@@ -1130,16 +1138,26 @@ void display(void)
         glFrontFace(GL_CCW);
         break;
     case InstructionMenu:
+    {
+        cout << currentState << endl;
     	glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
 		gluOrtho2D(0, 800, 0, 800);
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
-		glRasterPos2i(width,0);
+		glRasterPos2i(600,250);
 		glPixelZoom(-1, 1);
 		glDrawPixels(width,height,GL_RGB, GL_UNSIGNED_BYTE, img_data);
+        
+        glRasterPos2i(205,150);
+        std::string ScoreLabel = "Select B to go back and resume your mission";
+        for(int i=0; i<ScoreLabel.size(); i++)
+        {
+            glutBitmapCharacter(GLUT_BITMAP_9_BY_15, ScoreLabel[i]);
+        }
 		glFlush();
 		break;
+	}
     case GameOver:
         glFrontFace(GL_CW);
         mainMenu.drawGameOver();

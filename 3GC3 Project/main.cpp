@@ -39,8 +39,7 @@ float eye[] = {0, -5, 0};           //initial camera location
 float lookAt[] = {0, 0, -10};       //point camera is looking at
 
 /* GAME STATE */
-float unitPosition[] = {0, 0, 0};
-enum GameState { Menu, SelectDifficulty, InstructionMenu, Playing, Paused, GameOver };  //current game state enum
+enum GameState { Menu, SelectDifficulty, InstructionMenu, Playing, GameOver };  //current game state enum
 enum ButtonType { Item1, Item2, Item3, Item4 };
 GameState currentState = Menu;      //initially in start menu
 GUI userInfo = GUI();
@@ -54,7 +53,7 @@ vector<Enemy*> enemyRow3;
 vector<Enemy*> enemyRow4;
 vector<Enemy*> enemyRow5;
 
-float enemyMovement =0.06f; //enemy x movement speed
+float enemyMovement = 0.06f; //enemy x movement speed
 float enemyDifficulty = -0.0015; //enemy downwards movement speed
 int indexCounter=0;
 
@@ -83,10 +82,11 @@ float light1Pos[] = {5, 3, 0, 1};   //initial light1 positon
 /* ANIMATION */
 const int speed = 30;               //time between calls of display()
 
+/* LOAD IMAGE */
 GLubyte* img_data; 					//how to play image
 int height = 0;
-int width =0;
-int max =0;
+int width = 0;
+int max = 0;
 
 GLubyte* LoadPPM(char* file, int* width, int* height, int* max)
 {
@@ -511,6 +511,29 @@ void setBarriers()
     barriers.push_back(barrier);
     barrier = new Barrier(9.5f, 1, -25);
     barriers.push_back(barrier);
+}
+
+void resetGame()
+{
+    player = Player(0, -4, -25);
+    enemyRow1.clear();
+    enemyRow2.clear();
+    enemyRow3.clear();
+    enemyRow4.clear();
+    enemyRow5.clear();
+    barriers.clear();
+    projectiles.clear();
+    enemyProjectiles.clear();
+    userInfo = GUI();
+    gamePaused = false;
+    leftPressed = false;
+    rightPressed = false;
+    canShoot = true;
+    multipleOfSpeedBeforeCanShoot = 0;
+    setEnemies();
+    setBarriers();
+    setMeshes();
+    glutPostRedisplay();
 }
 
 //initialize

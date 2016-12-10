@@ -34,6 +34,7 @@ public:
     MainMenu();                     //constructor
     void drawMenu();                //draw all buttons and text
     void drawDifficulty();          //draws the difficulty menu
+    void drawGameOver();            //draws the gameover screen
     enum ButtonType { Item1, Item2, Item3, Item4 }; //enum for button types
     void goDown();                  //cycle down buttons
     void goUp();                    //cycle up buttons

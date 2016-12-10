@@ -31,6 +31,7 @@ public:
     int getHp();                    //returns hp of the barrier
     void decreaseHp();              //decreases the barrier's hp by 1
     void drawBarrier();
+    bool isHit(float, float, float);    //whether or not the given coordinates is within barrier's hit box
 
 private:
     int hp;

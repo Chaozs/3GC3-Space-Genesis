@@ -358,7 +358,7 @@ void timer(int value)
     switch(currentState)
     {
     case Playing:
-        //update positions of player projectiles on screen
+        //update player projectiles on screen
         for(auto i=projectiles.begin(); i!=projectiles.end();)
         {
             Projectile* projectileP = *i;
@@ -368,6 +368,101 @@ void timer(int value)
             }
             else
             {
+                //check if barrer1 is hit
+                if (barrier1.isHit(projectileP->getPosition().at(0),
+                                   projectileP->getPosition().at(1),
+                                   projectileP->getPosition().at(2)))
+                {
+                    //TODO
+                    cout << "barrier 1 is hit" << endl;
+                }
+
+                //check if projectile hits an enemy
+                for(auto j=enemyRow1.begin(); j!=enemyRow1.end();)
+                {
+                    Enemy* enemy = *j;
+                    if (enemy->isHit(projectileP->getPosition().at(0),
+                                     projectileP->getPosition().at(1),
+                                     projectileP->getPosition().at(2)))
+                    {
+                        j = enemyRow1.erase(j);
+                        i = projectiles.erase(i);
+                    }
+                    else
+                    {
+                        ++j;
+                    }
+                }
+
+                //check if projectile hits an enemy
+                for(auto j=enemyRow2.begin(); j!=enemyRow2.end();)
+                {
+                    Enemy* enemy = *j;
+                    if (enemy->isHit(projectileP->getPosition().at(0),
+                                     projectileP->getPosition().at(1),
+                                     projectileP->getPosition().at(2)))
+                    {
+                        j = enemyRow2.erase(j);
+                        i = projectiles.erase(i);
+                    }
+                    else
+                    {
+                        ++j;
+                    }
+                }
+
+                //check if projectile hits an enemy
+                for(auto j=enemyRow3.begin(); j!=enemyRow3.end();)
+                {
+                    Enemy* enemy = *j;
+                    if (enemy->isHit(projectileP->getPosition().at(0),
+                                     projectileP->getPosition().at(1),
+                                     projectileP->getPosition().at(2)))
+                    {
+                        j = enemyRow3.erase(j);
+                        i = projectiles.erase(i);
+                    }
+                    else
+                    {
+                        ++j;
+                    }
+                }
+
+                //check if projectile hits an enemy
+                for(auto j=enemyRow4.begin(); j!=enemyRow4.end();)
+                {
+                    Enemy* enemy = *j;
+                    if (enemy->isHit(projectileP->getPosition().at(0),
+                                     projectileP->getPosition().at(1),
+                                     projectileP->getPosition().at(2)))
+                    {
+                        j = enemyRow4.erase(j);
+                        i = projectiles.erase(i);
+                    }
+                    else
+                    {
+                        ++j;
+                    }
+                }
+
+                //check if projectile hits an enemy
+                for(auto j=enemyRow5.begin(); j!=enemyRow5.end();)
+                {
+                    Enemy* enemy = *j;
+                    if (enemy->isHit(projectileP->getPosition().at(0),
+                                     projectileP->getPosition().at(1),
+                                     projectileP->getPosition().at(2)))
+                    {
+                        j = enemyRow5.erase(j);
+                        i = projectiles.erase(i);
+                    }
+                    else
+                    {
+                        ++j;
+                    }
+                }
+
+                //update positions of player projectiles on screen
                 projectileP->moveY(0.5);
                 ++i;
             }
@@ -390,7 +485,7 @@ void timer(int value)
         }
 
         //generate enemy projectiles
-        for(list<Enemy*>::iterator i=enemyRow2.begin(); i!=enemyRow5.end(); ++i)
+        for(list<Enemy*>::iterator i=enemyRow2.begin(); i!=enemyRow2.end(); ++i)
         {
             Enemy* enemy = *i;
             if (enemy->shouldShoot(200) && enemy->isBottomTrue() && enemy->getMultipleOfSpeedBeforeCanShoot() >= 10)
@@ -406,7 +501,7 @@ void timer(int value)
         }
 
         //generate enemy projectiles
-        for(list<Enemy*>::iterator i=enemyRow3.begin(); i!=enemyRow5.end(); ++i)
+        for(list<Enemy*>::iterator i=enemyRow3.begin(); i!=enemyRow3.end(); ++i)
         {
             Enemy* enemy = *i;
             if (enemy->shouldShoot(200) && enemy->isBottomTrue() && enemy->getMultipleOfSpeedBeforeCanShoot() >= 10)
@@ -422,7 +517,7 @@ void timer(int value)
         }
 
         //generate enemy projectiles
-        for(list<Enemy*>::iterator i=enemyRow4.begin(); i!=enemyRow5.end(); ++i)
+        for(list<Enemy*>::iterator i=enemyRow4.begin(); i!=enemyRow4.end(); ++i)
         {
             Enemy* enemy = *i;
             if (enemy->shouldShoot(200) && enemy->isBottomTrue() && enemy->getMultipleOfSpeedBeforeCanShoot() >= 10)
@@ -452,46 +547,54 @@ void timer(int value)
                 enemy->setMultipleOfSpeedBeforeCanShoot(enemy->getMultipleOfSpeedBeforeCanShoot()+1);
             }
         }
+    }
 
-        //update positions of enemy projectiles on screen
-        for(auto i=enemyProjectiles.begin(); i!=enemyProjectiles.end();)
+    //update positions of enemy projectiles on screen
+    for(auto i=enemyProjectiles.begin(); i!=enemyProjectiles.end();)
+    {
+        Projectile* projectileP = *i;
+        if (projectileP->getPosition().at(1) <= -7)
         {
-            Projectile* projectileP = *i;
-            if (projectileP->getPosition().at(1) <= -7)
-            {
-                i = enemyProjectiles.erase(i);
-            }
-            else
-            {
-                projectileP->moveY(-0.5);
-                ++i;
-            }
+            i = enemyProjectiles.erase(i);
         }
-
-        if (multipleOfSpeedBeforeCanShoot >= 20)
+        //check if enemy projectile hits player
+        else if (player.isHit(projectileP->getPosition().at(0), projectileP->getPosition().at(1), projectileP->getPosition().at(2)))
         {
-            multipleOfSpeedBeforeCanShoot = 0;
-            canShoot = true;
+            //TODO: update player HP on GUI
+            player.decreaseHp(5);
+            i = enemyProjectiles.erase(i);
+            cout << "Player is hit by enemy projectile. Player hp is now " << player.getHp() << endl;
         }
         else
         {
-            multipleOfSpeedBeforeCanShoot++;
+            projectileP->moveY(-0.5);
+            ++i;
         }
+    }
 
-        //move ship position if left/right arrow keys are pressed
-        if (leftPressed)
+    if (multipleOfSpeedBeforeCanShoot >= 20)
+    {
+        multipleOfSpeedBeforeCanShoot = 0;
+        canShoot = true;
+    }
+    else
+    {
+        multipleOfSpeedBeforeCanShoot++;
+    }
+
+    //move ship position if left/right arrow keys are pressed
+    if (leftPressed)
+    {
+        if (player.getPosition().at(0) > -11)
         {
-            if (player.getPosition().at(0) > -11)
-            {
-                player.moveX(-0.3);
-            }
+            player.moveX(-0.3);
         }
-        if (rightPressed)
+    }
+    if (rightPressed)
+    {
+        if (player.getPosition().at(0) < 11)
         {
-            if (player.getPosition().at(0) < 11)
-            {
-                player.moveX(0.3);
-            }
+            player.moveX(0.3);
         }
     }
 
@@ -535,47 +638,50 @@ void display(void)
         glEnable(GL_LIGHTING);
 
         //cout << enemyRow1.back()->getX() << endl;
-        if(enemyRow1.back()->getX()>=11){
-        	enemyMovement = -0.06f;
-        }else if(enemyRow1.front()->getX()<=-11){
-        	enemyMovement = 0.06f;
+        if(enemyRow1.back()->getX()>=11)
+        {
+            enemyMovement = -0.06f;
+        }
+        else if(enemyRow1.front()->getX()<=-11)
+        {
+            enemyMovement = 0.06f;
         }
 
-        //draw enemy ships on screen
-        for(list<Enemy*>::iterator i=enemyRow1.begin(); i!=enemyRow1.end(); ++i)
-        {
-            Enemy* enemy = *i;
-            enemy->moveX(enemyMovement);
-            enemy->moveY(enemyDifficulty);
-            enemy->drawShip();
-        }
-
-        //draw enemy ships on screen
-        for(list<Enemy*>::iterator i=enemyRow2.begin(); i!=enemyRow2.end(); ++i)
-        {
-            Enemy* enemy = *i;
-            enemy->moveX(enemyMovement);
-            enemy->moveY(enemyDifficulty);
-            enemy->drawShip();
-        }
-
-        //draw enemy ships on screen
-        for(list<Enemy*>::iterator i=enemyRow3.begin(); i!=enemyRow3.end(); ++i)
-        {
-            Enemy* enemy = *i;
-            enemy->moveX(enemyMovement);
-            enemy->moveY(enemyDifficulty);
-            enemy->drawShip();
-        }
-
-        //draw enemy ships on screen
-        for(list<Enemy*>::iterator i=enemyRow4.begin(); i!=enemyRow4.end(); ++i)
-        {
-            Enemy* enemy = *i;
-            enemy->moveX(enemyMovement);
-            enemy->moveY(enemyDifficulty);
-            enemy->drawShip();
-        }
+//        //draw enemy ships on screen
+//        for(list<Enemy*>::iterator i=enemyRow1.begin(); i!=enemyRow1.end(); ++i)
+//        {
+//            Enemy* enemy = *i;
+//            enemy->moveX(enemyMovement);
+//            enemy->moveY(enemyDifficulty);
+//            enemy->drawShip();
+//        }
+//
+//        //draw enemy ships on screen
+//        for(list<Enemy*>::iterator i=enemyRow2.begin(); i!=enemyRow2.end(); ++i)
+//        {
+//            Enemy* enemy = *i;
+//            enemy->moveX(enemyMovement);
+//            enemy->moveY(enemyDifficulty);
+//            enemy->drawShip();
+//        }
+//
+//        //draw enemy ships on screen
+//        for(list<Enemy*>::iterator i=enemyRow3.begin(); i!=enemyRow3.end(); ++i)
+//        {
+//            Enemy* enemy = *i;
+//            enemy->moveX(enemyMovement);
+//            enemy->moveY(enemyDifficulty);
+//            enemy->drawShip();
+//        }
+//
+//        //draw enemy ships on screen
+//        for(list<Enemy*>::iterator i=enemyRow4.begin(); i!=enemyRow4.end(); ++i)
+//        {
+//            Enemy* enemy = *i;
+//            enemy->moveX(enemyMovement);
+//            enemy->moveY(enemyDifficulty);
+//            enemy->drawShip();
+//        }
 
         //draw enemy ships on screen
         for(list<Enemy*>::iterator i=enemyRow5.begin(); i!=enemyRow5.end(); ++i)

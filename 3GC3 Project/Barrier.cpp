@@ -26,9 +26,25 @@ void Barrier::decreaseHp()
     hp--;
 }
 
-void Barrier::drawBarrier(){
-	glPushMatrix();
-		glTranslatef(position[0], position[1], position[2]);
-		glutSolidCube(2);
-	glPopMatrix();
+void Barrier::drawBarrier()
+{
+    glPushMatrix();
+    glTranslatef(position[0], position[1], position[2]);
+    glutSolidCube(2);
+    glPopMatrix();
+}
+
+bool Barrier::isHit(float x, float y, float z)
+{
+    if (position[0] < x-2 || position[0] > x+2)
+    {
+        return false;
+    }
+
+    if (position[1] < y-2 || position[1] > y+2)
+    {
+        return false;
+    }
+
+    return true;
 }

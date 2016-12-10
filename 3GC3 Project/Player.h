@@ -31,6 +31,8 @@ public:
     int getHp();                    //returns hp of the player
     void decreaseHp(int);           //decreases the hp of the player by the specified amount
     void drawShip();				//draw the player ship
+    bool isHit(float, float, float);    //whether or not the given coordinates is within the player's hit box
+
 private:
     int hp;                         //hp of the player
 };

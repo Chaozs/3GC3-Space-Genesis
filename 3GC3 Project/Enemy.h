@@ -40,6 +40,7 @@ public:
     void drawShip();
     int getMultipleOfSpeedBeforeCanShoot();
     void setMultipleOfSpeedBeforeCanShoot(int);
+    bool isHit(float, float, float);    //whether or not the given coordinates is within enemy's hit box
 
 private:
     int row;

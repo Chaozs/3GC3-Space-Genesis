@@ -51,7 +51,7 @@ bool Enemy::shouldShoot(int range)
     #define uniform() (rand()/(RAND_MAX + 1.0))
     int randomInt = (int) (uniform() * (range+1));
 
-    cout << randomInt << endl;
+    //cout << randomInt << endl;
     if(randomInt==1)
     {
         return true;
@@ -84,4 +84,24 @@ int Enemy::getMultipleOfSpeedBeforeCanShoot()
 void Enemy::setMultipleOfSpeedBeforeCanShoot(int multiple)
 {
     multipleOfSpeedBeforeCanShoot = multiple;
+}
+
+bool Enemy::isHit(float x, float y, float z)
+{
+    if (position[0] < x-0.5 || position[0] > x+0.5)
+    {
+        return false;
+    }
+
+    if (position[1] < y-1 || position[1] > y+1)
+    {
+        return false;
+    }
+
+//    if (position[2] < z-1 || position[0] > z+1)
+//    {
+//        return false;
+//    }
+
+    return true;
 }

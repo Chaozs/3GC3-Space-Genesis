@@ -623,7 +623,7 @@ void init(void)
     glBindTexture(GL_TEXTURE_2D, 0);
 
     glClearColor(0.1, 0.1, 0.1, 0);       //black background
-    glEnable(GL_COLOR_MATERIAL);    //enable colour material
+    //glEnable(GL_COLOR_MATERIAL);    //enable colour material
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
@@ -1058,7 +1058,7 @@ void display(void)
         glFrontFace(GL_CCW);
         break;
     case Playing:
-        //enable lighting
+    	//enable lighting
 	    glEnable(GL_LIGHTING);
 	    glEnable(GL_LIGHT0);
 	    glEnable(GL_LIGHT1);
@@ -1165,11 +1165,13 @@ void display(void)
         break;
     }
     case GameOver:
+    	glDisable(GL_LIGHTING);
         glFrontFace(GL_CW);
         mainMenu.drawGameOver();
         glFrontFace(GL_CCW);
         break;
     case Win:
+    	glDisable(GL_LIGHTING);
         glFrontFace(GL_CW);
         mainMenu.drawWin();
         glFrontFace(GL_CCW);

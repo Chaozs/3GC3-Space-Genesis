@@ -55,3 +55,7 @@ void GameObject::moveZ(float movement)
 {
     position[2] += movement;
 }
+
+float GameObject::getX(){
+    return position[0];
+}

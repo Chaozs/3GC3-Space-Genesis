@@ -35,6 +35,7 @@ public:
 
 private:
     int hp;
+    bool isDead;                    //whether or not barrier is inactive
 };
 
 #endif

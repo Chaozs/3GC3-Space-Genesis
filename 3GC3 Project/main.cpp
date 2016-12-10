@@ -58,15 +58,14 @@ float enemyDifficulty = -0.0015;
 /* PLAYER SHIP */
 Player player = Player(0, -4, -25);
 Mesh playerMesh;
+Mesh cubeMesh;
 
 /* PLAYER CONTROLS */
 bool leftPressed = false;           //left arrow key is held down
 bool rightPressed = false;          //right arrow key is held down
 
 /* BARRIERS */
-Barrier barrier1 = Barrier(-10, 0, -25);
-Barrier barrier2 = Barrier(0, 0, -25);
-Barrier barrier3 = Barrier(10, 0, -25);
+list<Barrier*> barriers;
 
 /* PROJECTILES */
 list<Projectile*> projectiles;      //list of all player projectiles currently on screen
@@ -207,7 +206,6 @@ void specialUp(int key, int x, int y)
     }
 }
 
-
 void reshape(int w, int h)
 {
     //Windoresizing stuff
@@ -259,6 +257,7 @@ void setMeshes()
 {
     //Mesh newMesh;
     playerMesh.LoadOBJ("PlayerShip.obj");
+    cubeMesh.LoadOBJ("Cube.obj");
 
     //playerMesh = newMesh;
     player.SetMesh(playerMesh);
@@ -266,27 +265,27 @@ void setMeshes()
     for(list<Enemy*>::iterator i=enemyRow1.begin(); i!=enemyRow1.end(); ++i)
     {
         Enemy* enemy = *i;
-        enemy->SetMesh(playerMesh);
+        enemy->SetMesh(cubeMesh);
     }
     for(list<Enemy*>::iterator i=enemyRow2.begin(); i!=enemyRow2.end(); ++i)
     {
         Enemy* enemy = *i;
-        enemy->SetMesh(playerMesh);
+        enemy->SetMesh(cubeMesh);
     }
     for(list<Enemy*>::iterator i=enemyRow3.begin(); i!=enemyRow3.end(); ++i)
     {
         Enemy* enemy = *i;
-        enemy->SetMesh(playerMesh);
+        enemy->SetMesh(cubeMesh);
     }
     for(list<Enemy*>::iterator i=enemyRow4.begin(); i!=enemyRow4.end(); ++i)
     {
         Enemy* enemy = *i;
-        enemy->SetMesh(playerMesh);
+        enemy->SetMesh(cubeMesh);
     }
     for(list<Enemy*>::iterator i=enemyRow5.begin(); i!=enemyRow5.end(); ++i)
     {
         Enemy* enemy = *i;
-        enemy->SetMesh(playerMesh);
+        enemy->SetMesh(cubeMesh);
     }
 
 }
@@ -324,13 +323,46 @@ void setEnemies()
         enemy -> setBottomTrue();
         enemyRow5.push_back(enemy);
     }
+}
 
+void setBarriers()
+{
+    //Big barrier 1
+    Barrier* barrier = new Barrier(-11, 0, -25);
+    barriers.push_back(barrier);
+    barrier = new Barrier(-10, 0, -25);
+    barriers.push_back(barrier);
+    barrier = new Barrier(-9, 0, -25);
+    barriers.push_back(barrier);
+    barrier = new Barrier(-8, 0, -25);
+    barriers.push_back(barrier);
+
+    //Big barrier 2
+    barrier = new Barrier(-2, 0, -25);
+    barriers.push_back(barrier);
+    barrier = new Barrier(-1, 0, -25);
+    barriers.push_back(barrier);
+    barrier = new Barrier(0, 0, -25);
+    barriers.push_back(barrier);
+    barrier = new Barrier(1, 0, -25);
+    barriers.push_back(barrier);
+
+    //Big barrier 3
+    barrier = new Barrier(8, 0, -25);
+    barriers.push_back(barrier);
+    barrier = new Barrier(9, 0, -25);
+    barriers.push_back(barrier);
+    barrier = new Barrier(10, 0, -25);
+    barriers.push_back(barrier);
+    barrier = new Barrier(11, 0, -25);
+    barriers.push_back(barrier);
 }
 
 void init(void)
 {
     setEnemies();
     setMeshes();
+    setBarriers();
 
     glClearColor(0, 0, 0, 0);       //black background
     glEnable(GL_COLOR_MATERIAL);    //enable colour material
@@ -366,40 +398,22 @@ void timer(int value)
             {
                 i = projectiles.erase(i);
             }
-            //check if barrier1 is hit
-            else if (barrier1.isHit(projectileP->getPosition().at(0),
-                                    projectileP->getPosition().at(1),
-                                    projectileP->getPosition().at(2)))
-            {
-                //TODO
-                i = projectiles.erase(i);
-                barrier1.decreaseHp();
-                cout << "barrier 1 is hit" << endl;
-            }
-
-            //check if barrier2 is hit
-            else if (barrier2.isHit(projectileP->getPosition().at(0),
-                                    projectileP->getPosition().at(1),
-                                    projectileP->getPosition().at(2)))
-            {
-                //TODO
-                i = projectiles.erase(i);
-                barrier2.decreaseHp();
-                cout << "barrier 2 is hit" << endl;
-            }
-
-            //check if barrier3 is hit
-            else if (barrier3.isHit(projectileP->getPosition().at(0),
-                                    projectileP->getPosition().at(1),
-                                    projectileP->getPosition().at(2)))
-            {
-                //TODO
-                i = projectiles.erase(i);
-                barrier3.decreaseHp();
-                cout << "barrier 3 is hit" << endl;
-            }
             else
             {
+                //check if projectile hits a barrier
+                for(list<Barrier*>::iterator b=barriers.begin(); b!=barriers.end(); ++b)
+                {
+                    Barrier* barrier = *b;
+                    if (barrier->isHit(projectileP->getPosition().at(0),
+                                       projectileP->getPosition().at(1),
+                                       projectileP->getPosition().at(2)))
+                    {
+                        //TODO
+                        i = projectiles.erase(i);
+                        barrier->decreaseHp();
+                    }
+                }
+
                 //check if projectile hits an enemy
                 for(auto j=enemyRow1.begin(); j!=enemyRow1.end();)
                 {
@@ -580,38 +594,6 @@ void timer(int value)
         {
             i = enemyProjectiles.erase(i);
         }
-        //check if barrier1 is hit
-        else if (barrier1.isHit(projectileP->getPosition().at(0),
-                                projectileP->getPosition().at(1),
-                                projectileP->getPosition().at(2)))
-        {
-            //TODO
-            i = enemyProjectiles.erase(i);
-            barrier1.decreaseHp();
-            cout << "barrier 1 is hit" << endl;
-        }
-
-        //check if barrier2 is hit
-        else if (barrier2.isHit(projectileP->getPosition().at(0),
-                                projectileP->getPosition().at(1),
-                                projectileP->getPosition().at(2)))
-        {
-            //TODO
-            i = enemyProjectiles.erase(i);
-            barrier2.decreaseHp();
-            cout << "barrier 2 is hit" << endl;
-        }
-
-        //check if barrier3 is hit
-        else if (barrier3.isHit(projectileP->getPosition().at(0),
-                                projectileP->getPosition().at(1),
-                                projectileP->getPosition().at(2)))
-        {
-            //TODO
-            i = enemyProjectiles.erase(i);
-            barrier3.decreaseHp();
-            cout << "barrier 3 is hit" << endl;
-        }
         //check if enemy projectile hits player
         else if (player.isHit(projectileP->getPosition().at(0), projectileP->getPosition().at(1), projectileP->getPosition().at(2)))
         {
@@ -622,6 +604,20 @@ void timer(int value)
         }
         else
         {
+            //check if projectile hits a barrier
+            for(list<Barrier*>::iterator b=barriers.begin(); b!=barriers.end(); ++b)
+            {
+                Barrier* barrier = *b;
+                if (barrier->isHit(projectileP->getPosition().at(0),
+                                   projectileP->getPosition().at(1),
+                                   projectileP->getPosition().at(2)))
+                {
+                    //TODO
+                    i = enemyProjectiles.erase(i);
+                    barrier->decreaseHp();
+                }
+            }
+
             projectileP->moveY(-0.5);
             ++i;
         }
@@ -685,9 +681,6 @@ void display(void)
         lookAt[2] = -10;
         gluLookAt(eye[0], eye[1], eye[2], lookAt[0], lookAt[1], lookAt[2], 0,1,0);
         player.drawShip();      //draw ship
-        barrier1.drawBarrier();
-        barrier2.drawBarrier();
-        barrier3.drawBarrier();
         glDisable(GL_LIGHTING);
         userInfo.drawScoreAndHP(100);
         glEnable(GL_LIGHTING);
@@ -702,41 +695,48 @@ void display(void)
             enemyMovement = 0.06f;
         }
 
-//        //draw enemy ships on screen
-//        for(list<Enemy*>::iterator i=enemyRow1.begin(); i!=enemyRow1.end(); ++i)
-//        {
-//            Enemy* enemy = *i;
-//            enemy->moveX(enemyMovement);
-//            enemy->moveY(enemyDifficulty);
-//            enemy->drawShip();
-//        }
-//
-//        //draw enemy ships on screen
-//        for(list<Enemy*>::iterator i=enemyRow2.begin(); i!=enemyRow2.end(); ++i)
-//        {
-//            Enemy* enemy = *i;
-//            enemy->moveX(enemyMovement);
-//            enemy->moveY(enemyDifficulty);
-//            enemy->drawShip();
-//        }
-//
-//        //draw enemy ships on screen
-//        for(list<Enemy*>::iterator i=enemyRow3.begin(); i!=enemyRow3.end(); ++i)
-//        {
-//            Enemy* enemy = *i;
-//            enemy->moveX(enemyMovement);
-//            enemy->moveY(enemyDifficulty);
-//            enemy->drawShip();
-//        }
-//
-//        //draw enemy ships on screen
-//        for(list<Enemy*>::iterator i=enemyRow4.begin(); i!=enemyRow4.end(); ++i)
-//        {
-//            Enemy* enemy = *i;
-//            enemy->moveX(enemyMovement);
-//            enemy->moveY(enemyDifficulty);
-//            enemy->drawShip();
-//        }
+        //draw barriers
+        for(list<Barrier*>::iterator i=barriers.begin(); i!=barriers.end(); ++i)
+        {
+            Barrier* barrier = *i;
+            barrier->drawBarrier();
+        }
+
+        //draw enemy ships on screen
+        for(list<Enemy*>::iterator i=enemyRow1.begin(); i!=enemyRow1.end(); ++i)
+        {
+            Enemy* enemy = *i;
+            enemy->moveX(enemyMovement);
+            enemy->moveY(enemyDifficulty);
+            enemy->drawShip();
+        }
+
+        //draw enemy ships on screen
+        for(list<Enemy*>::iterator i=enemyRow2.begin(); i!=enemyRow2.end(); ++i)
+        {
+            Enemy* enemy = *i;
+            enemy->moveX(enemyMovement);
+            enemy->moveY(enemyDifficulty);
+            enemy->drawShip();
+        }
+
+        //draw enemy ships on screen
+        for(list<Enemy*>::iterator i=enemyRow3.begin(); i!=enemyRow3.end(); ++i)
+        {
+            Enemy* enemy = *i;
+            enemy->moveX(enemyMovement);
+            enemy->moveY(enemyDifficulty);
+            enemy->drawShip();
+        }
+
+        //draw enemy ships on screen
+        for(list<Enemy*>::iterator i=enemyRow4.begin(); i!=enemyRow4.end(); ++i)
+        {
+            Enemy* enemy = *i;
+            enemy->moveX(enemyMovement);
+            enemy->moveY(enemyDifficulty);
+            enemy->drawShip();
+        }
 
         //draw enemy ships on screen
         for(list<Enemy*>::iterator i=enemyRow5.begin(); i!=enemyRow5.end(); ++i)

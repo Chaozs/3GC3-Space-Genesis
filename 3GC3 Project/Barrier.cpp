@@ -13,6 +13,7 @@ Thien Trandinh / trandit / 001420634
 Barrier::Barrier(float positionX, float positionY, float positionZ) : GameObject(positionX, positionY, positionZ)
 {
     hp = 4;     //intially set hp of barrier to max hp (which is 4)
+    isDead = false;
 }
 
 int Barrier::getHp()
@@ -24,24 +25,37 @@ int Barrier::getHp()
 void Barrier::decreaseHp()
 {
     hp--;
+
+    if (hp <= 0)
+    {
+        isDead = true;
+    }
 }
 
 void Barrier::drawBarrier()
 {
-    glPushMatrix();
-    glTranslatef(position[0], position[1], position[2]);
-    glutSolidCube(2);
-    glPopMatrix();
+    if (!isDead)
+    {
+        glPushMatrix();
+        glTranslatef(position[0], position[1], position[2]);
+        glutSolidCube(1);
+        glPopMatrix();
+    }
 }
 
 bool Barrier::isHit(float x, float y, float z)
 {
-    if (position[0] < x-1 || position[0] > x+1)
+    if (isDead)
     {
         return false;
     }
 
-    if (position[1] < y-1.5 || position[1] > y+1.5)
+    if (position[0] < x-0.5 || position[0] > x+0.5)
+    {
+        return false;
+    }
+
+    if (position[1] < y-0.5 || position[1] > y+0.5)
     {
         return false;
     }

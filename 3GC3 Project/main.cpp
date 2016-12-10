@@ -45,6 +45,7 @@ enum ButtonType { Item1, Item2, Item3, Item4 };
 GameState currentState = Menu;      //initially in start menu
 GUI userInfo = GUI();
 MainMenu mainMenu;                  //create mainMenu
+bool gamePaused = false;            //indicates whether or not game is currently paused
 
 /* ENEMY SHIP */
 vector<Enemy*> enemyRow1;
@@ -55,7 +56,7 @@ vector<Enemy*> enemyRow5;
 
 float enemyMovement =0.06f; //enemy x movement speed
 float enemyDifficulty = -0.0015; //enemy downwards movement speed
-int indexCounter=0; 
+int indexCounter=0;
 
 /* PLAYER SHIP */
 Player player = Player(0, -4, -25);
@@ -136,6 +137,10 @@ void keyboard(unsigned char key, int x, int y)
         switch (key)
         {
         case 32:    //if space is pressed, create a new projectile
+            if (gamePaused)
+            {
+                break;
+            }
             if(canShoot)
             {
                 canShoot = false;
@@ -144,6 +149,10 @@ void keyboard(unsigned char key, int x, int y)
                                                player.getPosition().at(2));
                 projectiles.push_back(p);
             }
+            break;
+        case 'p':
+            gamePaused = !gamePaused;   //toggles whether or not game is paused
+            break;
         }
     }
 
@@ -166,6 +175,10 @@ void special(int key, int x, int y)
     }
     else if (currentState == Playing)
     {
+        if (gamePaused)
+        {
+            return;
+        }
         switch(key)
         {
         case GLUT_KEY_LEFT:
@@ -196,6 +209,10 @@ void specialUp(int key, int x, int y)
 {
     if (currentState == Playing)
     {
+        if (gamePaused)
+        {
+            return;
+        }
         switch(key)
         {
         case GLUT_KEY_LEFT:
@@ -266,7 +283,7 @@ void setMeshes()
     //playerMesh = newMesh;
     player.SetMesh(playerMesh);
 
-    for(std::vector<Enemy*>::iterator i = enemyRow1.begin(); i != enemyRow1.end(); ++i) 
+    for(std::vector<Enemy*>::iterator i = enemyRow1.begin(); i != enemyRow1.end(); ++i)
     {
         Enemy* enemy = *i;
         enemy->SetMesh(cubeMesh);
@@ -291,7 +308,6 @@ void setMeshes()
         Enemy* enemy = *i;
         enemy->SetMesh(cubeMesh);
     }
-
 }
 
 //initialize enemies
@@ -357,7 +373,6 @@ void setBarriers()
     barriers.push_back(barrier);
     barrier = new Barrier(-8, 1, -25);
     barriers.push_back(barrier);
-
 
     //Big barrier 2
     //bottom layer
@@ -464,50 +479,72 @@ void init(void)
 }
 
 //for updating which enemy unit is bottom for row 2
-void updateRow2(int i){
-	if((enemyRow5.at(i) -> getAlive()==false) &&
-		(enemyRow4.at(i) -> getAlive() == false) &&
-		(enemyRow3.at(i) -> getAlive() == false)){
-		enemyRow1.at(i)->setBottomTrue(); 
-	}
+void updateRow2(int i)
+{
+    if((enemyRow5.at(i) -> getAlive()==false) &&
+            (enemyRow4.at(i) -> getAlive() == false) &&
+            (enemyRow3.at(i) -> getAlive() == false))
+    {
+        enemyRow1.at(i)->setBottomTrue();
+    }
 }
 
 //for updating which enemy unit is bottom for row 3
-void updateRow3(int i){
-	if((enemyRow5.at(i) -> getAlive()==false) &&
-		(enemyRow4.at(i) -> getAlive() == false)){
-		if(enemyRow2.at(i)->getAlive()){
-			enemyRow2.at(indexCounter)->setBottomTrue(); 
-		}else if(enemyRow1.at(i)->getAlive()){
-			enemyRow1.at(indexCounter)->setBottomTrue();
-		} 
-	}
+void updateRow3(int i)
+{
+    if((enemyRow5.at(i) -> getAlive()==false) &&
+            (enemyRow4.at(i) -> getAlive() == false))
+    {
+        if(enemyRow2.at(i)->getAlive())
+        {
+            enemyRow2.at(indexCounter)->setBottomTrue();
+        }
+        else if(enemyRow1.at(i)->getAlive())
+        {
+            enemyRow1.at(indexCounter)->setBottomTrue();
+        }
+    }
 }
 
 //for updating which enemy unit is bottom for row 4
-void updateRow4(int i){
-	if(enemyRow5.at(i) -> getAlive()==false){
-		if(enemyRow3.at(i)->getAlive()){
-			enemyRow3.at(indexCounter)->setBottomTrue(); 
-		}else if(enemyRow2.at(i)->getAlive()){
-			enemyRow2.at(indexCounter)->setBottomTrue(); 
-		}else if(enemyRow1.at(i)->getAlive()){
-			enemyRow1.at(indexCounter)->setBottomTrue();
-		} 
-	}
+void updateRow4(int i)
+{
+    if(enemyRow5.at(i) -> getAlive()==false)
+    {
+        if(enemyRow3.at(i)->getAlive())
+        {
+            enemyRow3.at(indexCounter)->setBottomTrue();
+        }
+        else if(enemyRow2.at(i)->getAlive())
+        {
+            enemyRow2.at(indexCounter)->setBottomTrue();
+        }
+        else if(enemyRow1.at(i)->getAlive())
+        {
+            enemyRow1.at(indexCounter)->setBottomTrue();
+        }
+    }
 }
 
 //for updating which enemy unit is bottom for row 5
-void updateRow5(int i){
-	if(enemyRow4.at(i)->getAlive()){
-		enemyRow4.at(indexCounter)->setBottomTrue(); 
-	}else if(enemyRow3.at(i)->getAlive()){
-		enemyRow3.at(indexCounter)->setBottomTrue(); 
-	}else if(enemyRow2.at(i)->getAlive()){
-		enemyRow2.at(indexCounter)->setBottomTrue(); 
-	}else if(enemyRow1.at(i)->getAlive()){
-		enemyRow1.at(indexCounter)->setBottomTrue();
-	} 
+void updateRow5(int i)
+{
+    if(enemyRow4.at(i)->getAlive())
+    {
+        enemyRow4.at(indexCounter)->setBottomTrue();
+    }
+    else if(enemyRow3.at(i)->getAlive())
+    {
+        enemyRow3.at(indexCounter)->setBottomTrue();
+    }
+    else if(enemyRow2.at(i)->getAlive())
+    {
+        enemyRow2.at(indexCounter)->setBottomTrue();
+    }
+    else if(enemyRow1.at(i)->getAlive())
+    {
+        enemyRow1.at(indexCounter)->setBottomTrue();
+    }
 }
 
 //timer for gameloop
@@ -516,296 +553,312 @@ void timer(int value)
     switch(currentState)
     {
     case Playing:
-        //update player projectiles on screen
-        for(auto i=projectiles.begin(); i!=projectiles.end();)
+        if (!gamePaused)
         {
-            Projectile* projectileP = *i;
-            if (projectileP->getPosition().at(1) >= 40)
+            //update player projectiles on screen
+            for(auto i=projectiles.begin(); i!=projectiles.end();)
             {
-                i = projectiles.erase(i);
-            }
-            else
-            {
-                //check if projectile hits a barrier
-                for(list<Barrier*>::iterator b=barriers.begin(); b!=barriers.end(); ++b)
+                Projectile* projectileP = *i;
+                if (projectileP->getPosition().at(1) >= 40)
                 {
-                    Barrier* barrier = *b;
-                    if (barrier->isHit(projectileP->getPosition().at(0),
-                                       projectileP->getPosition().at(1),
-                                       projectileP->getPosition().at(2)))
-                    {
-                        //TODO
-                        i = projectiles.erase(i);
-                        barrier->decreaseHp();
-                    }
+                    i = projectiles.erase(i);
                 }
-
-                //check if projectile hits an enemy
-                for(auto j=enemyRow1.begin(); j!=enemyRow1.end();)
+                else
                 {
-                    Enemy* enemy = *j;
-                    if (enemy->isHit(projectileP->getPosition().at(0),
-                                     projectileP->getPosition().at(1),
-                                     projectileP->getPosition().at(2)))
+                    //check if projectile hits a barrier
+                    for(list<Barrier*>::iterator b=barriers.begin(); b!=barriers.end(); ++b)
                     {
-                        i = projectiles.erase(i);
-                        enemy->setAlive(false); 
-                        ++j;
-                        userInfo.incScoreBy(150);
+                        Barrier* barrier = *b;
+                        if (barrier->isHit(projectileP->getPosition().at(0),
+                                           projectileP->getPosition().at(1),
+                                           projectileP->getPosition().at(2)))
+                        {
+                            i = projectiles.erase(i);
+                            barrier->decreaseHp();
+                        }
                     }
-                    else
+
+                    //check if projectile hits an enemy
+                    for(auto j=enemyRow1.begin(); j!=enemyRow1.end();)
                     {
-                        ++j;
+                        Enemy* enemy = *j;
+                        if (enemy->isHit(projectileP->getPosition().at(0),
+                                         projectileP->getPosition().at(1),
+                                         projectileP->getPosition().at(2)))
+                        {
+                            i = projectiles.erase(i);
+                            enemy->setAlive(false);
+                            ++j;
+                            userInfo.incScoreBy(150);
+                        }
+                        else
+                        {
+                            ++j;
+                        }
                     }
+
+                    //check if projectile hits an enemy
+                    indexCounter=0;
+                    for(auto j=enemyRow2.begin(); j!=enemyRow2.end();)
+                    {
+                        Enemy* enemy = *j;
+                        if (enemy->isHit(projectileP->getPosition().at(0),
+                                         projectileP->getPosition().at(1),
+                                         projectileP->getPosition().at(2)))
+                        {
+                            i = projectiles.erase(i);
+                            enemy->setAlive(false);
+                            updateRow2(indexCounter);
+                            indexCounter++;
+                            ++j;
+                            userInfo.incScoreBy(150);
+                        }
+                        else
+                        {
+                            indexCounter++;
+                            ++j;
+                        }
+                    }
+
+                    //check if projectile hits an enemy
+                    indexCounter=0;
+                    for(auto j=enemyRow3.begin(); j!=enemyRow3.end();)
+                    {
+                        Enemy* enemy = *j;
+                        if (enemy->isHit(projectileP->getPosition().at(0),
+                                         projectileP->getPosition().at(1),
+                                         projectileP->getPosition().at(2)))
+                        {
+                            i = projectiles.erase(i);
+                            enemy->setAlive(false);
+                            updateRow3(indexCounter);
+                            indexCounter++;
+                            ++j;
+                            userInfo.incScoreBy(150);
+                        }
+                        else
+                        {
+                            indexCounter++;
+                            ++j;
+                        }
+                    }
+
+                    //check if projectile hits an enemy
+                    indexCounter=0;
+                    for(auto j=enemyRow4.begin(); j!=enemyRow4.end();)
+                    {
+                        Enemy* enemy = *j;
+                        if (enemy->isHit(projectileP->getPosition().at(0),
+                                         projectileP->getPosition().at(1),
+                                         projectileP->getPosition().at(2)))
+                        {
+                            i = projectiles.erase(i);
+                            enemy->setAlive(false);
+                            updateRow4(indexCounter);
+                            indexCounter++;
+                            ++j;
+                            userInfo.incScoreBy(150);
+                        }
+                        else
+                        {
+                            indexCounter++;
+                            ++j;
+                        }
+                    }
+
+                    //check if projectile hits an enemy
+                    indexCounter=0;
+                    for(auto j=enemyRow5.begin(); j!=enemyRow5.end();)
+                    {
+                        Enemy* enemy = *j;
+                        if (enemy->isHit(projectileP->getPosition().at(0),
+                                         projectileP->getPosition().at(1),
+                                         projectileP->getPosition().at(2)))
+                        {
+                            i = projectiles.erase(i);
+                            enemy->setAlive(false);
+                            updateRow5(indexCounter);
+                            indexCounter++;
+                            ++j;
+                            userInfo.incScoreBy(150);
+                        }
+                        else
+                        {
+                            indexCounter++;
+                            ++j;
+                        }
+                    }
+
+                    //update positions of player projectiles on screen
+                    projectileP->moveY(0.5);
+                    ++i;
                 }
+            }
 
-                //check if projectile hits an enemy
-                indexCounter=0;
-                for(auto j=enemyRow2.begin(); j!=enemyRow2.end();)
+            if(enemyRow1.back()->getX()>=11)
+            {
+                enemyMovement = -0.06f;
+            }
+            else if(enemyRow1.front()->getX()<=-11)
+            {
+                enemyMovement = 0.06f;
+            }
+
+            //generate enemy projectiles
+            for(std::vector<Enemy*>::iterator i = enemyRow1.begin(); i != enemyRow1.end(); ++i)
+            {
+                Enemy* enemy = *i;
+                if (enemy->shouldShoot(200) && enemy->isBottomTrue() && enemy->getMultipleOfSpeedBeforeCanShoot() >= 10)
                 {
-                    Enemy* enemy = *j;
-                    if (enemy->isHit(projectileP->getPosition().at(0),
-                                     projectileP->getPosition().at(1),
-                                     projectileP->getPosition().at(2)))
-                    {
-                        i = projectiles.erase(i);
-                        enemy->setAlive(false);
-                        updateRow2(indexCounter);
-                        indexCounter++;
-                        ++j;
-                        userInfo.incScoreBy(150);
-                    }
-                    else
-                    {
-                    	indexCounter++;
-                        ++j;
-                    }
+                    enemy->setMultipleOfSpeedBeforeCanShoot(0);
+                    Projectile* enemyProj = new Projectile(enemy->getPosition().at(0), enemy->getPosition().at(1), enemy->getPosition().at(2));
+                    enemyProjectiles.push_back(enemyProj);
                 }
-
-                //check if projectile hits an enemy
-                indexCounter=0;
-                for(auto j=enemyRow3.begin(); j!=enemyRow3.end();)
+                else
                 {
-                    Enemy* enemy = *j;
-                    if (enemy->isHit(projectileP->getPosition().at(0),
-                                     projectileP->getPosition().at(1),
-                                     projectileP->getPosition().at(2)))
-                    {
-                        i = projectiles.erase(i);
-                        enemy->setAlive(false);
-                        updateRow3(indexCounter);
-                        indexCounter++;
-                        ++j;
-                        userInfo.incScoreBy(150);
-                    }
-                    else
-                    {
-                    	indexCounter++;
-                        ++j;
-                    }
+                    enemy->setMultipleOfSpeedBeforeCanShoot(enemy->getMultipleOfSpeedBeforeCanShoot()+1);
                 }
+                enemy->moveX(enemyMovement);
+                enemy->moveY(enemyDifficulty);
+            }
 
-                //check if projectile hits an enemy
-                indexCounter=0;
-                for(auto j=enemyRow4.begin(); j!=enemyRow4.end();)
+            //generate enemy projectiles
+            for(std::vector<Enemy*>::iterator i = enemyRow2.begin(); i != enemyRow2.end(); ++i)
+            {
+                Enemy* enemy = *i;
+                if (enemy->shouldShoot(200) && enemy->isBottomTrue() && enemy->getMultipleOfSpeedBeforeCanShoot() >= 10)
                 {
-                    Enemy* enemy = *j;
-                    if (enemy->isHit(projectileP->getPosition().at(0),
-                                     projectileP->getPosition().at(1),
-                                     projectileP->getPosition().at(2)))
-                    {
-                        i = projectiles.erase(i);
-                        enemy->setAlive(false);
-                        updateRow4(indexCounter);
-                        indexCounter++;
-                        ++j;
-                        userInfo.incScoreBy(150);
-                    }
-                    else
-                    {
-                    	indexCounter++;
-                        ++j;
-                    }
+                    enemy->setMultipleOfSpeedBeforeCanShoot(0);
+                    Projectile* enemyProj = new Projectile(enemy->getPosition().at(0), enemy->getPosition().at(1), enemy->getPosition().at(2));
+                    enemyProjectiles.push_back(enemyProj);
                 }
-
-                //check if projectile hits an enemy
-                indexCounter=0;
-                for(auto j=enemyRow5.begin(); j!=enemyRow5.end();)
+                else
                 {
-                    Enemy* enemy = *j;
-                    if (enemy->isHit(projectileP->getPosition().at(0),
-                                     projectileP->getPosition().at(1),
-                                     projectileP->getPosition().at(2)))
-                    {
-                        i = projectiles.erase(i);
-                        enemy->setAlive(false);
-                        updateRow5(indexCounter);
-                        indexCounter++;
-                        ++j;
-                        userInfo.incScoreBy(150);
-                    }
-                    else
-                    {
-                    	indexCounter++;
-                        ++j;
-                    }
+                    enemy->setMultipleOfSpeedBeforeCanShoot(enemy->getMultipleOfSpeedBeforeCanShoot()+1);
                 }
+                enemy->moveX(enemyMovement);
+                enemy->moveY(enemyDifficulty);
+            }
 
-                //update positions of player projectiles on screen
-                projectileP->moveY(0.5);
-                ++i;
-            }
-        }
-
-        //generate enemy projectiles
-        for(std::vector<Enemy*>::iterator i = enemyRow1.begin(); i != enemyRow1.end(); ++i) 
-        {
-            Enemy* enemy = *i;
-            if (enemy->shouldShoot(200) && enemy->isBottomTrue() && enemy->getMultipleOfSpeedBeforeCanShoot() >= 10)
+            //generate enemy projectiles
+            for(std::vector<Enemy*>::iterator i = enemyRow3.begin(); i != enemyRow3.end(); ++i)
             {
-                enemy->setMultipleOfSpeedBeforeCanShoot(0);
-                Projectile* enemyProj = new Projectile(enemy->getPosition().at(0), enemy->getPosition().at(1), enemy->getPosition().at(2));
-                enemyProjectiles.push_back(enemyProj);
-            }
-            else
-            {
-                enemy->setMultipleOfSpeedBeforeCanShoot(enemy->getMultipleOfSpeedBeforeCanShoot()+1);
-            }
-        }
-
-        //generate enemy projectiles
-        for(std::vector<Enemy*>::iterator i = enemyRow2.begin(); i != enemyRow2.end(); ++i) 
-        {
-            Enemy* enemy = *i;
-            if (enemy->shouldShoot(200) && enemy->isBottomTrue() && enemy->getMultipleOfSpeedBeforeCanShoot() >= 10)
-            {
-                enemy->setMultipleOfSpeedBeforeCanShoot(0);
-                Projectile* enemyProj = new Projectile(enemy->getPosition().at(0), enemy->getPosition().at(1), enemy->getPosition().at(2));
-                enemyProjectiles.push_back(enemyProj);
-            }
-            else
-            {
-                enemy->setMultipleOfSpeedBeforeCanShoot(enemy->getMultipleOfSpeedBeforeCanShoot()+1);
-            }
-        }
-
-        //generate enemy projectiles
-        for(std::vector<Enemy*>::iterator i = enemyRow3.begin(); i != enemyRow3.end(); ++i) 
-        {
-            Enemy* enemy = *i;
-            if (enemy->shouldShoot(200) && enemy->isBottomTrue() && enemy->getMultipleOfSpeedBeforeCanShoot() >= 10)
-            {
-                enemy->setMultipleOfSpeedBeforeCanShoot(0);
-                Projectile* enemyProj = new Projectile(enemy->getPosition().at(0), enemy->getPosition().at(1), enemy->getPosition().at(2));
-                enemyProjectiles.push_back(enemyProj);
-            }
-            else
-            {
-                enemy->setMultipleOfSpeedBeforeCanShoot(enemy->getMultipleOfSpeedBeforeCanShoot()+1);
-            }
-        }
-
-        //generate enemy projectiles
-        for(std::vector<Enemy*>::iterator i = enemyRow4.begin(); i != enemyRow4.end(); ++i) 
-        {
-            Enemy* enemy = *i;
-            if (enemy->shouldShoot(200) && enemy->isBottomTrue() && enemy->getMultipleOfSpeedBeforeCanShoot() >= 10)
-            {
-                enemy->setMultipleOfSpeedBeforeCanShoot(0);
-                Projectile* enemyProj = new Projectile(enemy->getPosition().at(0), enemy->getPosition().at(1), enemy->getPosition().at(2));
-                enemyProjectiles.push_back(enemyProj);
-            }
-            else
-            {
-                enemy->setMultipleOfSpeedBeforeCanShoot(enemy->getMultipleOfSpeedBeforeCanShoot()+1);
-            }
-        }
-
-        //generate enemy projectiles
-        for(std::vector<Enemy*>::iterator i = enemyRow5.begin(); i != enemyRow5.end(); ++i) 
-        {
-            Enemy* enemy = *i;
-            if (enemy->shouldShoot(200) && enemy->isBottomTrue() && enemy->getMultipleOfSpeedBeforeCanShoot() >= 10)
-            {
-                enemy->setMultipleOfSpeedBeforeCanShoot(0);
-                Projectile* enemyProj = new Projectile(enemy->getPosition().at(0), enemy->getPosition().at(1), enemy->getPosition().at(2));
-                enemyProjectiles.push_back(enemyProj);
-            }
-            else
-            {
-                enemy->setMultipleOfSpeedBeforeCanShoot(enemy->getMultipleOfSpeedBeforeCanShoot()+1);
-            }
-        }
-    }
-
-    //update positions of enemy projectiles on screen
-    for(auto i=enemyProjectiles.begin(); i!=enemyProjectiles.end();)
-    {
-        Projectile* projectileP = *i;
-        if (projectileP->getPosition().at(1) <= -7)
-        {
-            i = enemyProjectiles.erase(i);
-        }
-        //check if enemy projectile hits player
-        else if (player.isHit(projectileP->getPosition().at(0), projectileP->getPosition().at(1), projectileP->getPosition().at(2)))
-        {
-            //TODO: update player HP on GUI
-            player.decreaseHp(5);
-            i = enemyProjectiles.erase(i);
-            cout << "Player is hit by enemy projectile. Player hp is now " << player.getHp() << endl;
-        }
-        else
-        {
-            //check if projectile hits a barrier
-            for(list<Barrier*>::iterator b=barriers.begin(); b!=barriers.end(); ++b)
-            {
-                Barrier* barrier = *b;
-                if (barrier->isHit(projectileP->getPosition().at(0),
-                                   projectileP->getPosition().at(1),
-                                   projectileP->getPosition().at(2)))
+                Enemy* enemy = *i;
+                if (enemy->shouldShoot(200) && enemy->isBottomTrue() && enemy->getMultipleOfSpeedBeforeCanShoot() >= 10)
                 {
-                    //TODO
+                    enemy->setMultipleOfSpeedBeforeCanShoot(0);
+                    Projectile* enemyProj = new Projectile(enemy->getPosition().at(0), enemy->getPosition().at(1), enemy->getPosition().at(2));
+                    enemyProjectiles.push_back(enemyProj);
+                }
+                else
+                {
+                    enemy->setMultipleOfSpeedBeforeCanShoot(enemy->getMultipleOfSpeedBeforeCanShoot()+1);
+                }
+                enemy->moveX(enemyMovement);
+                enemy->moveY(enemyDifficulty);
+            }
+
+            //generate enemy projectiles
+            for(std::vector<Enemy*>::iterator i = enemyRow4.begin(); i != enemyRow4.end(); ++i)
+            {
+                Enemy* enemy = *i;
+                if (enemy->shouldShoot(200) && enemy->isBottomTrue() && enemy->getMultipleOfSpeedBeforeCanShoot() >= 10)
+                {
+                    enemy->setMultipleOfSpeedBeforeCanShoot(0);
+                    Projectile* enemyProj = new Projectile(enemy->getPosition().at(0), enemy->getPosition().at(1), enemy->getPosition().at(2));
+                    enemyProjectiles.push_back(enemyProj);
+                }
+                else
+                {
+                    enemy->setMultipleOfSpeedBeforeCanShoot(enemy->getMultipleOfSpeedBeforeCanShoot()+1);
+                }
+                enemy->moveX(enemyMovement);
+                enemy->moveY(enemyDifficulty);
+            }
+
+            //generate enemy projectiles
+            for(std::vector<Enemy*>::iterator i = enemyRow5.begin(); i != enemyRow5.end(); ++i)
+            {
+                Enemy* enemy = *i;
+                if (enemy->shouldShoot(200) && enemy->isBottomTrue() && enemy->getMultipleOfSpeedBeforeCanShoot() >= 10)
+                {
+                    enemy->setMultipleOfSpeedBeforeCanShoot(0);
+                    Projectile* enemyProj = new Projectile(enemy->getPosition().at(0), enemy->getPosition().at(1), enemy->getPosition().at(2));
+                    enemyProjectiles.push_back(enemyProj);
+                }
+                else
+                {
+                    enemy->setMultipleOfSpeedBeforeCanShoot(enemy->getMultipleOfSpeedBeforeCanShoot()+1);
+                }
+                enemy->moveX(enemyMovement);
+                enemy->moveY(enemyDifficulty);
+            }
+
+            //update positions of enemy projectiles on screen
+            for(auto i=enemyProjectiles.begin(); i!=enemyProjectiles.end();)
+            {
+                Projectile* projectileP = *i;
+                if (projectileP->getPosition().at(1) <= -7)
+                {
                     i = enemyProjectiles.erase(i);
-                    barrier->decreaseHp();
+                }
+                //check if enemy projectile hits player
+                else if (player.isHit(projectileP->getPosition().at(0), projectileP->getPosition().at(1), projectileP->getPosition().at(2)))
+                {
+                    player.decreaseHp(5);
+                    i = enemyProjectiles.erase(i);
+                }
+                else
+                {
+                    //check if projectile hits a barrier
+                    for(list<Barrier*>::iterator b=barriers.begin(); b!=barriers.end(); ++b)
+                    {
+                        Barrier* barrier = *b;
+                        if (barrier->isHit(projectileP->getPosition().at(0),
+                                           projectileP->getPosition().at(1),
+                                           projectileP->getPosition().at(2)))
+                        {
+                            i = enemyProjectiles.erase(i);
+                            barrier->decreaseHp();
+                        }
+                    }
+
+                    projectileP->moveY(-0.5);
+                    ++i;
                 }
             }
 
-            projectileP->moveY(-0.5);
-            ++i;
+            if (multipleOfSpeedBeforeCanShoot >= 20)
+            {
+                multipleOfSpeedBeforeCanShoot = 0;
+                canShoot = true;
+            }
+            else
+            {
+                multipleOfSpeedBeforeCanShoot++;
+            }
+
+            //move ship position if left/right arrow keys are pressed
+            if (leftPressed)
+            {
+                if (player.getPosition().at(0) > -11)
+                {
+                    player.moveX(-0.3);
+                }
+            }
+            if (rightPressed)
+            {
+                if (player.getPosition().at(0) < 11)
+                {
+                    player.moveX(0.3);
+                }
+            }
+
+            glutPostRedisplay();    //calls display
         }
     }
-
-    if (multipleOfSpeedBeforeCanShoot >= 20)
-    {
-        multipleOfSpeedBeforeCanShoot = 0;
-        canShoot = true;
-    }
-    else
-    {
-        multipleOfSpeedBeforeCanShoot++;
-    }
-
-    //move ship position if left/right arrow keys are pressed
-    if (leftPressed)
-    {
-        if (player.getPosition().at(0) > -11)
-        {
-            player.moveX(-0.3);
-        }
-    }
-    if (rightPressed)
-    {
-        if (player.getPosition().at(0) < 11)
-        {
-            player.moveX(0.3);
-        }
-    }
-
-    glutPostRedisplay();    //calls display
-
     //wait before calling timer() again
     glutTimerFunc(speed, timer, 0);
-
 }
 
 //display method to be recalled upon any changes
@@ -837,63 +890,44 @@ void display(void)
         userInfo.drawScoreAndHP(player.getHp());
         glEnable(GL_LIGHTING);
 
-        for(list<Barrier*>::iterator i=barriers.begin(); i!=barriers.end(); ++i){
-        	Barrier* barrier = *i;
-        	barrier->drawBarrier();
-        }
-
-        //cout << enemyRow1.back()->getX() << endl;
-        if(enemyRow1.back()->getX()>=11)
+        for(list<Barrier*>::iterator i=barriers.begin(); i!=barriers.end(); ++i)
         {
-            enemyMovement = -0.06f;
+            Barrier* barrier = *i;
+            barrier->drawBarrier();
         }
-        else if(enemyRow1.front()->getX()<=-11)
-        {
-            enemyMovement = 0.06f;
-        }
-
-       //draw enemy ships on screen
-       for(std::vector<Enemy*>::iterator i = enemyRow1.begin(); i != enemyRow1.end(); ++i) 
-       {
-           Enemy* enemy = *i;
-           enemy->moveX(enemyMovement);
-           enemy->moveY(enemyDifficulty);
-           enemy->drawShip();
-       }
-
-       //draw enemy ships on screen
-       for(std::vector<Enemy*>::iterator i = enemyRow2.begin(); i != enemyRow2.end(); ++i) 
-       {
-           Enemy* enemy = *i;
-           enemy->moveX(enemyMovement);
-           enemy->moveY(enemyDifficulty);
-           enemy->drawShip();
-       }
-
-       //draw enemy ships on screen
-       for(std::vector<Enemy*>::iterator i = enemyRow3.begin(); i != enemyRow3.end(); ++i) 
-       {
-           Enemy* enemy = *i;
-           enemy->moveX(enemyMovement);
-           enemy->moveY(enemyDifficulty);
-           enemy->drawShip();
-       }
-
-       //draw enemy ships on screen
-       for(std::vector<Enemy*>::iterator i = enemyRow4.begin(); i != enemyRow4.end(); ++i) 
-       {
-           Enemy* enemy = *i;
-           enemy->moveX(enemyMovement);
-           enemy->moveY(enemyDifficulty);
-           enemy->drawShip();
-       }
 
         //draw enemy ships on screen
-        for(std::vector<Enemy*>::iterator i = enemyRow5.begin(); i != enemyRow5.end(); ++i) 
+        for(std::vector<Enemy*>::iterator i = enemyRow1.begin(); i != enemyRow1.end(); ++i)
         {
             Enemy* enemy = *i;
-            enemy->moveX(enemyMovement);
-            enemy->moveY(enemyDifficulty);
+            enemy->drawShip();
+        }
+
+        //draw enemy ships on screen
+        for(std::vector<Enemy*>::iterator i = enemyRow2.begin(); i != enemyRow2.end(); ++i)
+        {
+            Enemy* enemy = *i;
+            enemy->drawShip();
+        }
+
+        //draw enemy ships on screen
+        for(std::vector<Enemy*>::iterator i = enemyRow3.begin(); i != enemyRow3.end(); ++i)
+        {
+            Enemy* enemy = *i;
+            enemy->drawShip();
+        }
+
+        //draw enemy ships on screen
+        for(std::vector<Enemy*>::iterator i = enemyRow4.begin(); i != enemyRow4.end(); ++i)
+        {
+            Enemy* enemy = *i;
+            enemy->drawShip();
+        }
+
+        //draw enemy ships on screen
+        for(std::vector<Enemy*>::iterator i = enemyRow5.begin(); i != enemyRow5.end(); ++i)
+        {
+            Enemy* enemy = *i;
             enemy->drawShip();
         }
 
@@ -914,7 +948,7 @@ void display(void)
         }
         break;
     case SelectDifficulty:
-    	glFrontFace(GL_CW);
+        glFrontFace(GL_CW);
         mainMenu.drawDifficulty();
         glFrontFace(GL_CCW);
         break;

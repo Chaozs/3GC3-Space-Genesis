@@ -6,7 +6,7 @@ Susan Yuen / yuens2 / 001416198
 Thien Trandinh / trandit / 001420634
 
 To run Game:
-open terminal in location of the makefile. Type make to generate the executablee as well as run the game.
+open terminal in location of the makefile. Type "make" to generate the executable as well as run the game.
 
 To navigate any Menu in game,
 Move: Keypad up and Keypad down
@@ -22,7 +22,7 @@ Particle Systems (5%) (Enemy ship "explosion")
 Animated characters (5%) (Ships/Enemies/projectiles moving)
 Non-geometric primitives (10%) (UI, including score and health)
 
-BONUS (Your Own Idea Here): .obj Rendering (5-10%) (Player ship.  UV's, normals, rendering.  Optimized and can handle hundreds of thousands of triangles on a modern machine.) 
+BONUS (Your Own Idea Here): .obj Rendering (5-10%) (Player ship.  UV's, normals, rendering.  Optimized and can handle hundreds of thousands of triangles on a modern machine.  Custom model) 
 
 Total: 40%
 

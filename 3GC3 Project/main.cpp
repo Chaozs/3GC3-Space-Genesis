@@ -42,41 +42,40 @@ float lookAt[] = {0, 0, -10};       //point camera is looking at
 enum GameState { Menu, SelectDifficulty, InstructionMenu, Playing, Paused, GameOver, Win };  //current game state enum
 enum ButtonType { Item1, Item2, Item3, Item4 };
 GameState currentState = Menu;      //initially in start menu
-GUI userInfo = GUI();
+GUI userInfo = GUI();               //GUI of game
 MainMenu mainMenu;                  //create mainMenu
 bool gamePaused = false;            //indicates whether or not game is currently paused
 std::string difficultyString = "Medium";
-int barriersDestroyed = 0;
-bool enemyReachedBase = false;
+int barriersDestroyed = 0;          //number of barriers destroyed is initially 0
+bool enemyReachedBase = false;      //indicates whether enemies have reached base or not (lose condition)
 
 /* ENEMY SHIP */
-vector<Enemy*> enemyRow1;
-vector<Enemy*> enemyRow2;
-vector<Enemy*> enemyRow3;
-vector<Enemy*> enemyRow4;
-vector<Enemy*> enemyRow5;
-int enemyCounter = 55;
-Enemy flyingEnemy = Enemy(-25, 26, -25, 1);
-bool flyingEnemyIsFlying = false;
-//int enemyCounter = enemyRow1.size() + enemyRow2.size() + enemyRow3.size() + enemyRow4.size() + enemyRow5.size();
+vector<Enemy*> enemyRow1;           //list of enemies in row 1
+vector<Enemy*> enemyRow2;           //list of enemies in row 2
+vector<Enemy*> enemyRow3;           //list of enemies in row 3
+vector<Enemy*> enemyRow4;           //list of enemies in row 4
+vector<Enemy*> enemyRow5;           //list of enemies in row 5
+int enemyCounter = 55;              //number of enemies left
+Enemy flyingEnemy = Enemy(-25, 26, -25, 1); //enemy that flies across top of screen
+bool flyingEnemyIsFlying = false;   //indicates whether or not flying enemy is currently flying across screen
 
-float enemyMovement = 0.06f; //enemy x movement speed
-float enemyDifficulty = -0.003; //enemy downwards movement speed
+float enemyMovement = 0.06f;        //enemy x movement speed
+float enemyDifficulty = -0.003;     //enemy downwards movement speed
 int enemyShootDifficulty = 500;
-int indexCounter=0;
+int indexCounter = 0;
 
 /* PLAYER SHIP */
-Player player = Player(0, -4, -25);
-Mesh playerMesh;
-Mesh cubeMesh;
+Player player = Player(0, -4, -25); //Player ship
+Mesh playerMesh;                    //Mesh of player ship
+Mesh cubeMesh;                      //Mesh of enemy ship
 
 /* PLAYER CONTROLS */
 bool leftPressed = false;           //left arrow key is held down
 bool rightPressed = false;          //right arrow key is held down
 
 /* BARRIERS */
-list<Barrier*> barriers;
-int barrierCounter = 10;
+list<Barrier*> barriers;            //list of barriers
+int barrierCounter = 10;            //number of barriers still active
 
 /* PROJECTILES */
 list<Projectile*> projectiles;      //list of all player projectiles currently on screen
@@ -85,13 +84,14 @@ bool canShoot = true;               //indicates whether projectile can be shot o
 double multipleOfSpeedBeforeCanShoot = 0;   //keeps track of time before next projectile shoot
 
 /* LIGHTING */
-float light0Pos[] = {-5, 3, -25, 1};  //initial light0 position
-float light1Pos[] = {5, 3, -25, 1};   //initial light1 positon
+float light0Pos[] = {-5, 3, -25, 1};    //initial light0 position
+float light1Pos[] = {5, 3, -25, 1};     //initial light1 positon
 
 /* ANIMATION */
 const int speed = 17;               //time between calls of display()
 
 GLubyte* img_data; 					//how to play image
+
 /* TEXTURE */
 GLubyte* image;
 GLubyte* image2;
@@ -99,6 +99,7 @@ int widthA, heightA, maxA;
 int width = 0, height = 0, max = 0;
 GLuint myTex[2];
 
+/* loads PPM file */
 GLubyte* LoadPPM(char* file, int* width, int* height, int* max)
 {
     GLubyte* img;
@@ -153,6 +154,7 @@ GLubyte* LoadPPM(char* file, int* width, int* height, int* max)
     return img;
 }
 
+/* keyboard callback function */
 void keyboard(unsigned char key, int x, int y)
 {
     if(currentState == Menu)
@@ -172,7 +174,7 @@ void keyboard(unsigned char key, int x, int y)
                 currentState = InstructionMenu;
                 break;
             case Item4: //if exit is currently highlighted, exit game
-                exit (0);
+                exit(0);
                 break;
             }
             break;
@@ -228,7 +230,7 @@ void keyboard(unsigned char key, int x, int y)
                 projectiles.push_back(p);
             }
             break;
-        case 'p':
+        case 'p':   //if p is pressed, pause game
             gamePaused = !gamePaused;   //toggles whether or not game is paused
             break;
         }
@@ -281,6 +283,7 @@ void keyboard(unsigned char key, int x, int y)
     glutPostRedisplay();    //call display again after keyboard input
 }
 
+/* special keyboard input callback function */
 void special(int key, int x, int y)
 {
     if(currentState == Menu)
@@ -352,6 +355,7 @@ void special(int key, int x, int y)
     glutPostRedisplay();
 }
 
+/* special up keyboard callback function */
 void specialUp(int key, int x, int y)
 {
     if (currentState == Playing)
@@ -363,19 +367,18 @@ void specialUp(int key, int x, int y)
         switch(key)
         {
         case GLUT_KEY_LEFT:
-            leftPressed = false;
+            leftPressed = false;    //when left arrow key is lifted, stop moving ship left
             break;
         case GLUT_KEY_RIGHT:
-            rightPressed = false;
+            rightPressed = false;   //when right arrow key is lifted, stop moving ship right
             break;
         }
     }
 }
 
-//reshape for accounting for window size
+/* reshape for accounting for window size */
 void reshape(int w, int h)
 {
-    //Windoresizing stuff
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     gluPerspective(60, (float)((w + 0.0f) / h), 1, 1000);
@@ -396,18 +399,12 @@ void addLights()
     float spec1[4] = {0.2f, 0.2f, 0.2f, 1};
 
     //set light position and properties
-    // glLightfv(GL_LIGHT0, GL_DIFFUSE, diff0);
-    // glLightfv(GL_LIGHT1, GL_DIFFUSE, diff1);
-    // glLightfv(GL_LIGHT0, GL_AMBIENT, amb0);
-    // glLightfv(GL_LIGHT1, GL_AMBIENT, amb1);
-    // glLightfv(GL_LIGHT0, GL_SPECULAR, spec0);
-    // glLightfv(GL_LIGHT1, GL_SPECULAR, spec1);
     glLightfv(GL_LIGHT0, GL_POSITION, light0Pos);
     glLightfv(GL_LIGHT1, GL_POSITION, light1Pos);
 
 }
 
-//initialize enemies
+/* initialize enemies */
 void setEnemies()
 {
     float xIncrement = 1.4f;
@@ -443,7 +440,7 @@ void setEnemies()
     }
 }
 
-//initialize barriers
+/* initialize barriers */
 void setBarriers()
 {
     //Big barrier 1
@@ -547,6 +544,7 @@ void setBarriers()
     barriers.push_back(barrier);
 }
 
+/* sets textures */
 void bindTextures()
 {
     glEnable(GL_TEXTURE_2D);
@@ -576,12 +574,15 @@ void bindTextures()
     glMatrixMode(GL_TEXTURE);
 }
 
+/* resets all game states to allow for replay */
 void resetGame()
 {
-    enemyReachedBase = false;
+    //reset game objects
     flyingEnemyIsFlying = false;
     flyingEnemy.moveX(-50);
     player = Player(0, -4, -25);
+
+    //clear all lists (enemies, barriers, projectiles) and set them again
     enemyRow1.clear();
     enemyRow2.clear();
     enemyRow3.clear();
@@ -590,21 +591,25 @@ void resetGame()
     barriers.clear();
     projectiles.clear();
     enemyProjectiles.clear();
+    setEnemies();
+    setBarriers();
+
+    //reset game states
+    enemyReachedBase = false;
     gamePaused = false;
     leftPressed = false;
     rightPressed = false;
     canShoot = true;
     multipleOfSpeedBeforeCanShoot = 0;
-    setEnemies();
-    setBarriers();
     userInfo = GUI();
     enemyCounter = 55;
     barriersDestroyed = 0;
     indexCounter = 0;
+
     glutPostRedisplay();
 }
 
-//initialize
+/* initialize */
 void init(void)
 {
     bindTextures();
@@ -624,7 +629,6 @@ void init(void)
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-
     //enable backface culling
     glFrontFace(GL_CCW);
     glCullFace(GL_BACK);
@@ -634,7 +638,7 @@ void init(void)
     gluLookAt(eye[0], eye[1], eye[2], lookAt[0], lookAt[1], lookAt[2], 0,1,0);
 }
 
-//for updating which enemy unit is bottom for row 2
+/* for updating which enemy unit is bottom for row 2 */
 void updateRow2(int i)
 {
     if((enemyRow5.at(i) -> getAlive()==false) &&
@@ -645,7 +649,7 @@ void updateRow2(int i)
     }
 }
 
-//for updating which enemy unit is bottom for row 3
+/*for updating which enemy unit is bottom for row 3 */
 void updateRow3(int i)
 {
     if((enemyRow5.at(i) -> getAlive()==false) &&
@@ -662,7 +666,7 @@ void updateRow3(int i)
     }
 }
 
-//for updating which enemy unit is bottom for row 4
+/* for updating which enemy unit is bottom for row 4 */
 void updateRow4(int i)
 {
     if(enemyRow5.at(i) -> getAlive()==false)
@@ -682,7 +686,7 @@ void updateRow4(int i)
     }
 }
 
-//for updating which enemy unit is bottom for row 5
+/* for updating which enemy unit is bottom for row 5 */
 void updateRow5(int i)
 {
     if(enemyRow4.at(i)->getAlive())
@@ -703,6 +707,7 @@ void updateRow5(int i)
     }
 }
 
+/* checks win or lose conditions */
 void checkWinOrLose()
 {
     if(player.getHp() == 0)
@@ -780,7 +785,7 @@ void checkWinOrLose()
     }
 }
 
-//timer for gameloop
+/* timer for GameLoop : updates GameState */
 void timer(int value)
 {
     switch(currentState)
@@ -1150,7 +1155,7 @@ void timer(int value)
     glutTimerFunc(speed, timer, 0);
 }
 
-//display method to be recalled upon any changes
+/* display method to update view of game */
 void display(void)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -1159,8 +1164,9 @@ void display(void)
     glLoadIdentity();
     addLights();        //add lights
 
-    //displays accordingly to what game state
     glBindTexture(GL_TEXTURE_2D, myTex[1]);
+
+    //displays accordingly to what game state
     switch(currentState)
     {
     case Menu:
@@ -1303,7 +1309,7 @@ void display(void)
     glutSwapBuffers();
 }
 
-//main method
+/* main method */
 int main(int argc, char** argv)
 {
     glutInit(&argc, argv);              //starts up GLUT

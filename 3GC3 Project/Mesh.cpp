@@ -20,9 +20,7 @@ void Mesh::LoadOBJ(const char * path)
     int status = fscanf(file, "%s", prefix);
 
 
-    float input1;
-    float input2;
-    float input3;
+    float input1, input2, input3;
     int vInd1 = 0, vInd2= 0, vInd3= 0, uInd1= 0, uInd2= 0, uInd3= 0, nInd1= 0, nInd2= 0, nInd3 = 0;
    
     //Loop until the end of the file/    
@@ -67,6 +65,7 @@ void Mesh::LoadOBJ(const char * path)
             nIndex.push_back(nInd3);
         }
 
+        //get next line
         status = fscanf(file, "%s", prefix);
     }
 }
@@ -85,7 +84,6 @@ void Mesh::Draw()
         glNormal3f(normals[nIndex[i]-1].x, normals[nIndex[i]-1].y, normals[nIndex[i]-1].z);
         //Set uv
         glTexCoord2f(uvs[uIndex[i]-1].x, uvs[uIndex[i]-1].y);
-
         //Set vertex
         glVertex3f(vertices[vIndex[i]-1].x, vertices[vIndex[i]-1].y, vertices[vIndex[i]-1].z); 
 

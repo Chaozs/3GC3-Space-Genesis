@@ -21,7 +21,7 @@ else
 	endif
 endif
 
-PROGRAM_NAME= SpaceGenesis
+PROGRAM_NAME= SpaceGenesis.o
 
 run: $(PROGRAM_NAME)
 	./$(PROGRAM_NAME)$(EXEXT)

@@ -715,7 +715,7 @@ void checkWinOrLose()
     for(std::vector<Enemy*>::iterator i = enemyRow1.begin(); i != enemyRow1.end(); ++i)
     {
         Enemy* enemy = *i;
-        if((enemy->getY()<=1)&&(enemy->getAlive()))
+        if((enemy->getY()<=-3.5f)&&(enemy->getAlive()))
         {
             enemyReachedBase=true;
         }
@@ -723,7 +723,7 @@ void checkWinOrLose()
     for(std::vector<Enemy*>::iterator i = enemyRow2.begin(); i != enemyRow2.end(); ++i)
     {
         Enemy* enemy = *i;
-        if((enemy->getY()<=1)&&(enemy->getAlive()))
+        if((enemy->getY()<=-3.5f)&&(enemy->getAlive()))
         {
             enemyReachedBase=true;
         }
@@ -731,7 +731,7 @@ void checkWinOrLose()
     for(std::vector<Enemy*>::iterator i = enemyRow3.begin(); i != enemyRow3.end(); ++i)
     {
         Enemy* enemy = *i;
-        if((enemy->getY()<=1)&&(enemy->getAlive()))
+        if((enemy->getY()<=-3.5f)&&(enemy->getAlive()))
         {
             enemyReachedBase=true;
         }
@@ -739,7 +739,7 @@ void checkWinOrLose()
     for(std::vector<Enemy*>::iterator i = enemyRow4.begin(); i != enemyRow4.end(); ++i)
     {
         Enemy* enemy = *i;
-        if((enemy->getY()<=1)&&(enemy->getAlive()))
+        if((enemy->getY()<=-3.5f)&&(enemy->getAlive()))
         {
             enemyReachedBase=true;
         }
@@ -747,7 +747,7 @@ void checkWinOrLose()
     for(std::vector<Enemy*>::iterator i = enemyRow5.begin(); i != enemyRow5.end(); ++i)
     {
         Enemy* enemy = *i;
-        if((enemy->getY()<=1)&&(enemy->getAlive()))
+        if((enemy->getY()<=-3.5f)&&(enemy->getAlive()))
         {
             enemyReachedBase=true;
         }

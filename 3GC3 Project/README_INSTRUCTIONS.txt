@@ -19,8 +19,8 @@ Lighting (5%) (Added 2 point lights)
 Textures (10%) (On player ship at the bottom; added proper UV maps)
 Alpha Blending (5%) (On particles, they fade the further they get from the )
 Particle Systems (5%) (Enemy ship "explosion")
-Animated characters (5%)
-Non-geometric primitives (10%)
+Animated characters (5%) (Ships/Enemies/projectiles moving)
+Non-geometric primitives (10%) (UI, including score and health)
 
 BONUS (Your Own Idea Here): .obj Rendering (5-10%) (Player ship.  UV's, normals, rendering.  Optimized and can handle hundreds of thousands of triangles on a modern machine.) 
 

@@ -85,7 +85,7 @@ float light0Pos[] = {-5, 3, -25, 1};  //initial light0 position
 float light1Pos[] = {5, 3, -25, 1};   //initial light1 positon
 
 /* ANIMATION */
-const int speed = 30;               //time between calls of display()
+const int speed = 17;               //time between calls of display()
 
 GLubyte* img_data; 					//how to play image
 /* TEXTURE */
@@ -551,7 +551,7 @@ void bindTextures()
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
     /*Get and save image*/
-    image = LoadPPM("Col_MAP.ppm",&widthA, &heightA, &maxA);
+    image = LoadPPM("PlayerShip_DIFFUSE.ppm",&widthA, &heightA, &maxA);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, widthA, heightA, 0, GL_RGB,
                  GL_UNSIGNED_BYTE, image);
 
@@ -585,7 +585,7 @@ void init(void)
 {
     bindTextures();
     playerMesh.LoadOBJ("PlayerShip.obj");
-    cubeMesh.LoadOBJ("PlayerShip.obj");
+    cubeMesh.LoadOBJ("EnemyShip.obj");
     setEnemies();
     setBarriers();
     glBindTexture(GL_TEXTURE_2D, 0);

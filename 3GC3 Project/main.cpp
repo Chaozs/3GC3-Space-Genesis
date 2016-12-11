@@ -47,6 +47,8 @@ GUI userInfo = GUI();
 MainMenu mainMenu;                  //create mainMenu
 bool gamePaused = false;            //indicates whether or not game is currently paused
 std::string difficultyString = "Medium";
+int barriersDestroyed = 0;
+bool enemyReachedBase = false;
 
 /* ENEMY SHIP */
 vector<Enemy*> enemyRow1;
@@ -60,7 +62,8 @@ bool flyingEnemyIsFlying = false;
 //int enemyCounter = enemyRow1.size() + enemyRow2.size() + enemyRow3.size() + enemyRow4.size() + enemyRow5.size();
 
 float enemyMovement = 0.06f; //enemy x movement speed
-float enemyDifficulty = -0.0015; //enemy downwards movement speed
+float enemyDifficulty = -0.003; //enemy downwards movement speed
+int enemyShootDifficulty = 500;
 int indexCounter=0;
 
 /* PLAYER SHIP */
@@ -184,17 +187,20 @@ void keyboard(unsigned char key, int x, int y)
             switch(mainMenu.getCurrentButton())
             {
             case Item1: //easy difficulty
-                enemyDifficulty = -0.001;
+                enemyDifficulty = -0.002;
+                enemyShootDifficulty = 800;
                 difficultyString = "Easy";
                 currentState = Menu;
                 break;
             case Item2: //medium difficulty
-                enemyDifficulty = -0.0015;
+                enemyDifficulty = -0.003;
+                enemyShootDifficulty = 500;
                 difficultyString = "Medium";
                 currentState = Menu;
                 break;
             case Item3: //hard difficulty
-                enemyDifficulty = -0.002;
+                enemyDifficulty = -0.0035;
+                enemyShootDifficulty = 300;
                 difficultyString = "Hard";
                 currentState = Menu;
                 break;
@@ -690,6 +696,74 @@ void updateRow5(int i)
     }
 }
 
+void checkWinOrLose(){
+	if(player.getHp() == 0)
+        {
+            currentState = GameOver;
+            resetGame();
+        }
+
+        //check if enemy reached base for each enemy
+        for(std::vector<Enemy*>::iterator i = enemyRow1.begin(); i != enemyRow1.end(); ++i)
+            {
+                Enemy* enemy = *i;
+                if((enemy->getY()<=1)&&(enemy->getAlive())){
+                	enemyReachedBase=true;
+                }
+            }
+        for(std::vector<Enemy*>::iterator i = enemyRow2.begin(); i != enemyRow2.end(); ++i)
+            {
+                Enemy* enemy = *i;
+                if((enemy->getY()<=1)&&(enemy->getAlive())){
+                	enemyReachedBase=true;
+                }
+            }
+        for(std::vector<Enemy*>::iterator i = enemyRow3.begin(); i != enemyRow3.end(); ++i)
+            {
+                Enemy* enemy = *i;
+                if((enemy->getY()<=1)&&(enemy->getAlive())){
+                	enemyReachedBase=true;
+                }
+            }
+        for(std::vector<Enemy*>::iterator i = enemyRow4.begin(); i != enemyRow4.end(); ++i)
+            {
+                Enemy* enemy = *i;
+                if((enemy->getY()<=1)&&(enemy->getAlive())){
+                	enemyReachedBase=true;
+                }
+            }
+        for(std::vector<Enemy*>::iterator i = enemyRow5.begin(); i != enemyRow5.end(); ++i)
+            {
+                Enemy* enemy = *i;
+                if((enemy->getY()<=1)&&(enemy->getAlive())){
+                	enemyReachedBase=true;
+                }
+            }
+
+        //check if all barriers are destroyed
+        for(list<Barrier*>::iterator i=barriers.begin(); i!=barriers.end(); ++i)
+        {
+            Barrier* barrier = *i;
+            if(barrier->isIntact())
+            {
+            	barriersDestroyed++;
+        	}
+        }
+
+        if(barriersDestroyed==40||enemyReachedBase){
+        	currentState = GameOver;
+            resetGame();
+        }else{
+        	barriersDestroyed = 0;
+        }
+
+        if(enemyCounter == 0 || barrierCounter == 0)
+        {
+            currentState = Win;
+            resetGame();
+        }
+}
+
 //timer for gameloop
 void timer(int value)
 {
@@ -866,7 +940,7 @@ void timer(int value)
             for(std::vector<Enemy*>::iterator i = enemyRow1.begin(); i != enemyRow1.end(); ++i)
             {
                 Enemy* enemy = *i;
-                if (enemy->shouldShoot(200) && enemy->isBottomTrue() && enemy->getMultipleOfSpeedBeforeCanShoot() >= 10)
+                if (enemy->shouldShoot(enemyShootDifficulty) && enemy->isBottomTrue() && enemy->getMultipleOfSpeedBeforeCanShoot() >= 10)
                 {
                     enemy->setMultipleOfSpeedBeforeCanShoot(0);
                     Projectile* enemyProj = new Projectile(enemy->getPosition().at(0), enemy->getPosition().at(1), enemy->getPosition().at(2));
@@ -884,7 +958,7 @@ void timer(int value)
             for(std::vector<Enemy*>::iterator i = enemyRow2.begin(); i != enemyRow2.end(); ++i)
             {
                 Enemy* enemy = *i;
-                if (enemy->shouldShoot(200) && enemy->isBottomTrue() && enemy->getMultipleOfSpeedBeforeCanShoot() >= 10)
+                if (enemy->shouldShoot(enemyShootDifficulty) && enemy->isBottomTrue() && enemy->getMultipleOfSpeedBeforeCanShoot() >= 10)
                 {
                     enemy->setMultipleOfSpeedBeforeCanShoot(0);
                     Projectile* enemyProj = new Projectile(enemy->getPosition().at(0), enemy->getPosition().at(1), enemy->getPosition().at(2));
@@ -902,7 +976,7 @@ void timer(int value)
             for(std::vector<Enemy*>::iterator i = enemyRow3.begin(); i != enemyRow3.end(); ++i)
             {
                 Enemy* enemy = *i;
-                if (enemy->shouldShoot(200) && enemy->isBottomTrue() && enemy->getMultipleOfSpeedBeforeCanShoot() >= 10)
+                if (enemy->shouldShoot(enemyShootDifficulty) && enemy->isBottomTrue() && enemy->getMultipleOfSpeedBeforeCanShoot() >= 10)
                 {
                     enemy->setMultipleOfSpeedBeforeCanShoot(0);
                     Projectile* enemyProj = new Projectile(enemy->getPosition().at(0), enemy->getPosition().at(1), enemy->getPosition().at(2));
@@ -920,7 +994,7 @@ void timer(int value)
             for(std::vector<Enemy*>::iterator i = enemyRow4.begin(); i != enemyRow4.end(); ++i)
             {
                 Enemy* enemy = *i;
-                if (enemy->shouldShoot(200) && enemy->isBottomTrue() && enemy->getMultipleOfSpeedBeforeCanShoot() >= 10)
+                if (enemy->shouldShoot(enemyShootDifficulty) && enemy->isBottomTrue() && enemy->getMultipleOfSpeedBeforeCanShoot() >= 10)
                 {
                     enemy->setMultipleOfSpeedBeforeCanShoot(0);
                     Projectile* enemyProj = new Projectile(enemy->getPosition().at(0), enemy->getPosition().at(1), enemy->getPosition().at(2));
@@ -938,7 +1012,7 @@ void timer(int value)
             for(std::vector<Enemy*>::iterator i = enemyRow5.begin(); i != enemyRow5.end(); ++i)
             {
                 Enemy* enemy = *i;
-                if (enemy->shouldShoot(200) && enemy->isBottomTrue() && enemy->getMultipleOfSpeedBeforeCanShoot() >= 10)
+                if (enemy->shouldShoot(enemyShootDifficulty) && enemy->isBottomTrue() && enemy->getMultipleOfSpeedBeforeCanShoot() >= 10)
                 {
                     enemy->setMultipleOfSpeedBeforeCanShoot(0);
                     Projectile* enemyProj = new Projectile(enemy->getPosition().at(0), enemy->getPosition().at(1), enemy->getPosition().at(2));
@@ -1046,17 +1120,7 @@ void timer(int value)
             glutPostRedisplay();    //calls display
         }
 
-        if(player.getHp() == 0)
-        {
-            currentState = GameOver;
-            resetGame();
-        }
-
-        if(enemyCounter == 0 || barrierCounter == 0)
-        {
-            currentState = Win;
-            resetGame();
-        }
+        checkWinOrLose();
     }
     //wait before calling timer() again
     glutTimerFunc(speed, timer, 0);

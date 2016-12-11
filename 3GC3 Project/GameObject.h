@@ -39,6 +39,8 @@ public:
     void moveY(float);                  //moves object's Y position; positive float = increases Y position & vice versa
     void moveZ(float);                  //moves object's Z position; positive float = increases Z position & vice versa
     float getX();                       //get x location
+    float getY();                       //get y location
+
 
 protected:
     float position[3];                  //position of object

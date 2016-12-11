@@ -50,3 +50,8 @@ void GameObject::moveZ(float movement)
 float GameObject::getX(){
     return position[0];
 }
+
+//get y position of object
+float GameObject::getY(){
+    return position[1];
+}

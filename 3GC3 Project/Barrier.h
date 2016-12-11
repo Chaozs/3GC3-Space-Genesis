@@ -33,6 +33,7 @@ public:
     void decreaseHp();              //decreases the barrier's hp by 1
     void drawBarrier();				//draws barrier
     bool isHit(float, float, float);    //whether or not the given coordinates is within barrier's hit box
+    bool isIntact();			//returns whether barrier is intact or destroyed
 
 private:
     int hp;							//the current hp of barrier

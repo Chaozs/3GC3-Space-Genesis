@@ -48,6 +48,10 @@ void Barrier::drawBarrier()
     }
 }
 
+bool Barrier::isIntact(){
+    return isDead;
+}
+
 //check if barrier was hit
 bool Barrier::isHit(float x, float y, float z)
 {

@@ -18,15 +18,13 @@ void Mesh::LoadOBJ(const char * path)
 {
     //Get the file open
     FILE * file = fopen(path, "r");
-    char prefix[128];
-    int status = fscanf(file, "%s", prefix);
-
+    char prefix[100];
 
     float input1, input2, input3;
     int vInd1 = 0, vInd2= 0, vInd3= 0, uInd1= 0, uInd2= 0, uInd3= 0, nInd1= 0, nInd2= 0, nInd3 = 0;
    
     //Loop until the end of the file/    
-    while(status != EOF)
+    while(fscanf(file, "%s", prefix) != EOF)
     {       
         //Get a vertex
         if ( strcmp("v", prefix) == 0 )
@@ -66,9 +64,6 @@ void Mesh::LoadOBJ(const char * path)
             nIndex.push_back(nInd2);
             nIndex.push_back(nInd3);
         }
-
-        //get next line
-        status = fscanf(file, "%s", prefix);
     }
 }
 

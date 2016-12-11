@@ -1052,7 +1052,7 @@ void timer(int value)
             }
 
             //determine if flying enemy will start to fly by
-            if (flyingEnemy.shouldShoot(200) && !flyingEnemyIsFlying)
+            if (flyingEnemy.shouldShoot(500) && !flyingEnemyIsFlying)
             {
                 flyingEnemyIsFlying = true;
             }

@@ -21,7 +21,7 @@ void Enemy::setAlive(bool IsAlive)
 {
     isAlive = IsAlive;
 }
-    
+
 //get whether enemy is currently alive
 bool Enemy::getAlive()
 {
@@ -43,10 +43,11 @@ bool Enemy::isBottomTrue()
 //method that uses random to determine if unit should shoot
 bool Enemy::shouldShoot(int range)
 {
-    if(!isAlive){
+    if(!isAlive)
+    {
         return false;
     }
-    #define uniform() (rand()/(RAND_MAX + 1.0))
+#define uniform() (rand()/(RAND_MAX + 1.0))
     int randomInt = (int) (uniform() * (range+1));
 
     //cout << randomInt << endl;
@@ -61,7 +62,8 @@ bool Enemy::shouldShoot(int range)
 }
 
 //draws particles. Particles are hidden behind ship until ship dies
-void Enemy::drawParticle(){
+void Enemy::drawParticle()
+{
 
     glColor4f(1.0, 1.0, 1.0, alphaParticle);
     glBegin(GL_QUADS);
@@ -116,29 +118,37 @@ void Enemy::drawParticle(){
     glEnd();
 }
 
+float Enemy::getParticleSpeed()
+{
+    return particleSpeed;
+}
+
 //draws ship
 void Enemy::drawShip(Mesh& mesh)
 {
     //increment location of the particle
-    if((!isAlive)&&(particleSpeed<0.71f)){
+    if((!isAlive)&&(particleSpeed<0.71f))
+    {
         particleSpeed = particleSpeed + 0.01f;
         alphaParticle = alphaParticle - 0.02f;
     }
     //only draw particle until it reaches that point
-    if(particleSpeed<0.7f){
-    drawParticle();
+    if(particleSpeed<0.7f)
+    {
+        drawParticle();
     }
-    if(isAlive){
-    glPushMatrix();
-    glTranslatef(position[0], position[1], position[2]);
-    glPushMatrix();
-    glScalef(0.15f, 0.15f, 0.15f);
-    glPushMatrix();
-    glRotatef(180, 0, 1, 1);
-    mesh.Draw();
-    glPopMatrix();
-    glPopMatrix();
-    glPopMatrix();
+    if(isAlive)
+    {
+        glPushMatrix();
+        glTranslatef(position[0], position[1], position[2]);
+        glPushMatrix();
+        glScalef(0.15f, 0.15f, 0.15f);
+        glPushMatrix();
+        glRotatef(180, 0, 1, 1);
+        mesh.Draw();
+        glPopMatrix();
+        glPopMatrix();
+        glPopMatrix();
     }
 }
 
@@ -157,7 +167,8 @@ void Enemy::setMultipleOfSpeedBeforeCanShoot(int multiple)
 //hit detection for if enemy was hit by projectile
 bool Enemy::isHit(float x, float y, float z)
 {
-    if(!isAlive){
+    if(!isAlive)
+    {
         return false;
     }
     if (position[0] < x-0.5 || position[0] > x+0.5)

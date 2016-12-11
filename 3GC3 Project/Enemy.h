@@ -40,6 +40,7 @@ public:
     int getMultipleOfSpeedBeforeCanShoot();     //gets tracker for if enemy can shoot again
     void setMultipleOfSpeedBeforeCanShoot(int); //sets tracker for if enemy can shoot again
     bool isHit(float, float, float);    //whether or not the given coordinates is within enemy's hit box
+    float getParticleSpeed();
 
 private:
     bool isAlive;                       //whether the enemy unit is alive

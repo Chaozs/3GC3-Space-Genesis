@@ -700,72 +700,81 @@ void updateRow5(int i)
     }
 }
 
-void checkWinOrLose(){
-	if(player.getHp() == 0)
+void checkWinOrLose()
+{
+    if(player.getHp() == 0)
+    {
+        currentState = GameOver;
+        resetGame();
+    }
+
+    //check if enemy reached base for each enemy
+    for(std::vector<Enemy*>::iterator i = enemyRow1.begin(); i != enemyRow1.end(); ++i)
+    {
+        Enemy* enemy = *i;
+        if((enemy->getY()<=1)&&(enemy->getAlive()))
         {
-            currentState = GameOver;
-            resetGame();
+            enemyReachedBase=true;
         }
-
-        //check if enemy reached base for each enemy
-        for(std::vector<Enemy*>::iterator i = enemyRow1.begin(); i != enemyRow1.end(); ++i)
-            {
-                Enemy* enemy = *i;
-                if((enemy->getY()<=1)&&(enemy->getAlive())){
-                	enemyReachedBase=true;
-                }
-            }
-        for(std::vector<Enemy*>::iterator i = enemyRow2.begin(); i != enemyRow2.end(); ++i)
-            {
-                Enemy* enemy = *i;
-                if((enemy->getY()<=1)&&(enemy->getAlive())){
-                	enemyReachedBase=true;
-                }
-            }
-        for(std::vector<Enemy*>::iterator i = enemyRow3.begin(); i != enemyRow3.end(); ++i)
-            {
-                Enemy* enemy = *i;
-                if((enemy->getY()<=1)&&(enemy->getAlive())){
-                	enemyReachedBase=true;
-                }
-            }
-        for(std::vector<Enemy*>::iterator i = enemyRow4.begin(); i != enemyRow4.end(); ++i)
-            {
-                Enemy* enemy = *i;
-                if((enemy->getY()<=1)&&(enemy->getAlive())){
-                	enemyReachedBase=true;
-                }
-            }
-        for(std::vector<Enemy*>::iterator i = enemyRow5.begin(); i != enemyRow5.end(); ++i)
-            {
-                Enemy* enemy = *i;
-                if((enemy->getY()<=1)&&(enemy->getAlive())){
-                	enemyReachedBase=true;
-                }
-            }
-
-        //check if all barriers are destroyed
-        for(list<Barrier*>::iterator i=barriers.begin(); i!=barriers.end(); ++i)
+    }
+    for(std::vector<Enemy*>::iterator i = enemyRow2.begin(); i != enemyRow2.end(); ++i)
+    {
+        Enemy* enemy = *i;
+        if((enemy->getY()<=1)&&(enemy->getAlive()))
         {
-            Barrier* barrier = *i;
-            if(barrier->isIntact())
-            {
-            	barriersDestroyed++;
-        	}
+            enemyReachedBase=true;
         }
-
-        if(barriersDestroyed==40||enemyReachedBase){
-        	currentState = GameOver;
-            resetGame();
-        }else{
-        	barriersDestroyed = 0;
-        }
-
-        if(enemyCounter == 0 || barrierCounter == 0)
+    }
+    for(std::vector<Enemy*>::iterator i = enemyRow3.begin(); i != enemyRow3.end(); ++i)
+    {
+        Enemy* enemy = *i;
+        if((enemy->getY()<=1)&&(enemy->getAlive()))
         {
-            currentState = Win;
-            resetGame();
+            enemyReachedBase=true;
         }
+    }
+    for(std::vector<Enemy*>::iterator i = enemyRow4.begin(); i != enemyRow4.end(); ++i)
+    {
+        Enemy* enemy = *i;
+        if((enemy->getY()<=1)&&(enemy->getAlive()))
+        {
+            enemyReachedBase=true;
+        }
+    }
+    for(std::vector<Enemy*>::iterator i = enemyRow5.begin(); i != enemyRow5.end(); ++i)
+    {
+        Enemy* enemy = *i;
+        if((enemy->getY()<=1)&&(enemy->getAlive()))
+        {
+            enemyReachedBase=true;
+        }
+    }
+
+    //check if all barriers are destroyed
+    for(list<Barrier*>::iterator i=barriers.begin(); i!=barriers.end(); ++i)
+    {
+        Barrier* barrier = *i;
+        if(barrier->isIntact())
+        {
+            barriersDestroyed++;
+        }
+    }
+
+    if(barriersDestroyed==40||enemyReachedBase)
+    {
+        currentState = GameOver;
+        resetGame();
+    }
+    else
+    {
+        barriersDestroyed = 0;
+    }
+
+    if(enemyCounter == 0 || barrierCounter == 0)
+    {
+        currentState = Win;
+        resetGame();
+    }
 }
 
 //timer for gameloop
@@ -920,7 +929,7 @@ void timer(int value)
                                           projectileP->getPosition().at(2)))
                     {
                         i = projectiles.erase(i);
-                        flyingEnemy.moveX(-50);
+                        flyingEnemy.setAlive(false);
                         userInfo.incScoreBy(500);
                         flyingEnemyIsFlying = false;
                         userInfo.incScoreBy(500);
@@ -1031,6 +1040,13 @@ void timer(int value)
                 enemy->moveY(enemyDifficulty);
             }
 
+            //set flyingEnemy to alive if it's dead
+            if (!flyingEnemy.getAlive() && flyingEnemy.getParticleSpeed() >= 0.71)
+            {
+                flyingEnemy.setAlive(true);
+                flyingEnemy.moveX(-50);
+            }
+
             //move flying enemy if it is flying across screen
             if (flyingEnemyIsFlying)
             {
@@ -1057,7 +1073,7 @@ void timer(int value)
             }
 
             //determine if flying enemy will start to fly by
-            if (flyingEnemy.shouldShoot(500) && !flyingEnemyIsFlying)
+            if (flyingEnemy.shouldShoot(300) && !flyingEnemyIsFlying)
             {
                 flyingEnemyIsFlying = true;
             }
@@ -1179,7 +1195,7 @@ void display(void)
         userInfo.drawScoreAndHP(player.getHp());
         userInfo.drawDifficulty(difficultyString);
         glEnable(GL_LIGHTING);
-        
+
         glBindTexture(GL_TEXTURE_2D, myTex[0]);
 
         for(list<Barrier*>::iterator i=barriers.begin(); i!=barriers.end(); ++i)

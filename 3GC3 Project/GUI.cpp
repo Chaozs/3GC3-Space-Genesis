@@ -23,7 +23,8 @@ void GUI::incScoreBy(int increase)
 
 //draws the player's current HP and Score
 void GUI::drawScoreAndHP(int HP)
-{
+{   
+    //Score Label
     glRasterPos3f(-21, 30, -25);
     std::string ScoreLabel = "Score:";
     for(int i=0; i<ScoreLabel.size(); i++)
@@ -31,6 +32,7 @@ void GUI::drawScoreAndHP(int HP)
         glutBitmapCharacter(GLUT_BITMAP_9_BY_15, ScoreLabel[i]);
     }
 
+    //Score Number
     glRasterPos3f(-17.5, 30, -25);
     std::string ScoreText = std::to_string(score);
     for(int i=0; i<ScoreText.size(); i++)
@@ -38,6 +40,7 @@ void GUI::drawScoreAndHP(int HP)
         glutBitmapCharacter(GLUT_BITMAP_9_BY_15, ScoreText[i]);
     }
 
+    //HP Label
     glRasterPos3f(-12, 30, -25);
     std::string HPLabel = "HP:";
     for(int i=0; i<HPLabel.size(); i++)
@@ -45,6 +48,7 @@ void GUI::drawScoreAndHP(int HP)
         glutBitmapCharacter(GLUT_BITMAP_9_BY_15, HPLabel[i]);
     }
 
+    //HP Number
     glRasterPos3f(-10, 30, -25);
     std::string HPText = std::to_string(HP);
     for(int i=0; i<HPText.size(); i++)
@@ -53,6 +57,7 @@ void GUI::drawScoreAndHP(int HP)
     }
 }
 
+//Draws the difficulty text to the screen
 void GUI::drawDifficulty(std::string difficulty)
 {
     glRasterPos3f(10, 30, -25);
@@ -62,6 +67,7 @@ void GUI::drawDifficulty(std::string difficulty)
     }
 }
 
+//Draws the pause text to the screen
 void GUI::drawPause()
 {
     glRasterPos3f(-1, 10, -20);

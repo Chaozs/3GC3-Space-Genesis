@@ -27,9 +27,8 @@ Thien Trandinh / trandit / 001420634
 
 using namespace std;
 
-//TODO: *hold mesh of object (+getter/setter for mesh)
-//      *detect collision
 
+//GameObject class
 class GameObject
 {
 public:

@@ -48,6 +48,7 @@ void Barrier::drawBarrier()
     }
 }
 
+//returns wether the barrier is considered dead/gone
 bool Barrier::isIntact()
 {
     return isDead;

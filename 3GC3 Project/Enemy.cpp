@@ -50,7 +50,6 @@ bool Enemy::shouldShoot(int range)
 #define uniform() (rand()/(RAND_MAX + 1.0))
     int randomInt = (int) (uniform() * (range+1));
 
-    //cout << randomInt << endl;
     if(randomInt==1)
     {
         return true;
@@ -64,7 +63,7 @@ bool Enemy::shouldShoot(int range)
 //draws particles. Particles are hidden behind ship until ship dies
 void Enemy::drawParticle()
 {
-
+    //Particles fade away using alpha channel
     glColor4f(1.0, 1.0, 1.0, alphaParticle);
     glBegin(GL_QUADS);
 
@@ -118,10 +117,12 @@ void Enemy::drawParticle()
     glVertex3f(position[0]+partSize-particleSpeed*0.7, position[1]+partSize+particleSpeed*0.7, position[2]);
     glVertex3f(position[0]-partSize-particleSpeed*0.7, position[1]+partSize+particleSpeed*0.7, position[2]);
 
+    //Restore alpha channel
     glColor4f(1.0, 1.0, 1.0, 1.0);
     glEnd();
 }
 
+//Returns the particle speed
 float Enemy::getParticleSpeed()
 {
     return particleSpeed;

@@ -26,6 +26,7 @@ Thien Trandinh / trandit / 001420634
 
 using namespace std;
 
+//Enemy Class
 class Enemy : public GameObject
 {
 public:

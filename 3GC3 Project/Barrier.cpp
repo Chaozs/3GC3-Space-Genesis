@@ -41,14 +41,15 @@ void Barrier::drawBarrier()
         glPushMatrix();
         glTranslatef(position[0], position[1], position[2]);
         glPushMatrix();
-            glScalef(0.5f, 0.5f, 0.5f);
-            glutSolidCube(1);
+        glScalef(0.5f, 0.5f, 0.5f);
+        glutSolidCube(1);
         glPopMatrix();
         glPopMatrix();
     }
 }
 
-bool Barrier::isIntact(){
+bool Barrier::isIntact()
+{
     return isDead;
 }
 

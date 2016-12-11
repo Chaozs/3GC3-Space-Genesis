@@ -9,6 +9,7 @@ Thien Trandinh / trandit / 001420634
 
 #include "Vector3.h"
 
+//vector class containing 3 floats
 Vector3::Vector3(float xNew, float yNew, float zNew)
 {
     x = xNew;

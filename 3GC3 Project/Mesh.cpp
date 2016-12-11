@@ -8,10 +8,12 @@ Thien Trandinh / trandit / 001420634
 
 #include "Mesh.h"
 
+//empty constructor
 Mesh::Mesh()
 {
 }
 
+//load OBJ
 void Mesh::LoadOBJ(const char * path)
 {
     //Get the file open
@@ -70,6 +72,7 @@ void Mesh::LoadOBJ(const char * path)
     }
 }
 
+//draw mesh
 void Mesh::Draw()
 {
     //Preliminary stuff

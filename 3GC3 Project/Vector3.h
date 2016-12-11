@@ -22,6 +22,7 @@ Thien Trandinh / trandit / 001420634
 
 using namespace std;
 
+//vector class containing 3 floats
 class Vector3
 {
 public:

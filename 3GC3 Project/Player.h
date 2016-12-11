@@ -24,6 +24,7 @@ Thien Trandinh / trandit / 001420634
 
 using namespace std;
 
+//player class (player ship)
 class Player : public GameObject
 {
 public:

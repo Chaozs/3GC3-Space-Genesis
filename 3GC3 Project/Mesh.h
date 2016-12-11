@@ -34,16 +34,16 @@ class Mesh
 {
 public:
     //Vertices
-    std::vector<Vector3> vertices;
+    std::vector<Vector3> vertices; 
     std::vector<int> vIndex;
     std::vector<Vector3> normals;
     std::vector<int> nIndex;
     std::vector<Vector3> uvs;
     std::vector<int> uIndex;
     //Faces
-    void LoadOBJ(const char * path);
-    void Draw();
-    Mesh();
+    void LoadOBJ(const char * path);    //load OBJ
+    void Draw();                        //draw mesh
+    Mesh();                             //constructor
 };
 
 #endif

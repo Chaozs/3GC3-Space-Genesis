@@ -28,6 +28,7 @@ Thien Trandinh / trandit / 001420634
 
 using namespace std;
 
+//Menu class for Main Menu and Difficulty selection menu
 class MainMenu
 {
 public:

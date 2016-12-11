@@ -24,13 +24,12 @@ Thien Trandinh / trandit / 001420634
 
 using namespace std;
 
+//projectile class
 class Projectile : public GameObject
 {
 public:
     Projectile(float, float, float);    //constructor for projectile; requires an initial position
-    void draw();     //draws the projectile
-
-private:
+    void draw();     					//draws the projectile
 };
 
 #endif

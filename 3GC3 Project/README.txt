@@ -5,27 +5,28 @@ Jack Snopek / snopekjt / 001408851
 Susan Yuen / yuens2 / 001416198
 Thien Trandinh / trandit / 001420634
 
-To run Game:
-open terminal in location of the makefile. Type "make" to generate the executable as well as run the game.
+HOW TO RUN:
+- Open terminal in location of the makefile. Type "make" to generate the executable as well as run the game.
 
-To navigate any Menu in game,
-Move: Keypad up and Keypad down
-Select: Spacebar
-
-Instructions on how to play game is located inside HowToplay option.
+GAME CONTROLS:
+- up/down arrow keys: navigate menu buttons
+- space: select menu button/shoot projectile
+- left/right arrow keys: control ship movement
+- key 'p': pause the game
+* Instructions on how to play game is also located inside the "How To Play" option.
 
 Advanced Graphical Features implemented:
-Lighting (5%) (Added 2 point lights)
-Textures (10%) (On player ship at the bottom; added proper UV maps)
-Alpha Blending (5%) (On particles, they fade the further they get from the )
-Particle Systems (5%) (Enemy ship "explosion")
-Animated characters (5%) (Ships/Enemies/projectiles moving)
-Non-geometric primitives (10%) (UI, including score and health)
+- Lighting (5%) (Added 2 point lights)
+- Textures (10%) (On player ship at the bottom; added proper UV maps)
+- Alpha Blending (5%) (On particles, which fade as their lifetime continues)
+- Particle Systems (5%) (enemy ship "explosion" upon death)
+- Animated characters (5%) (ships/Enemies/projectiles moving)
+- Non-geometric primitives (10%) (UI (instructions is an image), including score and health)
 
-BONUS (Your Own Idea Here): .obj Rendering (5-10%) (Player ship.  UV's, normals, rendering.  Optimized and can handle hundreds of thousands of triangles on a modern machine.  Custom models) 
+BONUS (Your Own Idea Here): .obj Rendering (5-10%) (Player ship. UV's, normals, rendering. Optimized and can handle hundreds of thousands of triangles on a modern machine. Custom models)
 
 Total: 40%
 
 **Difference from project proposal:
-Instead of shaderes, we have animation and Alpha Blending as we decided it would better suit our project.  Also added .obj bonus.
+Instead of shaders, we have animation and alpha blending as we decided it would better suit our project. Also added .obj bonus.
 

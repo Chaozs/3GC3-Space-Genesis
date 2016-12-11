@@ -15,88 +15,57 @@ Mesh::Mesh()
 void Mesh::LoadOBJ(const char * path)
 {
     FILE * file = fopen(path, "r");
-    if( file == NULL )
-    {
-        printf("Impossible to open the file !\n");
-        return;
-    }
+
+    float input1;
+    float input2;
+    float input3;
+    int vInd1 = 0, vInd2= 0, vInd3= 0, uInd1= 0, uInd2= 0, uInd3= 0, nInd1= 0, nInd2= 0, nInd3 = 0;
 
     while(true)
     {
-        char lineHeader[128];
-        // read the first word of the line
-        int res = fscanf(file, "%s", lineHeader);
+        char prefix[128];
+
+        int res = fscanf(file, "%s", prefix);
         if (res == EOF)
         {
-            break; // EOF = End Of File. Quit the loop.
+            break; 
         }
-        // else : parse lineHeader
-        //VERTICES
-        float input1;
-        float input2;
-        float input3;
-        if ( strcmp( lineHeader, "v" ) == 0 )
+
+        
+        if ( strcmp("v", prefix) == 0 )
         {
             fscanf(file, "%f %f %f\n", &input1, &input2, &input3);
-            Vector3 v = Vector3(input1, input2, input3);
-            vertices.push_back(v);
+            vertices.push_back(Vector3(input1, input2, input3));
         }
-        else if ( strcmp( lineHeader, "vn" ) == 0 )
+        else if ( strcmp("vn", prefix) == 0 )
         {
             fscanf(file, "%f %f %f\n", &input1, &input2, &input3);
-            Vector3 v = Vector3(input1, input2, input3);
-            normals.push_back(v);
+            normals.push_back(Vector3(input1, input2, input3));
         }
-        else if ( strcmp( lineHeader, "vt" ) == 0 )
+        else if (strcmp("vt", prefix) == 0 )
         {
             fscanf(file, "%f %f \n", &input1, &input2);
-            Vector3 v = Vector3(input1, input2, 0);
-            uvs.push_back(v);
+            uvs.push_back(Vector3(input1, input2, 0));
         }
 
-        else if ( strcmp( lineHeader, "f" ) == 0 )
-        {
-            int vertexIndex[3], uvIndex[3], normalIndex[3];
-            int matches = fscanf(file, "%i/%i/%i %i/%i/%i %i/%i/%i\n", &vertexIndex[0], &uvIndex[0], &normalIndex[0], &vertexIndex[1], &uvIndex[1], &normalIndex[1], &vertexIndex[2], &uvIndex[2], &normalIndex[2]);
-            if (matches != 9)
-            {
-                printf("\n Get rid of the N-gons, moron.\n");
-                return;
-            }
-            else
-            {
-                vIndex.push_back(vertexIndex[0]);
-                vIndex.push_back(vertexIndex[1]);
-                vIndex.push_back(vertexIndex[2]);
+        else if (strcmp("f", prefix) == 0 )
+        {           
+            int matches = fscanf(file, "%i/%i/%i %i/%i/%i %i/%i/%i\n", &vInd1, &uInd1, &nInd1, &vInd2, &uInd2, &nInd1, &vInd3, &uInd3, &nInd1);
 
-                uIndex.push_back(uvIndex[0]);
-                uIndex.push_back(uvIndex[1]);
-                uIndex.push_back(uvIndex[2]);
+            vIndex.push_back(vInd1);
+            vIndex.push_back(vInd2);
+            vIndex.push_back(vInd3);
 
-                nIndex.push_back(normalIndex[0]);
-                nIndex.push_back(normalIndex[1]);
-                nIndex.push_back(normalIndex[2]);
-            }
+            uIndex.push_back(uInd1);
+            uIndex.push_back(uInd2);
+            uIndex.push_back(uInd3);
+
+            nIndex.push_back(nInd1);
+            nIndex.push_back(nInd1);
+            nIndex.push_back(nInd1);
         }
     }
-    
-      /*
-      printf("\n");
-      printf("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\n");
-      for(int i = 0; i < vIndex.size(); i++)
-      {
-          if(i%3 == 0)
-          {
-               printf("\n");
-          }
-          printf("%i - ", vIndex[i]);
-      }*/
-
 }
-
-bool fired = false;
-
-
 
 void Mesh::Draw()
 {
@@ -123,11 +92,4 @@ void Mesh::Draw()
         
     }
     glEnd();
-    /*glBegin(GL_POINTS);
-    for(int i = 0; i < vertices.size(); i++)
-    {
-        glVertex3f(vertices[i].x, vertices[i].y, vertices[i].z);
-    }*/
-    //glEnd();
-    fired = true;
 }

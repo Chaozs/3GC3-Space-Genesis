@@ -1069,7 +1069,7 @@ void timer(int value)
                 //check if enemy projectile hits player
                 else if (player.isHit(projectileP->getPosition().at(0), projectileP->getPosition().at(1), projectileP->getPosition().at(2)))
                 {
-                    player.decreaseHp(50);
+                    player.decreaseHp(25);
                     i = enemyProjectiles.erase(i);
                 }
                 else

@@ -331,10 +331,18 @@ void special(int key, int x, int y)
         switch(key)
         {
         case GLUT_KEY_UP:
-            mainMenu.goUp();        //scroll up menu
+            if(mainMenu.getCurrentButton()==Item1){
+                mainMenu.goDown();
+            }else{
+                mainMenu.goUp();
+            }
             break;
         case GLUT_KEY_DOWN:
-            mainMenu.goDown();      //scroll down menu
+            if(mainMenu.getCurrentButton()==Item1){
+                mainMenu.goDown();
+            }else{
+                mainMenu.goUp();
+            }
             break;
         }
     }
@@ -343,10 +351,18 @@ void special(int key, int x, int y)
         switch(key)
         {
         case GLUT_KEY_UP:
-            mainMenu.goUp();        //scroll up menu
+            if(mainMenu.getCurrentButton()==Item1){
+                mainMenu.goDown();
+            }else{
+                mainMenu.goUp();
+            }
             break;
         case GLUT_KEY_DOWN:
-            mainMenu.goDown();      //scroll down menu
+            if(mainMenu.getCurrentButton()==Item1){
+                mainMenu.goDown();
+            }else{
+                mainMenu.goUp();
+            }
             break;
         }
 

@@ -806,7 +806,7 @@ void timer(int value)
                             i = projectiles.erase(i);
                             enemy->setAlive(false);
                             ++j;
-                            userInfo.incScoreBy(150);
+                            userInfo.incScoreBy(350);
                             enemyCounter--;
                         }
                         else
@@ -829,7 +829,7 @@ void timer(int value)
                             updateRow2(indexCounter);
                             indexCounter++;
                             ++j;
-                            userInfo.incScoreBy(150);
+                            userInfo.incScoreBy(300);
                             enemyCounter--;
                         }
                         else
@@ -853,7 +853,7 @@ void timer(int value)
                             updateRow3(indexCounter);
                             indexCounter++;
                             ++j;
-                            userInfo.incScoreBy(150);
+                            userInfo.incScoreBy(250);
                             enemyCounter--;
                         }
                         else
@@ -877,7 +877,7 @@ void timer(int value)
                             updateRow4(indexCounter);
                             indexCounter++;
                             ++j;
-                            userInfo.incScoreBy(150);
+                            userInfo.incScoreBy(200);
                             enemyCounter--;
                         }
                         else
@@ -919,6 +919,7 @@ void timer(int value)
                         flyingEnemy.moveX(-50);
                         userInfo.incScoreBy(500);
                         flyingEnemyIsFlying = false;
+                        userInfo.incScoreBy(500);
                     }
 
                     //update positions of player projectiles on screen

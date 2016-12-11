@@ -67,53 +67,56 @@ void Enemy::drawParticle()
 
     glColor4f(1.0, 1.0, 1.0, alphaParticle);
     glBegin(GL_QUADS);
+
+    float partSize = 0.1f;
+
     //up
-    glVertex3f(position[0]-0.05f, position[1]-0.05f+particleSpeed, position[2]);
-    glVertex3f(position[0]+0.05f, position[1]-0.05f+particleSpeed, position[2]);
-    glVertex3f(position[0]+0.05f, position[1]+0.05f+particleSpeed, position[2]);
-    glVertex3f(position[0]-0.05f, position[1]+0.05f+particleSpeed, position[2]);
+    glVertex3f(position[0]-partSize*0.7, position[1]-partSize+particleSpeed*0.7, position[2]);
+    glVertex3f(position[0]+partSize*0.7, position[1]-partSize+particleSpeed*0.7, position[2]);
+    glVertex3f(position[0]+partSize*0.7, position[1]+partSize+particleSpeed*0.7, position[2]);
+    glVertex3f(position[0]-partSize*0.7, position[1]+partSize+particleSpeed*0.7, position[2]);
 
     //up-right
-    glVertex3f(position[0]-0.05f+particleSpeed, position[1]-0.05f+particleSpeed, position[2]);
-    glVertex3f(position[0]+0.05f+particleSpeed, position[1]-0.05f+particleSpeed, position[2]);
-    glVertex3f(position[0]+0.05f+particleSpeed, position[1]+0.05f+particleSpeed, position[2]);
-    glVertex3f(position[0]-0.05f+particleSpeed, position[1]+0.05f+particleSpeed, position[2]);
+    glVertex3f(position[0]-partSize+particleSpeed*0.7, position[1]-partSize+particleSpeed*0.7, position[2]);
+    glVertex3f(position[0]+partSize+particleSpeed*0.7, position[1]-partSize+particleSpeed*0.7, position[2]);
+    glVertex3f(position[0]+partSize+particleSpeed*0.7, position[1]+partSize+particleSpeed*0.7, position[2]);
+    glVertex3f(position[0]-partSize+particleSpeed*0.7, position[1]+partSize+particleSpeed*0.7, position[2]);
 
     //right
-    glVertex3f(position[0]-0.05f+particleSpeed, position[1]-0.05f, position[2]);
-    glVertex3f(position[0]+0.05f+particleSpeed, position[1]-0.05f, position[2]);
-    glVertex3f(position[0]+0.05f+particleSpeed, position[1]+0.05f, position[2]);
-    glVertex3f(position[0]-0.05f+particleSpeed, position[1]+0.05f, position[2]);
+    glVertex3f(position[0]-partSize+particleSpeed, position[1]-partSize, position[2]);
+    glVertex3f(position[0]+partSize+particleSpeed, position[1]-partSize, position[2]);
+    glVertex3f(position[0]+partSize+particleSpeed, position[1]+partSize, position[2]);
+    glVertex3f(position[0]-partSize+particleSpeed, position[1]+partSize, position[2]);
 
     //down-right
-    glVertex3f(position[0]-0.05f+particleSpeed, position[1]-0.05f-particleSpeed, position[2]);
-    glVertex3f(position[0]+0.05f+particleSpeed, position[1]-0.05f-particleSpeed, position[2]);
-    glVertex3f(position[0]+0.05f+particleSpeed, position[1]+0.05f-particleSpeed, position[2]);
-    glVertex3f(position[0]-0.05f+particleSpeed, position[1]+0.05f-particleSpeed, position[2]);
+    glVertex3f(position[0]-partSize+particleSpeed*0.7, position[1]-partSize-particleSpeed*0.7, position[2]);
+    glVertex3f(position[0]+partSize+particleSpeed*0.7, position[1]-partSize-particleSpeed*0.7, position[2]);
+    glVertex3f(position[0]+partSize+particleSpeed*0.7, position[1]+partSize-particleSpeed*0.7, position[2]);
+    glVertex3f(position[0]-partSize+particleSpeed*0.7, position[1]+partSize-particleSpeed*0.7, position[2]);
 
     //down
-    glVertex3f(position[0]-0.05f, position[1]-0.05f-particleSpeed, position[2]);
-    glVertex3f(position[0]+0.05f, position[1]-0.05f-particleSpeed, position[2]);
-    glVertex3f(position[0]+0.05f, position[1]+0.05f-particleSpeed, position[2]);
-    glVertex3f(position[0]-0.05f, position[1]+0.05f-particleSpeed, position[2]);
+    glVertex3f(position[0]-partSize, position[1]-partSize-particleSpeed, position[2]);
+    glVertex3f(position[0]+partSize, position[1]-partSize-particleSpeed, position[2]);
+    glVertex3f(position[0]+partSize, position[1]+partSize-particleSpeed, position[2]);
+    glVertex3f(position[0]-partSize, position[1]+partSize-particleSpeed, position[2]);
 
     //down-left
-    glVertex3f(position[0]-0.05f-particleSpeed, position[1]-0.05f-particleSpeed, position[2]);
-    glVertex3f(position[0]+0.05f-particleSpeed, position[1]-0.05f-particleSpeed, position[2]);
-    glVertex3f(position[0]+0.05f-particleSpeed, position[1]+0.05f-particleSpeed, position[2]);
-    glVertex3f(position[0]-0.05f-particleSpeed, position[1]+0.05f-particleSpeed, position[2]);
+    glVertex3f(position[0]-partSize-particleSpeed*0.7, position[1]-partSize-particleSpeed*0.7, position[2]);
+    glVertex3f(position[0]+partSize-particleSpeed*0.7, position[1]-partSize-particleSpeed*0.7, position[2]);
+    glVertex3f(position[0]+partSize-particleSpeed*0.7, position[1]+partSize-particleSpeed*0.7, position[2]);
+    glVertex3f(position[0]-partSize-particleSpeed*0.7, position[1]+partSize-particleSpeed*0.7, position[2]);
 
     //left
-    glVertex3f(position[0]-0.05f-particleSpeed, position[1]-0.05f, position[2]);
-    glVertex3f(position[0]+0.05f-particleSpeed, position[1]-0.05f, position[2]);
-    glVertex3f(position[0]+0.05f-particleSpeed, position[1]+0.05f, position[2]);
-    glVertex3f(position[0]-0.05f-particleSpeed, position[1]+0.05f, position[2]);
+    glVertex3f(position[0]-partSize-particleSpeed, position[1]-partSize, position[2]);
+    glVertex3f(position[0]+partSize-particleSpeed, position[1]-partSize, position[2]);
+    glVertex3f(position[0]+partSize-particleSpeed, position[1]+partSize, position[2]);
+    glVertex3f(position[0]-partSize-particleSpeed, position[1]+partSize, position[2]);
 
     //up-left
-    glVertex3f(position[0]-0.05f-particleSpeed, position[1]-0.05f+particleSpeed, position[2]);
-    glVertex3f(position[0]+0.05f-particleSpeed, position[1]-0.05f+particleSpeed, position[2]);
-    glVertex3f(position[0]+0.05f-particleSpeed, position[1]+0.05f+particleSpeed, position[2]);
-    glVertex3f(position[0]-0.05f-particleSpeed, position[1]+0.05f+particleSpeed, position[2]);
+    glVertex3f(position[0]-partSize-particleSpeed*0.7, position[1]-partSize+particleSpeed*0.7, position[2]);
+    glVertex3f(position[0]+partSize-particleSpeed*0.7, position[1]-partSize+particleSpeed*0.7, position[2]);
+    glVertex3f(position[0]+partSize-particleSpeed*0.7, position[1]+partSize+particleSpeed*0.7, position[2]);
+    glVertex3f(position[0]-partSize-particleSpeed*0.7, position[1]+partSize+particleSpeed*0.7, position[2]);
 
     glEnd();
 }
@@ -126,10 +129,8 @@ float Enemy::getParticleSpeed()
 //draws ship
 void Enemy::drawShip(Mesh& mesh)
 {
-    //increment location of the particle
-    if((!isAlive)&&(particleSpeed<0.71f))
-    {
-        particleSpeed = particleSpeed + 0.01f;
+    if((!isAlive)&&(particleSpeed<2.0f)){
+        particleSpeed = particleSpeed + 0.02f;
         alphaParticle = alphaParticle - 0.02f;
     }
     //only draw particle until it reaches that point

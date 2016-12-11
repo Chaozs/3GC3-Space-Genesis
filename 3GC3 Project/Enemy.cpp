@@ -60,9 +60,71 @@ bool Enemy::shouldShoot(int range)
     }
 }
 
+//draws particles. Particles are hidden behind ship until ship dies
+void Enemy::drawParticle(){
+    glBegin(GL_QUADS);
+    //up
+    glVertex3f(position[0]-0.05f, position[1]-0.05f+particleSpeed, position[2]);
+    glVertex3f(position[0]+0.05f, position[1]-0.05f+particleSpeed, position[2]);
+    glVertex3f(position[0]+0.05f, position[1]+0.05f+particleSpeed, position[2]);
+    glVertex3f(position[0]-0.05f, position[1]+0.05f+particleSpeed, position[2]);
+
+    //up-right
+    glVertex3f(position[0]-0.05f+particleSpeed, position[1]-0.05f+particleSpeed, position[2]);
+    glVertex3f(position[0]+0.05f+particleSpeed, position[1]-0.05f+particleSpeed, position[2]);
+    glVertex3f(position[0]+0.05f+particleSpeed, position[1]+0.05f+particleSpeed, position[2]);
+    glVertex3f(position[0]-0.05f+particleSpeed, position[1]+0.05f+particleSpeed, position[2]);
+
+    //right
+    glVertex3f(position[0]-0.05f+particleSpeed, position[1]-0.05f, position[2]);
+    glVertex3f(position[0]+0.05f+particleSpeed, position[1]-0.05f, position[2]);
+    glVertex3f(position[0]+0.05f+particleSpeed, position[1]+0.05f, position[2]);
+    glVertex3f(position[0]-0.05f+particleSpeed, position[1]+0.05f, position[2]);
+
+    //down-right
+    glVertex3f(position[0]-0.05f+particleSpeed, position[1]-0.05f-particleSpeed, position[2]);
+    glVertex3f(position[0]+0.05f+particleSpeed, position[1]-0.05f-particleSpeed, position[2]);
+    glVertex3f(position[0]+0.05f+particleSpeed, position[1]+0.05f-particleSpeed, position[2]);
+    glVertex3f(position[0]-0.05f+particleSpeed, position[1]+0.05f-particleSpeed, position[2]);
+
+    //down
+    glVertex3f(position[0]-0.05f, position[1]-0.05f-particleSpeed, position[2]);
+    glVertex3f(position[0]+0.05f, position[1]-0.05f-particleSpeed, position[2]);
+    glVertex3f(position[0]+0.05f, position[1]+0.05f-particleSpeed, position[2]);
+    glVertex3f(position[0]-0.05f, position[1]+0.05f-particleSpeed, position[2]);
+
+    //down-left
+    glVertex3f(position[0]-0.05f-particleSpeed, position[1]-0.05f-particleSpeed, position[2]);
+    glVertex3f(position[0]+0.05f-particleSpeed, position[1]-0.05f-particleSpeed, position[2]);
+    glVertex3f(position[0]+0.05f-particleSpeed, position[1]+0.05f-particleSpeed, position[2]);
+    glVertex3f(position[0]-0.05f-particleSpeed, position[1]+0.05f-particleSpeed, position[2]);
+
+    //left
+    glVertex3f(position[0]-0.05f-particleSpeed, position[1]-0.05f, position[2]);
+    glVertex3f(position[0]+0.05f-particleSpeed, position[1]-0.05f, position[2]);
+    glVertex3f(position[0]+0.05f-particleSpeed, position[1]+0.05f, position[2]);
+    glVertex3f(position[0]-0.05f-particleSpeed, position[1]+0.05f, position[2]);
+
+    //up-left
+    glVertex3f(position[0]-0.05f-particleSpeed, position[1]-0.05f+particleSpeed, position[2]);
+    glVertex3f(position[0]+0.05f-particleSpeed, position[1]-0.05f+particleSpeed, position[2]);
+    glVertex3f(position[0]+0.05f-particleSpeed, position[1]+0.05f+particleSpeed, position[2]);
+    glVertex3f(position[0]-0.05f-particleSpeed, position[1]+0.05f+particleSpeed, position[2]);
+
+    glEnd();
+}
+
 //draws ship
 void Enemy::drawShip(Mesh& mesh)
 {
+    //increment location of the particle
+    if((!isAlive)&&(particleSpeed<0.71f)){
+        particleSpeed = particleSpeed+0.02f;
+    }
+    //only draw particle until it reaches that point
+    if(particleSpeed<0.7f){
+    drawParticle();
+    }
     if(isAlive){
     glPushMatrix();
     glTranslatef(position[0], position[1], position[2]);

@@ -35,6 +35,7 @@ public:
     void setBottomTrue();               //sets enemy to being bottom unit
     bool isBottomTrue();                //gets if enemy is bottom unit
     bool shouldShoot(int);              //uses random to check if enemy should shoot
+    void drawParticle();                //draws enemy's particles for when dead
     void drawShip(Mesh&);               //draws ship
     int getMultipleOfSpeedBeforeCanShoot();     //gets tracker for if enemy can shoot again
     void setMultipleOfSpeedBeforeCanShoot(int); //sets tracker for if enemy can shoot again
@@ -44,6 +45,7 @@ private:
     bool isAlive;                       //whether the enemy unit is alive
     bool isBottom = false;              //whether or not unit is the bottom one
     int multipleOfSpeedBeforeCanShoot = 0;  //when reaches 5, enemy can shoot projectile again; increases by 1 upon every timer() call
+    float particleSpeed = 0.0f;         //particle speed
 };
 
 #endif

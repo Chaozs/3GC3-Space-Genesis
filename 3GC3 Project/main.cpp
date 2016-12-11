@@ -39,7 +39,6 @@ float eye[] = {0, -5, 0};           //initial camera location
 float lookAt[] = {0, 0, -10};       //point camera is looking at
 
 /* GAME STATE */
-float unitPosition[] = {0, 0, 0};
 enum GameState { Menu, SelectDifficulty, InstructionMenu, Playing, Paused, GameOver, Win };  //current game state enum
 enum ButtonType { Item1, Item2, Item3, Item4 };
 GameState currentState = Menu;      //initially in start menu
@@ -579,6 +578,7 @@ void bindTextures()
 
 void resetGame()
 {
+    enemyReachedBase = false;
     flyingEnemyIsFlying = false;
     flyingEnemy.moveX(-50);
     player = Player(0, -4, -25);
@@ -598,6 +598,9 @@ void resetGame()
     setEnemies();
     setBarriers();
     userInfo = GUI();
+    enemyCounter = 55;
+    barriersDestroyed = 0;
+    indexCounter = 0;
     glutPostRedisplay();
 }
 

@@ -46,6 +46,7 @@ private:
     bool isBottom = false;              //whether or not unit is the bottom one
     int multipleOfSpeedBeforeCanShoot = 0;  //when reaches 5, enemy can shoot projectile again; increases by 1 upon every timer() call
     float particleSpeed = 0.0f;         //particle speed
+    float alphaParticle = 1.0f;           //the alpha channel for the particle
 };
 
 #endif

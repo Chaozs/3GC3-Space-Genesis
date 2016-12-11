@@ -31,7 +31,7 @@ bool Enemy::getAlive()
 //set unit to be bottom (only bottom enemy unit can shoot)
 void Enemy::setBottomTrue()
 {
-    isBottom=true;
+    isBottom = true;
 }
 
 //gets if unit is bottom
@@ -62,6 +62,8 @@ bool Enemy::shouldShoot(int range)
 
 //draws particles. Particles are hidden behind ship until ship dies
 void Enemy::drawParticle(){
+
+    glColor4f(1.0, 1.0, 1.0, alphaParticle);
     glBegin(GL_QUADS);
     //up
     glVertex3f(position[0]-0.05f, position[1]-0.05f+particleSpeed, position[2]);
@@ -119,7 +121,8 @@ void Enemy::drawShip(Mesh& mesh)
 {
     //increment location of the particle
     if((!isAlive)&&(particleSpeed<0.71f)){
-        particleSpeed = particleSpeed+0.02f;
+        particleSpeed = particleSpeed + 0.01f;
+        alphaParticle = alphaParticle - 0.02f;
     }
     //only draw particle until it reaches that point
     if(particleSpeed<0.7f){

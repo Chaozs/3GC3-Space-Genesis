@@ -618,6 +618,10 @@ void init(void)
     gluPerspective(45, 1, 1, 1000);
     glEnable(GL_DEPTH_TEST);    //enables z buffer
 
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+
     //enable backface culling
     glFrontFace(GL_CCW);
     glCullFace(GL_BACK);

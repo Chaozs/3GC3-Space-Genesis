@@ -90,10 +90,10 @@ const int speed = 17;               //time between calls of display()
 GLubyte* img_data; 					//how to play image
 /* TEXTURE */
 GLubyte* image;
-//GLubyte* image2;
+GLubyte* image2;
 int widthA, heightA, maxA;
 int width = 0, height = 0, max = 0;
-GLuint myTex[1];
+GLuint myTex[2];
 
 GLubyte* LoadPPM(char* file, int* width, int* height, int* max)
 {
@@ -543,7 +543,7 @@ void setBarriers()
 void bindTextures()
 {
     glEnable(GL_TEXTURE_2D);
-    glGenTextures(1, myTex);
+    glGenTextures(2, myTex);
 
     glBindTexture(GL_TEXTURE_2D, myTex[0]);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -554,6 +554,17 @@ void bindTextures()
     image = LoadPPM("PlayerShip_DIFFUSE.ppm",&widthA, &heightA, &maxA);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, widthA, heightA, 0, GL_RGB,
                  GL_UNSIGNED_BYTE, image);
+
+    glBindTexture(GL_TEXTURE_2D, myTex[1]);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+    /*Get and save image*/
+    image2 = LoadPPM("Null_texture.ppm",&widthA, &heightA, &maxA);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, widthA, heightA, 0, GL_RGB,
+                 GL_UNSIGNED_BYTE, image2);
+
 
     glMatrixMode(GL_TEXTURE);
 }
@@ -1018,6 +1029,7 @@ void display(void)
     //DrawHUD();
 
     //displays accordingly to what game state
+    glBindTexture(GL_TEXTURE_2D, myTex[1]);
     switch(currentState)
     {
     case Menu:
@@ -1046,6 +1058,7 @@ void display(void)
         lookAt[1] = 0;
         lookAt[2] = -10;
 
+        glBindTexture(GL_TEXTURE_2D, myTex[0]);
         gluLookAt(eye[0], eye[1], eye[2], lookAt[0], lookAt[1], lookAt[2], 0,1,0);
 
         player.drawShip(playerMesh);      //draw ship

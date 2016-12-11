@@ -55,6 +55,8 @@ vector<Enemy*> enemyRow3;
 vector<Enemy*> enemyRow4;
 vector<Enemy*> enemyRow5;
 int enemyCounter = 55;
+Enemy flyingEnemy = Enemy(-25, 26, -25, 1);
+bool flyingEnemyIsFlying = false;
 //int enemyCounter = enemyRow1.size() + enemyRow2.size() + enemyRow3.size() + enemyRow4.size() + enemyRow5.size();
 
 float enemyMovement = 0.06f; //enemy x movement speed
@@ -571,6 +573,8 @@ void bindTextures()
 
 void resetGame()
 {
+    flyingEnemyIsFlying = false;
+    flyingEnemy.moveX(-50);
     player = Player(0, -4, -25);
     enemyRow1.clear();
     enemyRow2.clear();
@@ -602,7 +606,6 @@ void init(void)
     glBindTexture(GL_TEXTURE_2D, 0);
 
     glClearColor(0.1, 0.1, 0.1, 0);       //black background
-    //glEnable(GL_COLOR_MATERIAL);    //enable colour material
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
@@ -834,6 +837,16 @@ void timer(int value)
                         }
                     }
 
+                    if (flyingEnemy.isHit(projectileP->getPosition().at(0),
+                                          projectileP->getPosition().at(1),
+                                          projectileP->getPosition().at(2)))
+                    {
+                        i = projectiles.erase(i);
+                        flyingEnemy.moveX(-50);
+                        userInfo.incScoreBy(500);
+                        flyingEnemyIsFlying = false;
+                    }
+
                     //update positions of player projectiles on screen
                     projectileP->moveY(0.5);
                     ++i;
@@ -939,6 +952,37 @@ void timer(int value)
                 enemy->moveY(enemyDifficulty);
             }
 
+            //move flying enemy if it is flying across screen
+            if (flyingEnemyIsFlying)
+            {
+                if (flyingEnemy.getPosition().at(0) >= 25)
+                {
+                    flyingEnemyIsFlying = false;
+                    flyingEnemy.moveX(-50);
+                }
+                else
+                {
+                    //determine if flying enemy should shoot
+                    if (flyingEnemy.shouldShoot(200) && flyingEnemy.getMultipleOfSpeedBeforeCanShoot() >= 10)
+                    {
+                        flyingEnemy.setMultipleOfSpeedBeforeCanShoot(0);
+                        Projectile* enemyProj = new Projectile(flyingEnemy.getPosition().at(0), flyingEnemy.getPosition().at(1), flyingEnemy.getPosition().at(2));
+                        enemyProjectiles.push_back(enemyProj);
+                    }
+                    else
+                    {
+                        flyingEnemy.setMultipleOfSpeedBeforeCanShoot(flyingEnemy.getMultipleOfSpeedBeforeCanShoot()+1);
+                    }
+                    flyingEnemy.moveX(0.1); //moves flying enemy across screen
+                }
+            }
+
+            //determine if flying enemy will start to fly by
+            if (flyingEnemy.shouldShoot(200) && !flyingEnemyIsFlying)
+            {
+                flyingEnemyIsFlying = true;
+            }
+
             //update positions of enemy projectiles on screen
             for(auto i=enemyProjectiles.begin(); i!=enemyProjectiles.end();)
             {
@@ -1026,7 +1070,6 @@ void display(void)
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     addLights();        //add lights
-    //DrawHUD();
 
     //displays accordingly to what game state
     glBindTexture(GL_TEXTURE_2D, myTex[1]);
@@ -1110,6 +1153,9 @@ void display(void)
             Enemy* enemy = *i;
             enemy->drawShip(cubeMesh);
         }
+
+        //draw flying enemy ship on screen
+        flyingEnemy.drawShip(cubeMesh);
 
         //draw projectiles onto screen
         for(list<Projectile*>::iterator i=projectiles.begin(); i!=projectiles.end(); ++i)

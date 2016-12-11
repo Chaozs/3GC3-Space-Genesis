@@ -15,6 +15,10 @@ GAME CONTROLS:
 - key 'p': pause the game
 * Instructions on how to play game is also located inside the "How To Play" option.
 
+GAME FEATURES:
+-Changing difficulty from easy -> medium -> hard results in enemies
+shooting more often, and moving downwards quicker.
+
 Advanced Graphical Features implemented:
 - Lighting (5%) (Added 2 point lights)
 - Textures (10%) (On player ship at the bottom; added proper UV maps)

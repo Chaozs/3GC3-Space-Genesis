@@ -130,7 +130,8 @@ float Enemy::getParticleSpeed()
 //draws ship
 void Enemy::drawShip(Mesh& mesh)
 {
-    if((!isAlive)&&(particleSpeed<2.0f)){
+    if((!isAlive)&&(particleSpeed<2.0f))
+    {
         particleSpeed = particleSpeed + 0.02f;
         alphaParticle = alphaParticle - 0.02f;
     }

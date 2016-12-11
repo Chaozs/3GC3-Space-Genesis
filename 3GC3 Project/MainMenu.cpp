@@ -84,7 +84,8 @@ void MainMenu::drawDifficulty()
     }
 }
 
-void MainMenu::drawGameOver(){
+void MainMenu::drawGameOver()
+{
     switch(currentHovering)  //highlights the button currentHovering by redrawing box in slightly different colour
     {
     case MainMenu::Item1:
@@ -108,8 +109,9 @@ void MainMenu::drawGameOver(){
     }
 }
 
-void MainMenu::drawWin(){
-        switch(currentHovering)  //highlights the button currentHovering by redrawing box in slightly different colour
+void MainMenu::drawWin()
+{
+    switch(currentHovering)  //highlights the button currentHovering by redrawing box in slightly different colour
     {
     case MainMenu::Item1:
         drawBox("Main Menu",6.0f, 0.4f);

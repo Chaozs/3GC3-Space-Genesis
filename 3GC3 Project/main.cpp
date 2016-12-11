@@ -1075,6 +1075,7 @@ void display(void)
             barrier->drawBarrier();
         }
 
+        glBindTexture(GL_TEXTURE_2D, myTex[1]);
         //draw enemy ships on screen
         for(std::vector<Enemy*>::iterator i = enemyRow1.begin(); i != enemyRow1.end(); ++i)
         {

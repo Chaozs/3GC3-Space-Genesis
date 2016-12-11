@@ -115,6 +115,7 @@ void Enemy::drawParticle()
     glVertex3f(position[0]+0.05f-particleSpeed, position[1]+0.05f+particleSpeed, position[2]);
     glVertex3f(position[0]-0.05f-particleSpeed, position[1]+0.05f+particleSpeed, position[2]);
 
+    glColor4f(1.0, 1.0, 1.0, 1.0);
     glEnd();
 }
 

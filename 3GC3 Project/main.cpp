@@ -1174,6 +1174,7 @@ void display(void)
         userInfo.drawScoreAndHP(player.getHp());
         userInfo.drawDifficulty(difficultyString);
         glEnable(GL_LIGHTING);
+        
         glBindTexture(GL_TEXTURE_2D, myTex[0]);
 
         for(list<Barrier*>::iterator i=barriers.begin(); i!=barriers.end(); ++i)
